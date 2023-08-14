@@ -28,7 +28,7 @@
 
         public DbSet<PCConfiguration> PCConfigurations { get; set; } = null!;
 
-        public DbSet<Socket> Sockets { get; set; } = null!;
+        public DbSet<CpuVendor> Sockets { get; set; } = null!;
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -60,8 +60,8 @@
 
 
             builder.ApplyConfiguration(new VendorEntityConfiguration());
-
-
+            builder.ApplyConfiguration(new SocketEntityConfiguration());
+            builder.ApplyConfiguration(new CPUEntityConfiguration());
 
 
             base.OnModelCreating(builder);

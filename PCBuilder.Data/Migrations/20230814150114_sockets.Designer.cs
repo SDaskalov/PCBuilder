@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PCBuilder.Data;
 
@@ -11,9 +12,10 @@ using PCBuilder.Data;
 namespace PCBuilder.Data.Migrations
 {
     [DbContext(typeof(PCBuilderDbContext))]
-    partial class PCBuilserDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230814150114_sockets")]
+    partial class sockets
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -303,48 +305,6 @@ namespace PCBuilder.Data.Migrations
                     b.HasIndex("VendorId");
 
                     b.ToTable("CPUs");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            IntegratedGraphics = false,
-                            MaxWattage = 95,
-                            ModelName = "Ryzen 9 5900x",
-                            Price = 450.00m,
-                            SocketId = 1,
-                            VendorId = 1
-                        },
-                        new
-                        {
-                            Id = 2,
-                            IntegratedGraphics = true,
-                            MaxWattage = 105,
-                            ModelName = "Ryzen 7 7700x",
-                            Price = 550.00m,
-                            SocketId = 2,
-                            VendorId = 1
-                        },
-                        new
-                        {
-                            Id = 3,
-                            IntegratedGraphics = true,
-                            MaxWattage = 105,
-                            ModelName = "Intel Core i7-13700",
-                            Price = 550.00m,
-                            SocketId = 4,
-                            VendorId = 2
-                        },
-                        new
-                        {
-                            Id = 4,
-                            IntegratedGraphics = false,
-                            MaxWattage = 125,
-                            ModelName = "Intel Core i9-11900KF",
-                            Price = 990.00m,
-                            SocketId = 3,
-                            VendorId = 2
-                        });
                 });
 
             modelBuilder.Entity("PCBuilder.Data.Models.CpuVendor", b =>

@@ -1,15 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using PCBuilder.Data.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace PCBuilder.Data.DataSeed
+﻿namespace PCBuilder.Data.DataSeed
 {
+
+    using Microsoft.EntityFrameworkCore;
+    using Microsoft.EntityFrameworkCore.Metadata.Builders;
+    using PCBuilder.Data.Models;
+
     public class VendorEntityConfiguration : IEntityTypeConfiguration<CpuVendor>
     {
         public void Configure(EntityTypeBuilder<CpuVendor> builder)
@@ -17,20 +12,20 @@ namespace PCBuilder.Data.DataSeed
             builder.HasData(SeedVendors());
         }
 
-        private CpuVendor[] SeedVendors()
+        private Socket[] SeedVendors()
         {
 
-            ICollection<CpuVendor> vendors = new HashSet<CpuVendor>();
+            ICollection<Socket> vendors = new HashSet<Socket>();
 
-            CpuVendor v;
+            Socket v;
 
-            v = new CpuVendor()
+            v = new Socket()
             {
                 Id = 1,
                 Name = "AMD"
             };
             vendors.Add(v);
-            v = new CpuVendor()
+            v = new Socket()
             {
                 Id = 2,
                 Name = "INTEL"

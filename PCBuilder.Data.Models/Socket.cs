@@ -1,24 +1,20 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿namespace PCBuilder.Data.Models
+{
+
+using System.ComponentModel.DataAnnotations;
 using static PCBuilder.Common.ValidationConstants.Socket;
 
-namespace PCBuilder.Data.Models
+    public class Socket
+    {
+     
+        [Key]
+        public int Id { get; set; }
 
-{
-	public class Socket
-	{
-		public Socket()
-		{
-			this.CPUs = new List<CPU>();
-		}
+        [Required]
+        [MaxLength(NameMaxLength)]
+        public string Name { get; set; } = null!;
 
-		[Key]
-		public int Id { get; set; }
+   
 
-		[Required]
-		[MaxLength(NameMaxLength)]
-		public string Name { get; set; } = null!;
-
-		public virtual ICollection<CPU> CPUs { get; set; }
-
-	}
+    }
 }
