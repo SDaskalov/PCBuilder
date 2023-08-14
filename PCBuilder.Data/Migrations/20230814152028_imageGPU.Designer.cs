@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PCBuilder.Data;
 
@@ -11,9 +12,10 @@ using PCBuilder.Data;
 namespace PCBuilder.Data.Migrations
 {
     [DbContext(typeof(PCBuilderDbContext))]
-    partial class PCBuilserDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230814152028_imageGPU")]
+    partial class imageGPU
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -397,46 +399,9 @@ namespace PCBuilder.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<decimal>("Price")
-                        .HasColumnType("decimal(18,2)");
-
                     b.HasKey("Id");
 
                     b.ToTable("GraphicsCards");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            ImageURL = "https://p1.akcdn.net/full/744790884.gigabyte-geforce-rtx-3070-8gb-gddr6-256bit-gv-n3070gaming-oc-8gd.jpg",
-                            MaxWattage = 220,
-                            ModelName = "GeForce RTX 3070",
-                            Price = 599.99m
-                        },
-                        new
-                        {
-                            Id = 2,
-                            ImageURL = "https://p1.akcdn.net/full/1122500418.asus-geforce-rtx-4090-oc-24gb-gddr6x-rog-strix-rtx4090-o24g-gaming.jpg",
-                            MaxWattage = 400,
-                            ModelName = "GeForce RTX 4090",
-                            Price = 1599.00m
-                        },
-                        new
-                        {
-                            Id = 3,
-                            ImageURL = "https://pg.asrock.com/Graphics-Card/photo/Radeon%20RX%207900%20XTX%20Phantom%20Gaming%2024GB%20OC(L1).png",
-                            MaxWattage = 355,
-                            ModelName = "AMD RX 7900XTX",
-                            Price = 999.99m
-                        },
-                        new
-                        {
-                            Id = 4,
-                            ImageURL = "https://cdna.pcpartpicker.com/static/forever/images/product/5199e776d5e1c9d319b4a275139bbcf4.1600.jpg",
-                            MaxWattage = 335,
-                            ModelName = "AMD RX 6950XT",
-                            Price = 649.99m
-                        });
                 });
 
             modelBuilder.Entity("PCBuilder.Data.Models.MotherBoard", b =>

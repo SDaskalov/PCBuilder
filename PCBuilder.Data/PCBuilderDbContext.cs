@@ -62,7 +62,7 @@
             builder.ApplyConfiguration(new VendorEntityConfiguration());
             builder.ApplyConfiguration(new SocketEntityConfiguration());
             builder.ApplyConfiguration(new CPUEntityConfiguration());
-
+            builder.ApplyConfiguration(new GPUEntityConfiguration());
 
             base.OnModelCreating(builder);
 
