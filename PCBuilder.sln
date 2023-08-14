@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PCBuilder.Data.Models", "PC
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PCBuilder.Web.ViewModels", "PCBuilder.Web.ViewModels\PCBuilder.Web.ViewModels.csproj", "{9821E4E5-8D96-4E05-9A75-58E98919EBF1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PCBuilder.Common", "PCBuilder.Common\PCBuilder.Common.csproj", "{DCCFD424-157C-4097-B726-6E43833DB197}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -37,6 +39,10 @@ Global
 		{9821E4E5-8D96-4E05-9A75-58E98919EBF1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9821E4E5-8D96-4E05-9A75-58E98919EBF1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9821E4E5-8D96-4E05-9A75-58E98919EBF1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DCCFD424-157C-4097-B726-6E43833DB197}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DCCFD424-157C-4097-B726-6E43833DB197}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DCCFD424-157C-4097-B726-6E43833DB197}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DCCFD424-157C-4097-B726-6E43833DB197}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
