@@ -9,8 +9,11 @@ namespace PCBuilder.Data.Models
 {
 	public class ApplicationUser : IdentityUser<Guid>
 	{
+
+      
         public ApplicationUser()
         {
+            this.Id = Guid.NewGuid();
             this.Configurations= new List<PCConfiguration>();
 
 		}

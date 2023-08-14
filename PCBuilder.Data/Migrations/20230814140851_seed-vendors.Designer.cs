@@ -12,14 +12,14 @@ using PCBuilder.Data;
 namespace PCBuilder.Data.Migrations
 {
     [DbContext(typeof(PCBuilderDbContext))]
-    [Migration("20230814130231_initial")]
-    partial class initial
+    [Migration("20230814140851_seed-vendors")]
+    partial class seedvendors
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.16")
+                .HasAnnotation("ProductVersion", "6.0.21")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
@@ -323,6 +323,18 @@ namespace PCBuilder.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("CPUVendors");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "AMD"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "INTEL"
+                        });
                 });
 
             modelBuilder.Entity("PCBuilder.Data.Models.GraphicsCard", b =>

@@ -9,6 +9,7 @@ namespace PCBuilder.Data.Models
 
         public Builder()
         {
+            this.Id = Guid.NewGuid();
             this.Builds= new List<PCConfiguration>();
         }
 

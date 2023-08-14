@@ -5,6 +5,7 @@ namespace PCBuilder.Data.Models
 {
 	public class ComputerCase
 	{
+
 		[Key]
         public int Id { get; set; }
 

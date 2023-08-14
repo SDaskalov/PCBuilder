@@ -9,6 +9,7 @@ namespace PCBuilder.Data.Models
 {
 	public class PCConfiguration
 	{
+
 		[Key]
 		public int Id { get; set; }
 

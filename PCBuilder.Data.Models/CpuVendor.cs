@@ -5,7 +5,12 @@ namespace PCBuilder.Data.Models
 {
 	public class CpuVendor
 	{
-		[Key]
+        public CpuVendor()
+        {
+            
+        }
+
+        [Key]
 		public int Id { get; set; }
 
 		[Required]

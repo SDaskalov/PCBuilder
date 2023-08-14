@@ -14,7 +14,7 @@ namespace PCBuilder
 
 			// Add services to the container.
 			var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
-			builder.Services.AddDbContext<PCBuilserDbContext>(options =>
+			builder.Services.AddDbContext<PCBuilderDbContext>(options =>
 				options.UseSqlServer(connectionString));
 			builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
@@ -22,7 +22,7 @@ namespace PCBuilder
 			{
 				options.SignIn.RequireConfirmedAccount = false;
 			})
-				.AddEntityFrameworkStores<PCBuilserDbContext>();
+				.AddEntityFrameworkStores<PCBuilderDbContext>();
 			builder.Services.AddControllersWithViews();
 
 			WebApplication app = builder.Build();
