@@ -12,7 +12,7 @@ using PCBuilder.Data;
 namespace PCBuilder.Data.Migrations
 {
     [DbContext(typeof(PCBuilserDbContext))]
-    [Migration("20230814125512_initial")]
+    [Migration("20230814130231_initial")]
     partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -402,9 +402,6 @@ namespace PCBuilder.Data.Migrations
                     b.Property<int>("CaseId")
                         .HasColumnType("int");
 
-                    b.Property<int>("ComputerCaseId")
-                        .HasColumnType("int");
-
                     b.Property<int?>("GraphicsCardId")
                         .HasColumnType("int");
 
@@ -431,7 +428,7 @@ namespace PCBuilder.Data.Migrations
 
                     b.HasIndex("CPUId");
 
-                    b.HasIndex("ComputerCaseId");
+                    b.HasIndex("CaseId");
 
                     b.HasIndex("GraphicsCardId");
 
@@ -575,13 +572,13 @@ namespace PCBuilder.Data.Migrations
                     b.HasOne("PCBuilder.Data.Models.CPU", "CPU")
                         .WithMany()
                         .HasForeignKey("CPUId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("PCBuilder.Data.Models.ComputerCase", "ComputerCase")
                         .WithMany()
-                        .HasForeignKey("ComputerCaseId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .HasForeignKey("CaseId")
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("PCBuilder.Data.Models.GraphicsCard", "GraphicsCard")
@@ -591,7 +588,7 @@ namespace PCBuilder.Data.Migrations
                     b.HasOne("PCBuilder.Data.Models.MotherBoard", "MotherBoard")
                         .WithMany()
                         .HasForeignKey("MotherBoardId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Bidder");

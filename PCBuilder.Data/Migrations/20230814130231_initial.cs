@@ -297,7 +297,6 @@ namespace PCBuilder.Data.Migrations
                     CPUId = table.Column<int>(type: "int", nullable: false),
                     GraphicsCardId = table.Column<int>(type: "int", nullable: true),
                     CaseId = table.Column<int>(type: "int", nullable: false),
-                    ComputerCaseId = table.Column<int>(type: "int", nullable: false),
                     TotalSystemWattage = table.Column<int>(type: "int", nullable: false),
                     BuilderId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     BuilderId1 = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
@@ -325,17 +324,17 @@ namespace PCBuilder.Data.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_PCConfigurations_ComputerCases_ComputerCaseId",
-                        column: x => x.ComputerCaseId,
+                        name: "FK_PCConfigurations_ComputerCases_CaseId",
+                        column: x => x.CaseId,
                         principalTable: "ComputerCases",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_PCConfigurations_CPUs_CPUId",
                         column: x => x.CPUId,
                         principalTable: "CPUs",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_PCConfigurations_GraphicsCards_GraphicsCardId",
                         column: x => x.GraphicsCardId,
@@ -346,7 +345,7 @@ namespace PCBuilder.Data.Migrations
                         column: x => x.MotherBoardId,
                         principalTable: "MotherBoards",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateIndex(
@@ -429,9 +428,9 @@ namespace PCBuilder.Data.Migrations
                 column: "BuilderId1");
 
             migrationBuilder.CreateIndex(
-                name: "IX_PCConfigurations_ComputerCaseId",
+                name: "IX_PCConfigurations_CaseId",
                 table: "PCConfigurations",
-                column: "ComputerCaseId");
+                column: "CaseId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_PCConfigurations_CPUId",

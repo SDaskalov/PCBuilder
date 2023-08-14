@@ -36,8 +36,10 @@
 
 			builder.Entity<Builder>().HasMany(x=>x.Builds).WithOne().HasForeignKey(x=>x.BuilderId).OnDelete(DeleteBehavior.Restrict);
 			builder.Entity<CPU>().HasOne(w=>w.Vendor).WithMany().OnDelete(DeleteBehavior.Restrict);
-
-		}
+			builder.Entity<PCConfiguration>().HasOne(x=>x.ComputerCase).WithMany().HasForeignKey(x=>x.CaseId).OnDelete(DeleteBehavior.Restrict);
+            builder.Entity<PCConfiguration>().HasOne(x => x.CPU).WithMany().HasForeignKey(x => x.CPUId).OnDelete(DeleteBehavior.Restrict);
+            builder.Entity<PCConfiguration>().HasOne(x => x.MotherBoard).WithMany().HasForeignKey(x => x.MotherBoardId).OnDelete(DeleteBehavior.Restrict);
+        }
 
     }
 }
