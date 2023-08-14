@@ -1,9 +1,9 @@
 namespace PCBuilder
 {
 
-	using Microsoft.AspNetCore.Identity;
 	using Microsoft.EntityFrameworkCore;
 	using PCBuilder.Data;
+	using PCBuilder.Data.Models;
 
 	//using PCBuilder.Data;
 	public class Program
@@ -14,15 +14,15 @@ namespace PCBuilder
 
 			// Add services to the container.
 			var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
-			builder.Services.AddDbContext<ApplicationDbContext>(options =>
+			builder.Services.AddDbContext<PCBuilserDbContext>(options =>
 				options.UseSqlServer(connectionString));
 			builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-			builder.Services.AddDefaultIdentity<IdentityUser>(options =>
+			builder.Services.AddDefaultIdentity<ApplicationUser>(options =>
 			{
 				options.SignIn.RequireConfirmedAccount = true;
 			})
-				.AddEntityFrameworkStores<ApplicationDbContext>();
+				.AddEntityFrameworkStores<PCBuilserDbContext>();
 			builder.Services.AddControllersWithViews();
 
 			WebApplication app = builder.Build();

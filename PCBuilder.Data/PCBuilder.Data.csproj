@@ -17,6 +17,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\PCBuilder.Common\PCBuilder.Common.csproj" />
+    <ProjectReference Include="..\PCBuilder.Data.Models\PCBuilder.Data.Models.csproj" />
   </ItemGroup>
 
 </Project>

@@ -13,12 +13,17 @@ namespace PCBuilder.Data.Models
 		public string ModelName { get; set; } = null!;
 
 		[Required]
-		[Range(MinPrice, MaxPrice)]
 		public decimal Price { get; set; }
 
 		[Required]
         public int VendorId { get; set; }
         [Required]
 		public CpuVendor Vendor { get; set; } = null!;
-	}
+
+		[Required]
+        public bool IntegratedGraphics { get; set; }
+
+		[Required]
+        public int MaxWattage { get; set; }
+    }
 }
