@@ -1,14 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using PCBuilder.Data.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace PCBuilder.Data.DataSeed
+﻿namespace PCBuilder.Data.DataSeed
 {
+    using Microsoft.EntityFrameworkCore;
+    using Microsoft.EntityFrameworkCore.Metadata.Builders;
+    using PCBuilder.Data.Models;
+
     public class CPUEntityConfiguration : IEntityTypeConfiguration<CPU>
     {
         public void Configure(EntityTypeBuilder<CPU> builder)
@@ -16,7 +11,7 @@ namespace PCBuilder.Data.DataSeed
             builder.HasData(SeedCPUS());
         }
 
-        private  CPU[] SeedCPUS()
+        private CPU[] SeedCPUS()
         {
 
             ICollection<CPU> result = new HashSet<CPU>();
@@ -26,10 +21,10 @@ namespace PCBuilder.Data.DataSeed
                 Id = 1,
                 ModelName = "Ryzen 9 5900x",
                 IntegratedGraphics = false,
-                MaxWattage =95,
+                MaxWattage = 95,
                 Price = 450.00M,
                 SocketId = 1,
-                VendorId =1               
+                VendorId = 1
             };
 
 

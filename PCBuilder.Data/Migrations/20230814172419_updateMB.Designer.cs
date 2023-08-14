@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PCBuilder.Data;
 
@@ -11,9 +12,10 @@ using PCBuilder.Data;
 namespace PCBuilder.Data.Migrations
 {
     [DbContext(typeof(PCBuilderDbContext))]
-    partial class PCBuilserDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230814172419_updateMB")]
+    partial class updateMB
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -471,71 +473,6 @@ namespace PCBuilder.Data.Migrations
                     b.HasIndex("VendorId");
 
                     b.ToTable("MotherBoards");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Name = "MSI PRO B650M-A WIFI",
-                            Price = 199.99m,
-                            RamCapacity = 128,
-                            SocketId = 2,
-                            VendorId = 1
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Name = "ASUS TUF GAMING B650-PLUS",
-                            Price = 228.99m,
-                            RamCapacity = 128,
-                            SocketId = 2,
-                            VendorId = 1
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Name = "GIGABYTE B550 AORUS ELITE V2",
-                            Price = 189.99m,
-                            RamCapacity = 128,
-                            SocketId = 1,
-                            VendorId = 1
-                        },
-                        new
-                        {
-                            Id = 4,
-                            Name = "MSI MAG B550 Tomahawk",
-                            Price = 150.00m,
-                            RamCapacity = 256,
-                            SocketId = 1,
-                            VendorId = 1
-                        },
-                        new
-                        {
-                            Id = 5,
-                            Name = "Gigabyte Motherboard Z790 AORUS ELITE AX",
-                            Price = 299.99m,
-                            RamCapacity = 256,
-                            SocketId = 4,
-                            VendorId = 2
-                        },
-                        new
-                        {
-                            Id = 6,
-                            Name = "ASUS TUF GAMING Z790-PLUS WIFI D4 ",
-                            Price = 249.99m,
-                            RamCapacity = 256,
-                            SocketId = 4,
-                            VendorId = 2
-                        },
-                        new
-                        {
-                            Id = 7,
-                            Name = "MSI MPG Z490 Gaming Plus",
-                            Price = 189.99m,
-                            RamCapacity = 128,
-                            SocketId = 3,
-                            VendorId = 2
-                        });
                 });
 
             modelBuilder.Entity("PCBuilder.Data.Models.PCConfiguration", b =>

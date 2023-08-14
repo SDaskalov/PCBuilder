@@ -1,14 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using PCBuilder.Data.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace PCBuilder.Data.DataSeed
+﻿namespace PCBuilder.Data.DataSeed
 {
+    using Microsoft.EntityFrameworkCore;
+    using Microsoft.EntityFrameworkCore.Metadata.Builders;
+    using PCBuilder.Data.Models;
+
+
     public class SocketEntityConfiguration : IEntityTypeConfiguration<Socket>
     {
         public void Configure(EntityTypeBuilder<Socket> builder)

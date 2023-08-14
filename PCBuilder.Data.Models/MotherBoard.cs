@@ -21,12 +21,10 @@ namespace PCBuilder.Data.Models
 
         public CpuVendor Vendor { get; set; } = null!;
 
-
-
         [Required]
-        public int CpuId { get; set; }
+        public int SocketId { get; set; }
 
-        public CPU CPU { get; set; } = null!;
+        public Socket Socket { get; set; } = null!;
 
         [Required]
         public int RamCapacity { get; set; }

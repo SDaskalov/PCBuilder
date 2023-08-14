@@ -1,14 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using PCBuilder.Data.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace PCBuilder.Data.DataSeed
+﻿namespace PCBuilder.Data.DataSeed
 {
+    using Microsoft.EntityFrameworkCore;
+    using Microsoft.EntityFrameworkCore.Metadata.Builders;
+    using PCBuilder.Data.Models;
+
     public class GPUEntityConfiguration : IEntityTypeConfiguration<GraphicsCard>
     {
         public void Configure(EntityTypeBuilder<GraphicsCard> builder)
@@ -38,7 +33,7 @@ namespace PCBuilder.Data.DataSeed
                 MaxWattage = 400,
                 ModelName = "GeForce RTX 4090",
                 ImageURL = "https://p1.akcdn.net/full/1122500418.asus-geforce-rtx-4090-oc-24gb-gddr6x-rog-strix-rtx4090-o24g-gaming.jpg",
-                Price= 1599.00M
+                Price = 1599.00M
             };
             result.Add(gp);
             gp = new GraphicsCard()
@@ -47,7 +42,7 @@ namespace PCBuilder.Data.DataSeed
                 MaxWattage = 355,
                 ModelName = "AMD RX 7900XTX",
                 ImageURL = "https://pg.asrock.com/Graphics-Card/photo/Radeon%20RX%207900%20XTX%20Phantom%20Gaming%2024GB%20OC(L1).png",
-                Price=999.99M
+                Price = 999.99M
             };
             result.Add(gp);
 
@@ -56,8 +51,8 @@ namespace PCBuilder.Data.DataSeed
                 Id = 4,
                 ImageURL = "https://cdna.pcpartpicker.com/static/forever/images/product/5199e776d5e1c9d319b4a275139bbcf4.1600.jpg",
                 MaxWattage = 335,
-                ModelName= "AMD RX 6950XT",
-                Price=649.99M
+                ModelName = "AMD RX 6950XT",
+                Price = 649.99M
 
             };
             result.Add(gp);
