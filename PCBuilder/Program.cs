@@ -20,7 +20,7 @@ namespace PCBuilder
 
 			builder.Services.AddDefaultIdentity<ApplicationUser>(options =>
 			{
-				options.SignIn.RequireConfirmedAccount = true;
+				options.SignIn.RequireConfirmedAccount = false;
 			})
 				.AddEntityFrameworkStores<PCBuilserDbContext>();
 			builder.Services.AddControllersWithViews();
