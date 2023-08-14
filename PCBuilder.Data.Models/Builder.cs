@@ -7,12 +7,19 @@ namespace PCBuilder.Data.Models
 		[Key]
         public Guid Id { get; set; }
 
-		[Required]
+        public Builder()
+        {
+            this.Builds= new List<PCConfiguration>();
+        }
+
+        [Required]
 		[MaxLength(MaxNameLength)]
 		public string PublicBuilderName { get; set; } = null!;
 
         public Guid UserId { get; set; }
 
 		public virtual ApplicationUser User { get; set; } = null!;
+
+        public ICollection<PCConfiguration> Builds { get; set; } = null!;
     }
 }

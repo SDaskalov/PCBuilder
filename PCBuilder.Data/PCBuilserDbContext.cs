@@ -13,5 +13,31 @@
 		{
 
 		}
-	}
+
+		public DbSet<Builder> Builders { get; set; } = null!;
+
+		public DbSet<ComputerCase> ComputerCases { get; set; } = null!;
+
+		public DbSet<CPU> CPUs { get; set; } = null!;
+
+		public DbSet<CpuVendor> CPUVendors { get; set; } = null!;
+
+		public DbSet<GraphicsCard> GraphicsCards { get; set; } = null!;
+
+		public DbSet<MotherBoard> MotherBoards { get; set; } = null!;
+
+		public DbSet<PCConfiguration> PCConfigurations { get; set; } = null!;
+
+		public DbSet<Socket> Sockets { get; set; } = null!;
+
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            base.OnModelCreating(builder);
+
+			builder.Entity<Builder>().HasMany(x=>x.Builds).WithOne().HasForeignKey(x=>x.BuilderId).OnDelete(DeleteBehavior.Restrict);
+			builder.Entity<CPU>().HasOne(w=>w.Vendor).WithMany().OnDelete(DeleteBehavior.Restrict);
+
+		}
+
+    }
 }
