@@ -4,7 +4,8 @@
 
 	using Microsoft.AspNetCore.Mvc;
 
-	using PCBuilder.Models;
+
+	using PCBuilder.Web.ViewModels.Home;
 
 	public class HomeController : Controller
 	{

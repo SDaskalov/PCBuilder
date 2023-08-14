@@ -3,8 +3,9 @@ namespace PCBuilder
 
 	using Microsoft.AspNetCore.Identity;
 	using Microsoft.EntityFrameworkCore;
-
 	using PCBuilder.Data;
+
+	//using PCBuilder.Data;
 	public class Program
 	{
 		public static void Main(string[] args)
