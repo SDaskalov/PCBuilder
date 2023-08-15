@@ -33,11 +33,13 @@
         protected override void OnModelCreating(ModelBuilder builder)
         {
 
-            builder.Entity<Builder>()
-                .HasMany(x => x.Builds)
-                .WithOne()
+           
+
+            builder.Entity<PCConfiguration>()
+                .HasOne(x=>x.Builder).WithMany()
                 .HasForeignKey(x => x.BuilderId)
-                .OnDelete(DeleteBehavior.Restrict);
+                .OnDelete(DeleteBehavior.Restrict);                
+
             builder.Entity<CPU>()
                 .HasOne(w => w.Vendor)
                 .WithMany()
@@ -64,6 +66,8 @@
             builder.ApplyConfiguration(new CPUEntityConfiguration());
             builder.ApplyConfiguration(new GPUEntityConfiguration());
             builder.ApplyConfiguration(new MotherBoardEntityConfiguration());
+            builder.ApplyConfiguration(new CaseEntityConfiguration());
+            builder.ApplyConfiguration(new PCBuildEntityConfiguration());
             base.OnModelCreating(builder);
 
 

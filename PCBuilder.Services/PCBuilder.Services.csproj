@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\PCBuilder.Common\PCBuilder.Common.csproj" />
+    <ProjectReference Include="..\PCBuilder.Data.Models\PCBuilder.Data.Models.csproj" />
+    <ProjectReference Include="..\PCBuilder.Data\PCBuilder.Data.csproj" />
+    <ProjectReference Include="..\PCBuilder.Web.ViewModels\PCBuilder.Web.ViewModels.csproj" />
+  </ItemGroup>
+
+</Project>

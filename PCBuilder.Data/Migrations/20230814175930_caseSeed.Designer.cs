@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PCBuilder.Data;
 
@@ -11,9 +12,10 @@ using PCBuilder.Data;
 namespace PCBuilder.Data.Migrations
 {
     [DbContext(typeof(PCBuilderDbContext))]
-    partial class PCBuilserDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230814175930_caseSeed")]
+    partial class caseSeed
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -575,7 +577,7 @@ namespace PCBuilder.Data.Migrations
                     b.Property<Guid>("BuilderId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("BuilderId1")
+                    b.Property<Guid>("BuilderId1")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("CPUId")
@@ -583,9 +585,6 @@ namespace PCBuilder.Data.Migrations
 
                     b.Property<int>("CaseId")
                         .HasColumnType("int");
-
-                    b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("datetime2");
 
                     b.Property<int?>("GraphicsCardId")
                         .HasColumnType("int");
@@ -620,21 +619,6 @@ namespace PCBuilder.Data.Migrations
                     b.HasIndex("MotherBoardId");
 
                     b.ToTable("PCConfigurations");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            BuilderId = new Guid("7131367d-d5ad-4f72-b6f7-703bca071854"),
-                            CPUId = 1,
-                            CaseId = 1,
-                            CreatedOn = new DateTime(2023, 8, 15, 12, 4, 14, 207, DateTimeKind.Local).AddTicks(6564),
-                            GraphicsCardId = 1,
-                            HighestBid = 0m,
-                            MotherBoardId = 3,
-                            Name = "Gaming PC 1",
-                            TotalSystemWattage = 650
-                        });
                 });
 
             modelBuilder.Entity("PCBuilder.Data.Models.Socket", b =>
@@ -783,15 +767,17 @@ namespace PCBuilder.Data.Migrations
                         .WithMany("Configurations")
                         .HasForeignKey("BidderId");
 
-                    b.HasOne("PCBuilder.Data.Models.Builder", "Builder")
-                        .WithMany()
+                    b.HasOne("PCBuilder.Data.Models.Builder", null)
+                        .WithMany("Builds")
                         .HasForeignKey("BuilderId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("PCBuilder.Data.Models.Builder", null)
-                        .WithMany("Builds")
-                        .HasForeignKey("BuilderId1");
+                    b.HasOne("PCBuilder.Data.Models.Builder", "Builder")
+                        .WithMany()
+                        .HasForeignKey("BuilderId1")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("PCBuilder.Data.Models.CPU", "CPU")
                         .WithMany()

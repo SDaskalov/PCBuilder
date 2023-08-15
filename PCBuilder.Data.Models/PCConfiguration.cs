@@ -43,5 +43,7 @@ namespace PCBuilder.Data.Models
         public Guid? BidderId { get; set; }
 
         public virtual ApplicationUser? Bidder { get; set; }
+
+        public DateTime CreatedOn { get; set; }
     }
 }
