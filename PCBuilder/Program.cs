@@ -20,7 +20,7 @@ namespace PCBuilder
 				options.UseSqlServer(connectionString));
 			builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 			builder.Services.AddScoped<IPCBuildService, PCBuildService>();
-
+			builder.Services.AddScoped<IBuilderService, BuilderService>();
 
 			builder.Services.AddDefaultIdentity<ApplicationUser>(options =>
 			{

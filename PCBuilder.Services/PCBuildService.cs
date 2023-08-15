@@ -1,10 +1,11 @@
 ﻿namespace PCBuilder.Services
 {
     using Microsoft.EntityFrameworkCore;
-    using Microsoft.IdentityModel.Tokens;
+
     using PCBuilder.Data;
     using PCBuilder.Services.Contracts;
     using PCBuilder.Web.ViewModels.Home;
+
     using System.Collections.Generic;
     using System.Threading.Tasks;
 
@@ -17,7 +18,7 @@
             this.dbContext = dbContext;
         }
 
-        public async Task<IEnumerable<PCBuildViewModel>> LastThreeBuildsAsync()
+        public async Task<IEnumerable<PCBuildViewModel>> LastFourBuildsAsync()
         {
             IEnumerable<PCBuildViewModel> result = await this.dbContext
                 .PCConfigurations
@@ -29,11 +30,10 @@
                     Name = s.Name,
                     ImageUrl = s.ComputerCase.ImageUrl,
                     Cpu=s.CPU.ModelName,
-                    Gpu=s.GraphicsCard.ModelName ?? "NA",
+                    Gpu=  s.GraphicsCard==null ? "NA": s.GraphicsCard.ModelName ,
                     HighestBid=s.HighestBid.ToString(),
                     Motherboard=s.MotherBoard.Name,
-                    Ram=s.MotherBoard.RamCapacity.ToString()
-                    
+                    Ram=s.MotherBoard.RamCapacity.ToString()                   
 
                 })
            .ToArrayAsync();

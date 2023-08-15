@@ -19,7 +19,7 @@
         public async Task<IActionResult> Index()
         {
 
-            IEnumerable<PCBuildViewModel> viewModel = await this.pcBuildService.LastThreeBuildsAsync();
+            IEnumerable<PCBuildViewModel> viewModel = await this.pcBuildService.LastFourBuildsAsync();
             return View(viewModel);
         }
 
