@@ -4,5 +4,6 @@
     public interface ISocketCategoryService
     {
         Task<IEnumerable<SocketCategoryFormModel>> GetAllSocketCategoriesAsync();
+        Task<bool> SocketExistsById(int id);
     }
 }

@@ -23,7 +23,7 @@ namespace PCBuilder
             builder.Services.AddScoped<IBuilderService, BuilderService>();
             builder.Services.AddScoped<ISocketCategoryService, SocketCategoryService>();
             builder.Services.AddScoped<IVendorCategoryService, VendorCategoriesService>();
-
+            builder.Services.AddScoped<ICPUService,CPUService>();
 
 
             builder.Services.AddDefaultIdentity<ApplicationUser>(options =>

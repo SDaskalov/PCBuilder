@@ -30,5 +30,16 @@ namespace PCBuilder.Services
             return sockets;
 
         }
+
+        public async Task<bool> SocketExistsById(int id)
+        {
+
+            bool res = await dbContext.Sockets.AnyAsync(x => x.Id == id);
+            return res;
+        }
+
+
+
+
     }
 }

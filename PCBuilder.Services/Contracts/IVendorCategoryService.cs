@@ -10,7 +10,7 @@ namespace PCBuilder.Services.Contracts
     public interface IVendorCategoryService
     {
         Task<IEnumerable<CPUVendorCategoryFormModel>> GetAllVendorCategoriesAsync();
-
+        Task<bool> VendorExistsById(int id);
 
     }
 }

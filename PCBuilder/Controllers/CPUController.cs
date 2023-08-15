@@ -14,12 +14,14 @@ namespace PCBuilder.Controllers
         private readonly ISocketCategoryService _socketCategoryService;
         private readonly IVendorCategoryService _vendorCategoryService;
         private readonly IBuilderService _builderService;
+        private readonly ICPUService _cpuService;
 
-        public CPUController(ISocketCategoryService socketCategoryService, IVendorCategoryService vendorCategoryService, IBuilderService builderService)
+        public CPUController(ISocketCategoryService socketCategoryService, IVendorCategoryService vendorCategoryService, IBuilderService builderService, ICPUService cpuService)
         {
             _socketCategoryService = socketCategoryService;
             _vendorCategoryService = vendorCategoryService;
             _builderService = builderService;
+            _cpuService = cpuService;
         }
 
 
@@ -44,7 +46,7 @@ namespace PCBuilder.Controllers
             CPUFormViewModel model = new CPUFormViewModel()
             {
 
-               SocketCategories = await this._socketCategoryService.GetAllSocketCategoriesAsync(),
+                SocketCategories = await this._socketCategoryService.GetAllSocketCategoriesAsync(),
                 VendorCategories = await this._vendorCategoryService.GetAllVendorCategoriesAsync()
             };
 
@@ -57,6 +59,59 @@ namespace PCBuilder.Controllers
 
         }
 
+        [HttpPost]
+
+        public async Task<IActionResult> Add(CPUFormViewModel model)
+        {
+
+            bool isBuilder = await this._builderService.BuilderAlreadyExcistsByUserId(this.User.GetId()!);
+
+            if (!isBuilder)
+            {
+                this.TempData[ErrorMessage] = "You must be a builder to add PC components.";
+                return this.RedirectToAction("Become", "Builder");
+            }
+
+            bool vendorExists = await this._vendorCategoryService.VendorExistsById(model.VendorId);
+            bool socketExists = await this._socketCategoryService.SocketExistsById(model.SocketId);
+
+            bool CPUExists= await this._cpuService.CPUExistsByModelName(model.ModelName);
+
+            if (!vendorExists || !socketExists)
+            {
+               ModelState.AddModelError(nameof(model.VendorId), "CATEGORY DOES NOT EXIST!");
+                TempData[ErrorMessage] = "Please check the selected options!";
+            }
+
+
+            if (CPUExists)
+            {
+                ModelState.AddModelError(nameof(model.VendorId), "Model is alreay added.");
+                TempData[ErrorMessage] = "Model is already added!";
+            }
+            if (!ModelState.IsValid)
+            {
+                model.VendorCategories = await this._vendorCategoryService.GetAllVendorCategoriesAsync();
+                model.SocketCategories = await this._socketCategoryService.GetAllSocketCategoriesAsync();
+                return View(model);
+            }
+
+            try
+            {
+
+                await this._cpuService.CreateAsync(model);
+            }
+            catch (Exception)
+            {
+                this.TempData["ErrorMessage"] = "Error while saving. Please try again!";
+            }
+
+
+
+            return Redirect("Home");
+
+
+        }
 
 
 

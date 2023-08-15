@@ -25,5 +25,11 @@
 
             return all;
         }
+
+        public async Task<bool> VendorExistsById(int id)
+        {
+            bool result = await  _dbContext.CPUVendors.AnyAsync(x => x.Id == id);
+            return result;
+        }
     }
 }

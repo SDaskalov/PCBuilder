@@ -2,3 +2,8 @@
 // for details on configuring this project to bundle and minify static web assets.
 
 // Write your JavaScript code.
+
+
+$(".carousel-control-prev-icon").css('background-color', 'gray')
+
+$(".carousel-control-next-icon").css('background-color', 'gray')
