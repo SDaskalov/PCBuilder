@@ -9,7 +9,7 @@
         public int Id { get; set; }
 
         [Required]
-        [MaxLength()]
+        [MaxLength(MaxNameLength)]
         public string ModelName { get; set; } = null!;
 
         [Required]
