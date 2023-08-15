@@ -30,8 +30,9 @@
 		public static class BuilderConstants
 		{
 			public const int MaxNameLength = 50;
-		
-		}
+            public const int MinNameLength = 4;
+
+        }
 
 
 	}
