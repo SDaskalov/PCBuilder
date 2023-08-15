@@ -1,30 +1,33 @@
 ﻿namespace PCBuilder.Controllers
 {
-	using System.Diagnostics;
+    using System.Diagnostics;
 
-	using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.Mvc;
+    using PCBuilder.Services.Contracts;
+    using PCBuilder.Web.ViewModels.Home;
+
+    public class HomeController : Controller
+    {
+
+        private readonly IPCBuildService pcBuildService;
+
+        public HomeController(IPCBuildService pcBuildService)
+        {
+            this.pcBuildService = pcBuildService;
+        }
+
+        public async Task<IActionResult> Index()
+        {
+
+            IEnumerable<PCBuildViewModel> viewModel = await this.pcBuildService.LastThreeBuildsAsync();
+            return View(viewModel);
+        }
 
 
-	using PCBuilder.Web.ViewModels.Home;
-
-	public class HomeController : Controller
-	{
-	
-		public HomeController()
-		{
-			
-		}
-
-		public IActionResult Index()
-		{
-			return View();
-		}
-
-	
-		[ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-		public IActionResult Error()
-		{
-			return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-		}
-	}
+        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+        public IActionResult Error()
+        {
+            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+    }
 }

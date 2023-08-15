@@ -1,5 +1,6 @@
 ﻿namespace PCBuilder.Services
 {
+    using Microsoft.EntityFrameworkCore;
     using Microsoft.IdentityModel.Tokens;
     using PCBuilder.Data;
     using PCBuilder.Services.Contracts;
@@ -16,9 +17,28 @@
             this.dbContext = dbContext;
         }
 
-        public Task<IEnumerable<PCBuildViewModel>> LastThreeBuildsAsync()
+        public async Task<IEnumerable<PCBuildViewModel>> LastThreeBuildsAsync()
         {
-            throw new NotImplementedException();
+            IEnumerable<PCBuildViewModel> result = await this.dbContext
+                .PCConfigurations
+                .OrderBy(c => c.CreatedOn)
+                .Take(4)
+                .Select(s => new PCBuildViewModel()
+                {
+                    Id = s.Id,
+                    Name = s.Name,
+                    ImageUrl = s.ComputerCase.ImageUrl,
+                    Cpu=s.CPU.ModelName,
+                    Gpu=s.GraphicsCard.ModelName ?? "NA",
+                    HighestBid=s.HighestBid.ToString(),
+                    Motherboard=s.MotherBoard.Name,
+                    Ram=s.MotherBoard.RamCapacity.ToString()
+                    
+
+                })
+           .ToArrayAsync();
+
+            return result;
         }
     }
 }

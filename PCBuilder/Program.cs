@@ -4,9 +4,11 @@ namespace PCBuilder
 	using Microsoft.EntityFrameworkCore;
 	using PCBuilder.Data;
 	using PCBuilder.Data.Models;
+    using PCBuilder.Services;
+    using PCBuilder.Services.Contracts;
 
-	//using PCBuilder.Data;
-	public class Program
+    //using PCBuilder.Data;
+    public class Program
 	{
 		public static void Main(string[] args)
 		{
@@ -17,6 +19,8 @@ namespace PCBuilder
 			builder.Services.AddDbContext<PCBuilderDbContext>(options =>
 				options.UseSqlServer(connectionString));
 			builder.Services.AddDatabaseDeveloperPageExceptionFilter();
+			builder.Services.AddScoped<IPCBuildService, PCBuildService>();
+
 
 			builder.Services.AddDefaultIdentity<ApplicationUser>(options =>
 			{

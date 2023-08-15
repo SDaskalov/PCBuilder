@@ -20,8 +20,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\PCBuilder.Common\PCBuilder.Common.csproj" />
     <ProjectReference Include="..\PCBuilder.Data.Models\PCBuilder.Data.Models.csproj" />
     <ProjectReference Include="..\PCBuilder.Data\PCBuilder.Data.csproj" />
+    <ProjectReference Include="..\PCBuilder.Services\PCBuilder.Services.csproj" />
     <ProjectReference Include="..\PCBuilder.Web.ViewModels\PCBuilder.Web.ViewModels.csproj" />
   </ItemGroup>
 

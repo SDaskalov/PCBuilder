@@ -1,8 +1,64 @@
-﻿@{
+﻿@model IEnumerable<PCBuildViewModel>
+
+@{
     ViewData["Title"] = "Home Page";
+    var builds = Model.ToList();
+   
 }
 
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
+    <h1 class="display-4">Welcome to the best PC build and auction place!</h1>
    
+</div>
+
+@if (!builds.Any())
+{
+    <div class="mt-4 p-5 bg-light">
+        <h1 class="display-4">Best PC Builds 2023!</h1>
+        <p class="lead">
+          Currently there are no builds available to bid on!
+        </p>
+        <hr class="my-4">
+        <p class="lead">
+            @if (User.Identity?.IsAuthenticated ?? false)
+            {
+                @if (true)
+                {
+                    <a asp-controller="PCBuilds" asp-action="Add" class="btn btn-primary btn-lg"
+                       role="button">Create new build</a>
+                }
+            }
+        </p>
+    </div>
+}
+
+<div class="mb-5"></div>
+
+<div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+    <div class="carousel-inner">
+        @for (int i = 0; i < builds.Count(); i++)
+        {
+            var build = builds[i];
+            <div class="carousel-item @(i == 0 ? "active" : string.Empty)">
+                <div style="display:inline-flex"><img  style="height:600px" 
+                     src="@build.ImageUrl" alt="@build.Name">
+                    <div style="align-self: center;"> Processor: @build.Cpu <br />Motherboard: @build.Motherboard<br /> Graphics Card: @build.Gpu <br />Ram Capacity: @build.Ram <br /><br /> Highest bid: @build.HighestBid</div>
+                </div>
+                <div class="carousel-caption d-none d-md-block">
+                    <h5>
+                        <a class="btn btn-primary" asp-controller="PCBuilds" asp-action="Details"
+                           asp-route-id="@build.Id"> @build.Name</a>
+                    </h5>
+                </div>
+            </div>
+        }
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+    </button>
 </div>
