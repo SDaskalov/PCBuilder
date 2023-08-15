@@ -17,7 +17,6 @@
         {
             IEnumerable<CPUVendorCategoryFormModel> all = await this._dbContext
                 .CPUVendors
-                .AsNoTracking()
                 .Select(x => new CPUVendorCategoryFormModel()
                 {
                     Name = x.Name,

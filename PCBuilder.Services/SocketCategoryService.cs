@@ -8,25 +8,24 @@ namespace PCBuilder.Services
     using PCBuilder.Web.ViewModels.Sockets;
     public class SocketCategoryService : ISocketCategoryService
     {
-        private readonly PCBuilderDbContext _dbContext;
+        private readonly PCBuilderDbContext dbContext;
 
         public SocketCategoryService(PCBuilderDbContext dbContext)
         {
-            _dbContext = dbContext;
+            this.dbContext = dbContext;
         }
 
         public async Task<IEnumerable<SocketCategoryFormModel>> GetAllSocketCategoriesAsync()
         {
 
-            IEnumerable<SocketCategoryFormModel> sockets = await _dbContext
+            IEnumerable<SocketCategoryFormModel> sockets = await 
+                this.dbContext
                 .Sockets
-                .AsNoTracking()
                 .Select(x => new SocketCategoryFormModel()
                 {
                     Id = x.Id,
                     Name = x.Name
-                })
-                .ToArrayAsync();
+                }).ToArrayAsync();
 
             return sockets;
 

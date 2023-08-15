@@ -28,12 +28,12 @@
 
         public DbSet<PCConfiguration> PCConfigurations { get; set; } = null!;
 
-        public DbSet<CpuVendor> Sockets { get; set; } = null!;
+        public DbSet<Socket> Sockets { get; set; } = null!;
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
 
-           
+           builder.Entity<Socket>().ToTable(nameof(Socket));
 
             builder.Entity<PCConfiguration>()
                 .HasOne(x=>x.Builder).WithMany()

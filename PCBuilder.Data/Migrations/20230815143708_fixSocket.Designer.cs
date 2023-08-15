@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PCBuilder.Data;
 
@@ -11,9 +12,10 @@ using PCBuilder.Data;
 namespace PCBuilder.Data.Migrations
 {
     [DbContext(typeof(PCBuilderDbContext))]
-    partial class PCBuilserDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230815143708_fixSocket")]
+    partial class fixSocket
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -386,7 +388,7 @@ namespace PCBuilder.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("CPUVendors");
+                    b.ToTable("CpuVendor");
 
                     b.HasData(
                         new
@@ -629,7 +631,7 @@ namespace PCBuilder.Data.Migrations
                             BuilderId = new Guid("7131367d-d5ad-4f72-b6f7-703bca071854"),
                             CPUId = 1,
                             CaseId = 1,
-                            CreatedOn = new DateTime(2023, 8, 15, 17, 39, 41, 992, DateTimeKind.Local).AddTicks(2347),
+                            CreatedOn = new DateTime(2023, 8, 15, 17, 37, 7, 658, DateTimeKind.Local).AddTicks(4762),
                             GraphicsCardId = 1,
                             HighestBid = 0m,
                             MotherBoardId = 3,

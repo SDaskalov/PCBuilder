@@ -18,14 +18,16 @@
         public string ModelName { get; set; } = null!;
 
         [Required]
+        [Range(MinPrice,MaxPrice)]
         public decimal Price { get; set; }
-
+        [Required]
         public int SocketId { get; set; }
-
+        [Required]
         public int VendorId { get; set; }
         [Required]
         public bool IntegratedGraphics { get; set; }
         [Required]
+        [Range(MinWatts,MaxWatts)]
         public int MaxWattage { get; set; }
 
         public IEnumerable<CPUVendorCategoryFormModel> VendorCategories { get; set; }

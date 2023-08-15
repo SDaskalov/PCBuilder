@@ -1,63 +1,67 @@
 namespace PCBuilder
 {
 
-	using Microsoft.EntityFrameworkCore;
-	using PCBuilder.Data;
-	using PCBuilder.Data.Models;
+    using Microsoft.EntityFrameworkCore;
+    using PCBuilder.Data;
+    using PCBuilder.Data.Models;
     using PCBuilder.Services;
     using PCBuilder.Services.Contracts;
 
     //using PCBuilder.Data;
     public class Program
-	{
-		public static void Main(string[] args)
-		{
-			WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
+    {
+        public static void Main(string[] args)
+        {
+            WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
-			// Add services to the container.
-			var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
-			builder.Services.AddDbContext<PCBuilderDbContext>(options =>
-				options.UseSqlServer(connectionString));
-			builder.Services.AddDatabaseDeveloperPageExceptionFilter();
-			builder.Services.AddScoped<IPCBuildService, PCBuildService>();
-			builder.Services.AddScoped<IBuilderService, BuilderService>();
+            // Add services to the container.
+            var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
+            builder.Services.AddDbContext<PCBuilderDbContext>(options =>
+                options.UseSqlServer(connectionString));
+            builder.Services.AddDatabaseDeveloperPageExceptionFilter();
+            builder.Services.AddScoped<IPCBuildService, PCBuildService>();
+            builder.Services.AddScoped<IBuilderService, BuilderService>();
+            builder.Services.AddScoped<ISocketCategoryService, SocketCategoryService>();
+            builder.Services.AddScoped<IVendorCategoryService, VendorCategoriesService>();
 
-			builder.Services.AddDefaultIdentity<ApplicationUser>(options =>
-			{
-				options.SignIn.RequireConfirmedAccount = false;
-			})
-				.AddEntityFrameworkStores<PCBuilderDbContext>();
-			builder.Services.AddControllersWithViews();
 
-			WebApplication app = builder.Build();
 
-			// Configure the HTTP request pipeline.
-			if (app.Environment.IsDevelopment())
-			{
-				app.UseMigrationsEndPoint();
-				app.UseDeveloperExceptionPage();
-			}
-			else
-			{
-				app.UseExceptionHandler("/Home/Error");
-				// The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-				app.UseHsts();
-			}
+            builder.Services.AddDefaultIdentity<ApplicationUser>(options =>
+            {
+                options.SignIn.RequireConfirmedAccount = false;
+            })
+                .AddEntityFrameworkStores<PCBuilderDbContext>();
+            builder.Services.AddControllersWithViews();
 
-			app.UseHttpsRedirection();
-			app.UseStaticFiles();
+            WebApplication app = builder.Build();
 
-			app.UseRouting();
+            // Configure the HTTP request pipeline.
+            if (app.Environment.IsDevelopment())
+            {
+                app.UseMigrationsEndPoint();
+                app.UseDeveloperExceptionPage();
+            }
+            else
+            {
+                app.UseExceptionHandler("/Home/Error");
+                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+                app.UseHsts();
+            }
 
-			app.UseAuthentication();
-			app.UseAuthorization();
+            app.UseHttpsRedirection();
+            app.UseStaticFiles();
 
-			app.MapControllerRoute(
-				name: "default",
-				pattern: "{controller=Home}/{action=Index}/{id?}");
-			app.MapRazorPages();
+            app.UseRouting();
 
-			app.Run();
-		}
-	}
+            app.UseAuthentication();
+            app.UseAuthorization();
+
+            app.MapControllerRoute(
+                name: "default",
+                pattern: "{controller=Home}/{action=Index}/{id?}");
+            app.MapRazorPages();
+
+            app.Run();
+        }
+    }
 }

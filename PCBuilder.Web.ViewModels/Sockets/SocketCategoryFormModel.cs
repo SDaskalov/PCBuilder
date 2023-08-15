@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 
 namespace PCBuilder.Web.ViewModels.Sockets
 {
+    [Table("Socket")]
     public class SocketCategoryFormModel
     {
         public int Id { get; set; }

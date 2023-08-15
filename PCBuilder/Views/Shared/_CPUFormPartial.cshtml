@@ -1,0 +1,58 @@
+﻿@model CPUFormViewModel
+
+
+<div class="row">
+    <div class="col-sm-12 offset-lg-2 col-lg-8 offset-xl-3 col-xl-6">
+        <form method="post">
+            <div class="form-group">
+                <label asp-for="ModelName"></label>
+                <input asp-for="ModelName" class="form-control" placeholder="ModelName">
+                <span asp-validation-for="ModelName" class="small text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Price"></label>
+                <input asp-for="Price" class="form-control" placeholder="Price">
+                <span asp-validation-for="Price" class="small text-danger"></span>
+            </div>
+            <hr />
+            <div class="form-group">
+                <label asp-for="IntegratedGraphics"></label>
+                @Html.EditorFor(model => model.IntegratedGraphics)
+                <span asp-validation-for="IntegratedGraphics" class="small text-danger"></span>
+                
+            </div>
+            <hr />
+            <div class="form-group">
+                <label asp-for="MaxWattage"></label>
+                <input asp-for="MaxWattage" class="form-control" placeholder="MaxWattage">
+                <span asp-validation-for="MaxWattage" class="small text-danger"></span>
+            </div>
+         
+            <div class="form-group">
+                <label asp-for="SocketId"></label>
+                <select asp-for="SocketId" class="form-control">
+                    @foreach (var category in Model.SocketCategories)
+                    {
+                        <option value="@category.Id">@category.Name</option>
+                    }
+                </select>
+                <span asp-validation-for="SocketId" class="small text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="VendorId"></label>
+                <select asp-for="VendorId" class="form-control">
+                    @foreach (var vendor in Model.VendorCategories)
+                    {
+                        <option value="@vendor.Id">@vendor.Name</option>
+                    }
+                </select>
+                <span asp-validation-for="VendorId" class="small text-danger"></span>
+            </div>
+        
+            <div class="text-center">
+                <input class="btn btn-primary mt-3" type="submit" value="Save" />
+            </div>
+        </form>
+    </div>
+</div>
