@@ -24,7 +24,7 @@
 
             string? userId = this.User.GetId();
            
-            bool isAlreadyBuilder= await this.builderService.BuilderAlreadyExcistsByUserId(userId);
+            bool isAlreadyBuilder= await this.builderService.BuilderAlreadyExcistsByUserId(userId!);
             if (isAlreadyBuilder)
             {
                 TempData[ErrorMessage] = "You are already a builder!";
@@ -41,7 +41,7 @@
         {
             string? userId = this.User.GetId();
 
-            bool isAlreadyBuilder = await this.builderService.BuilderAlreadyExcistsByUserId(userId);
+            bool isAlreadyBuilder = await this.builderService.BuilderAlreadyExcistsByUserId(userId!);
             if (isAlreadyBuilder)
             {
                 TempData[ErrorMessage] = "You are already a builder!";
@@ -55,7 +55,7 @@
             {
                 TempData[ErrorMessage] = "The name is already taken!";
 
-                ModelState.AddModelError(userId, "This name is already taken. Please try a different one!");
+                ModelState.AddModelError(userId!, "This name is already taken. Please try a different one!");
                 //return View();              
             }
 
@@ -68,7 +68,7 @@
             try
             {
                
-                await builderService.Create(userId, model);
+                await builderService.Create(userId!, model);
                 TempData[SuccessMessage] = "Congartualtions! You are now a builder.";
             }
             catch (Exception)

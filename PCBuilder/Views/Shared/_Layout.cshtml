@@ -28,7 +28,41 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
-                        
+                        @if (User.Identity!.IsAuthenticated)
+                        {
+                            <div class="dropdown" style="padding-right:10px">
+                            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                CPUs
+                            </button>
+                            <ul class="dropdown-menu" aria-labelledby="CPUs">
+                                <li><a class="nav-link text-dark" asp-area="" asp-controller="CPU" asp-action="All">All CPUs</a></li>
+                                <li><a class="nav-link text-dark" asp-area="" asp-controller="CPU" asp-action="Add">Add new <br>CPU</a></li>
+                                
+                            </ul>
+                        </div>
+
+                        <div class="dropdown" style="padding-right:10px">
+                            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                GPUs
+                            </button>
+                            <ul class="dropdown-menu" aria-labelledby="GPUs">
+                                <li><a class="nav-link text-dark" asp-area="" asp-controller="GPU" asp-action="All">All GPUs</a></li>
+                                <li><a class="nav-link text-dark" asp-area="" asp-controller="GPU" asp-action="Add">Add new graphics card</a></li>
+
+                            </ul>
+                        </div>
+                            <div class="dropdown" style="padding-right:10px">
+                                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Motherboards
+                                </button>
+                                <ul class="dropdown-menu" aria-labelledby="MB">
+                                    <li><a class="nav-link text-dark" asp-area="" asp-controller="Motherboard" asp-action="All">All Motherboards</a></li>
+                                    <li><a class="nav-link text-dark" asp-area="" asp-controller="Motherboard" asp-action="Add">Add new Motherboards</a></li>
+
+                                </ul>
+                            </div>
+                           
+                        }
                     </ul>
                     <partial name="_LoginPartial" />
                 </div>
