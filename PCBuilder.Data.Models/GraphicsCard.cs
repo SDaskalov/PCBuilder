@@ -20,5 +20,10 @@
         [Required]
         public decimal Price { get; set; }
 
+        [Required]
+        public Guid BuilderId { get; set; }
+
+        public bool IsDeleted { get; set; }
+
     }
 }

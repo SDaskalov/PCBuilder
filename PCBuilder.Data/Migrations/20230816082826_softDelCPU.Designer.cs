@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PCBuilder.Data;
 
@@ -11,9 +12,10 @@ using PCBuilder.Data;
 namespace PCBuilder.Data.Migrations
 {
     [DbContext(typeof(PCBuilderDbContext))]
-    partial class PCBuilserDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230816082826_softDelCPU")]
+    partial class softDelCPU
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -252,18 +254,10 @@ namespace PCBuilder.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<Guid>("BuilderId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<string>("ImageUrl")
                         .IsRequired()
                         .HasMaxLength(2048)
                         .HasColumnType("nvarchar(2048)");
-
-                    b.Property<bool>("IsDeleted")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bit")
-                        .HasDefaultValue(false);
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -280,27 +274,21 @@ namespace PCBuilder.Data.Migrations
                         new
                         {
                             Id = 1,
-                            BuilderId = new Guid("00000000-0000-0000-0000-000000000000"),
                             ImageUrl = "https://www.altech.bg/files/products/118756.jpg",
-                            IsDeleted = false,
                             Name = "Fractal Design North",
                             Price = 180.00m
                         },
                         new
                         {
                             Id = 2,
-                            BuilderId = new Guid("00000000-0000-0000-0000-000000000000"),
                             ImageUrl = "https://images10.newegg.com/BizIntell/item/Case/Cases%20(Computer%20Cases%20-%20ATX%20Form)/2AM-000Z-000A9/1.jpg",
-                            IsDeleted = false,
                             Name = "Lian Li Lancool 216",
                             Price = 119.99m
                         },
                         new
                         {
                             Id = 3,
-                            BuilderId = new Guid("00000000-0000-0000-0000-000000000000"),
                             ImageUrl = "https://www.pro-bg.com/resize_image_max/800/600/FRACTAL%20DESIGN/Computer-Case-FractalDesign-TORRENT-BLACK-SOLID.jpeg",
-                            IsDeleted = false,
                             Name = "Fractal Design Torrent",
                             Price = 199.99m
                         });
@@ -313,9 +301,6 @@ namespace PCBuilder.Data.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<Guid>("BuilderId")
-                        .HasColumnType("uniqueidentifier");
 
                     b.Property<bool>("IntegratedGraphics")
                         .HasColumnType("bit");
@@ -354,7 +339,6 @@ namespace PCBuilder.Data.Migrations
                         new
                         {
                             Id = 1,
-                            BuilderId = new Guid("00000000-0000-0000-0000-000000000000"),
                             IntegratedGraphics = false,
                             IsDeleted = false,
                             MaxWattage = 95,
@@ -366,7 +350,6 @@ namespace PCBuilder.Data.Migrations
                         new
                         {
                             Id = 2,
-                            BuilderId = new Guid("00000000-0000-0000-0000-000000000000"),
                             IntegratedGraphics = true,
                             IsDeleted = false,
                             MaxWattage = 105,
@@ -378,7 +361,6 @@ namespace PCBuilder.Data.Migrations
                         new
                         {
                             Id = 3,
-                            BuilderId = new Guid("00000000-0000-0000-0000-000000000000"),
                             IntegratedGraphics = true,
                             IsDeleted = false,
                             MaxWattage = 105,
@@ -390,7 +372,6 @@ namespace PCBuilder.Data.Migrations
                         new
                         {
                             Id = 4,
-                            BuilderId = new Guid("00000000-0000-0000-0000-000000000000"),
                             IntegratedGraphics = false,
                             IsDeleted = false,
                             MaxWattage = 125,
@@ -439,18 +420,10 @@ namespace PCBuilder.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<Guid>("BuilderId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<string>("ImageURL")
                         .IsRequired()
                         .HasMaxLength(2048)
                         .HasColumnType("nvarchar(2048)");
-
-                    b.Property<bool>("IsDeleted")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bit")
-                        .HasDefaultValue(false);
 
                     b.Property<int>("MaxWattage")
                         .HasColumnType("int");
@@ -470,9 +443,7 @@ namespace PCBuilder.Data.Migrations
                         new
                         {
                             Id = 1,
-                            BuilderId = new Guid("00000000-0000-0000-0000-000000000000"),
                             ImageURL = "https://p1.akcdn.net/full/744790884.gigabyte-geforce-rtx-3070-8gb-gddr6-256bit-gv-n3070gaming-oc-8gd.jpg",
-                            IsDeleted = false,
                             MaxWattage = 220,
                             ModelName = "GeForce RTX 3070",
                             Price = 599.99m
@@ -480,9 +451,7 @@ namespace PCBuilder.Data.Migrations
                         new
                         {
                             Id = 2,
-                            BuilderId = new Guid("00000000-0000-0000-0000-000000000000"),
                             ImageURL = "https://p1.akcdn.net/full/1122500418.asus-geforce-rtx-4090-oc-24gb-gddr6x-rog-strix-rtx4090-o24g-gaming.jpg",
-                            IsDeleted = false,
                             MaxWattage = 400,
                             ModelName = "GeForce RTX 4090",
                             Price = 1599.00m
@@ -490,9 +459,7 @@ namespace PCBuilder.Data.Migrations
                         new
                         {
                             Id = 3,
-                            BuilderId = new Guid("00000000-0000-0000-0000-000000000000"),
                             ImageURL = "https://pg.asrock.com/Graphics-Card/photo/Radeon%20RX%207900%20XTX%20Phantom%20Gaming%2024GB%20OC(L1).png",
-                            IsDeleted = false,
                             MaxWattage = 355,
                             ModelName = "AMD RX 7900XTX",
                             Price = 999.99m
@@ -500,9 +467,7 @@ namespace PCBuilder.Data.Migrations
                         new
                         {
                             Id = 4,
-                            BuilderId = new Guid("00000000-0000-0000-0000-000000000000"),
                             ImageURL = "https://cdna.pcpartpicker.com/static/forever/images/product/5199e776d5e1c9d319b4a275139bbcf4.1600.jpg",
-                            IsDeleted = false,
                             MaxWattage = 335,
                             ModelName = "AMD RX 6950XT",
                             Price = 649.99m
@@ -516,14 +481,6 @@ namespace PCBuilder.Data.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<Guid>("BuilderId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<bool>("IsDeleted")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bit")
-                        .HasDefaultValue(false);
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -554,8 +511,6 @@ namespace PCBuilder.Data.Migrations
                         new
                         {
                             Id = 1,
-                            BuilderId = new Guid("00000000-0000-0000-0000-000000000000"),
-                            IsDeleted = false,
                             Name = "MSI PRO B650M-A WIFI",
                             Price = 199.99m,
                             RamCapacity = 128,
@@ -565,8 +520,6 @@ namespace PCBuilder.Data.Migrations
                         new
                         {
                             Id = 2,
-                            BuilderId = new Guid("00000000-0000-0000-0000-000000000000"),
-                            IsDeleted = false,
                             Name = "ASUS TUF GAMING B650-PLUS",
                             Price = 228.99m,
                             RamCapacity = 128,
@@ -576,8 +529,6 @@ namespace PCBuilder.Data.Migrations
                         new
                         {
                             Id = 3,
-                            BuilderId = new Guid("00000000-0000-0000-0000-000000000000"),
-                            IsDeleted = false,
                             Name = "GIGABYTE B550 AORUS ELITE V2",
                             Price = 189.99m,
                             RamCapacity = 128,
@@ -587,8 +538,6 @@ namespace PCBuilder.Data.Migrations
                         new
                         {
                             Id = 4,
-                            BuilderId = new Guid("00000000-0000-0000-0000-000000000000"),
-                            IsDeleted = false,
                             Name = "MSI MAG B550 Tomahawk",
                             Price = 150.00m,
                             RamCapacity = 256,
@@ -598,8 +547,6 @@ namespace PCBuilder.Data.Migrations
                         new
                         {
                             Id = 5,
-                            BuilderId = new Guid("00000000-0000-0000-0000-000000000000"),
-                            IsDeleted = false,
                             Name = "Gigabyte Motherboard Z790 AORUS ELITE AX",
                             Price = 299.99m,
                             RamCapacity = 256,
@@ -609,8 +556,6 @@ namespace PCBuilder.Data.Migrations
                         new
                         {
                             Id = 6,
-                            BuilderId = new Guid("00000000-0000-0000-0000-000000000000"),
-                            IsDeleted = false,
                             Name = "ASUS TUF GAMING Z790-PLUS WIFI D4 ",
                             Price = 249.99m,
                             RamCapacity = 256,
@@ -620,8 +565,6 @@ namespace PCBuilder.Data.Migrations
                         new
                         {
                             Id = 7,
-                            BuilderId = new Guid("00000000-0000-0000-0000-000000000000"),
-                            IsDeleted = false,
                             Name = "MSI MPG Z490 Gaming Plus",
                             Price = 189.99m,
                             RamCapacity = 128,
@@ -702,7 +645,7 @@ namespace PCBuilder.Data.Migrations
                             BuilderId = new Guid("7131367d-d5ad-4f72-b6f7-703bca071854"),
                             CPUId = 1,
                             CaseId = 1,
-                            CreatedOn = new DateTime(2023, 8, 16, 11, 54, 46, 207, DateTimeKind.Local).AddTicks(9320),
+                            CreatedOn = new DateTime(2023, 8, 16, 11, 28, 26, 109, DateTimeKind.Local).AddTicks(8457),
                             GraphicsCardId = 1,
                             HighestBid = 0m,
                             IsDeleted = false,

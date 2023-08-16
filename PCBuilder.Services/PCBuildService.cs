@@ -22,6 +22,7 @@
         {
             IEnumerable<PCBuildViewModel> result = await this.dbContext
                 .PCConfigurations
+                .Where(c=>c.IsDeleted == false)
                 .OrderBy(c => c.CreatedOn)
                 .Take(4)
                 .Select(s => new PCBuildViewModel()

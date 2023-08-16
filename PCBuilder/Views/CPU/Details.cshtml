@@ -1,0 +1,49 @@
+﻿@model CPUFormViewModel
+@{
+    ViewBag.Title = "Event Details";
+}
+
+
+<h2 class="text-center">@ViewBag.Title</h2>
+<hr />
+
+<div class="row">
+    <div class="card w-100">
+        <div class="card-body">
+            <h3 class="card-title text-center">@Model.ModelName</h3>
+            <hr>
+            @if (Model.VendorId == 1)
+            {
+                <center><img src="https://www.logo.wine/a/logo/Ryzen/Ryzen-AMD-White-Dark-Background-Logo.wine.svg" style="width:200px" /></center>
+            }
+            else
+            {
+                <center><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7d/Intel_logo_%282006-2020%29.svg/1005px-Intel_logo_%282006-2020%29.svg.png" style="width:200px" /></center>
+            }
+            <hr>
+            <p class="mb-0"><span class="fw-bold">Price: </span>@Model.Price</p>
+            <p class="mb-0"><span class="fw-bold">Integrated Graphics: </span>
+                @if (Model.IntegratedGraphics == true)
+                {
+                    <span>Yes</span>
+                    } else
+                {
+                    <span>No</span>
+                        } 
+
+                 </p>
+            <p class="mb-0"><span class="fw-bold">Maximum wattage: </span>@Model.MaxWattage</p>
+
+
+            <p class="mb-0"><span class="fw-bold">Socket: </span>@Model.SocketName</p>
+            <p class="mb-0"><span class="fw-bold">Manufacturer: </span>@Model.VendorName</p>
+        </div>
+
+        <a asp-controller="CPU" asp-action="All" class="btn btn-info mb-2 w-100 p-3 fw-bold">Back to All</a>
+  
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

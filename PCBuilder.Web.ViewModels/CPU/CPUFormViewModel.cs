@@ -32,6 +32,9 @@
         [Range(MinWatts,MaxWatts)]
         public int MaxWattage { get; set; }
 
+        public string VendorName { get; set; }
+        public string SocketName { get; set; }
+
         public IEnumerable<CPUVendorCategoryFormModel> VendorCategories { get; set; }
 
         public IEnumerable<SocketCategoryFormModel> SocketCategories { get; set; }

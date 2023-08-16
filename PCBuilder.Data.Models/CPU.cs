@@ -30,5 +30,9 @@
 
         [Required]
         public int MaxWattage { get; set; }
+        public bool IsDeleted { get; set; }
+
+        [Required]
+        public Guid BuilderId { get; set; }
     }
 }

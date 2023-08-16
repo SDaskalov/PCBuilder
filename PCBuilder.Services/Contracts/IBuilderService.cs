@@ -10,5 +10,7 @@ namespace PCBuilder.Services.Contracts
         Task<bool> BuilderNameIsTaken(string name);
 
         Task Create(string userId, BecomeBuilderFormModel model);
+
+        Task<bool> HasPCWithIdAsync(string? userId, string houseId);
     }
 }

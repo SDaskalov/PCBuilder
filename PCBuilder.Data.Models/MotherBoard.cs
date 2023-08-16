@@ -29,5 +29,10 @@ namespace PCBuilder.Data.Models
         [Required]
         public int RamCapacity { get; set; }
 
+        [Required]
+        public Guid BuilderId { get; set; }
+
+        public bool IsDeleted { get; set; }
+
     }
 }

@@ -8,5 +8,7 @@
         Task<bool> CPUExistsByModelName(string model);
 
         Task<IEnumerable<CPUFormViewModel>> GetAllAsync();
+
+        Task<CPUFormViewModel?> GetCPUDetailsAsync(int id);
     }
 }

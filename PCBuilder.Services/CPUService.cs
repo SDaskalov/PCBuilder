@@ -47,7 +47,10 @@
 
         public async Task<IEnumerable<CPUFormViewModel>> GetAllAsync()
         {
-            IEnumerable<CPUFormViewModel> res = await _dbContext.CPUs.Select(c => new CPUFormViewModel()
+            IEnumerable<CPUFormViewModel> res = await _dbContext
+                .CPUs
+                .Where(c => c.IsDeleted == false)
+                .Select(c => new CPUFormViewModel()
             {
                 Id = c.Id,
                 MaxWattage = c.MaxWattage,
@@ -61,6 +64,27 @@
 
 
                 return res;
+        }
+
+        public async Task<CPUFormViewModel?> GetCPUDetailsAsync(int id)
+        {
+            CPUFormViewModel? model = await this._dbContext
+                .CPUs
+                .Where (c => c.Id == id)
+                .Select(c => new CPUFormViewModel() 
+                { 
+                    Id = c.Id,
+                    IntegratedGraphics =c.IntegratedGraphics,
+                    ModelName=c.ModelName,
+                    MaxWattage=c.MaxWattage,
+                    Price=c.Price,
+                    SocketId=c.SocketId,
+                    VendorId=c.VendorId,
+                    SocketName=c.Socket.Name,
+                    VendorName=c.Vendor.Name
+                }).FirstOrDefaultAsync();
+
+            return model;
         }
     }
 }

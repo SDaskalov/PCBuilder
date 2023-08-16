@@ -119,5 +119,15 @@ namespace PCBuilder.Controllers
 
         }
 
+        [HttpGet]
+        public async Task<IActionResult> Details(int id)
+        {
+            CPUFormViewModel? cpus = await _cpuService.GetCPUDetailsAsync(id);
+
+            return View(cpus);
+
+
+        }
+
     }
 }

@@ -43,5 +43,17 @@
             await this.dbContext.Builders.AddAsync(bd);
             await this.dbContext.SaveChangesAsync();
         }
+
+        public async Task<bool> HasPCWithIdAsync(string? userId, string buildId)
+        {
+            Builder? builder = await this.dbContext.Builders.Include(p => p.Builds).FirstOrDefaultAsync(a => a.UserId.ToString() == userId);
+
+            if (builder == null)
+            {
+                return false;
+            }
+            return builder.Builds.Any(b=>b.Id.ToString()==buildId);
+
+        }
     }
 }
