@@ -1,5 +1,6 @@
 ﻿namespace PCBuilder.Services.Contracts
 {
+    using PCBuilder.Web.ViewModels.CPU;
     using PCBuilder.Web.ViewModels.Motherboard;
 
     public interface IMotherBoardService
@@ -11,5 +12,7 @@
         Task<IEnumerable<MBFormViewModel>> GetAllAsync();
 
         Task<MBDetailsViewModel?> GetMBDetailsAsync(int id);
+
+        Task<MBDetailsViewModel?> GetMBByIdAsync(int id);
     }
 }

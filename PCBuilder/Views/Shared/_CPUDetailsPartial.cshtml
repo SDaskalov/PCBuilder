@@ -1,0 +1,45 @@
+﻿@model CPUDetailsViewModel
+
+
+
+<div class="card col-4" style="width: 19rem; ">
+        <div class="card-body">
+            <h3 class="card-title text-center">@Model.ModelName</h3>
+            <hr>
+            @if (Model.VendorId == 1)
+            {
+                <center><img src="https://www.logo.wine/a/logo/Ryzen/Ryzen-AMD-White-Dark-Background-Logo.wine.svg" style="width:200px" /></center>
+            }
+            else
+            {
+                <center><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7d/Intel_logo_%282006-2020%29.svg/1005px-Intel_logo_%282006-2020%29.svg.png" style="width:200px" /></center>
+            }
+            <hr>
+           
+            <p class="mb-0">
+                <span class="fw-bold">Integrated Graphics: </span>
+                @if (Model.IntegratedGraphics == true)
+                {
+                    <span>Yes</span>
+                }
+                else
+                {
+                    <span>No</span>
+                }
+
+            </p>
+            <p class="mb-0"><span class="fw-bold">Maximum wattage: </span>@Model.MaxWattage</p>
+       
+
+            <p class="mb-0"><span class="fw-bold">Socket: </span>@Model.SocketName</p>
+            <p class="mb-0"><span class="fw-bold">Manufacturer: </span>@Model.VendorName</p>
+        <p class="mb-0"><span class="fw-bold">Standalone Price: </span>$@Model.Price</p>
+
+        </div>
+    <a asp-controller="CPU" asp-action="Details" asp-route-id="@Model.Id" class="btn btn-warning mb-2 w-100 p-3 fw-bold">Details</a>
+    </div>
+
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

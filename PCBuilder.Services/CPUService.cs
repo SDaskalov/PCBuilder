@@ -70,6 +70,25 @@
                 return res;
         }
 
+        public async Task<CPUDetailsViewModel?> GetCPUByIdAsync(int id)
+        {
+            CPUDetailsViewModel? cpu = await this._dbContext
+                .CPUs
+                .Where (c => c.Id == id)
+                .Select (c => new CPUDetailsViewModel() { Id = c.Id,
+                IntegratedGraphics= c.IntegratedGraphics,
+                MaxWattage= c.MaxWattage,
+                ModelName = c.ModelName,
+                VendorId = c.VendorId,
+                SocketId= c.SocketId,
+                VendorName=c.Vendor.Name,
+                SocketName=c.Socket.Name,
+                Price= c.Price                
+                }).FirstOrDefaultAsync();
+
+            return cpu;
+        }
+
         public async Task<CPUDetailsViewModel?> GetCPUDetailsAsync(int id)
         {
             CPUDetailsViewModel? model = await this._dbContext

@@ -1,0 +1,64 @@
+﻿@model MBFormViewModel
+@{
+    ViewData["Title"] = "Add new MotherBoard";
+
+}
+
+<h3 class="text-center">@ViewData["Title"] </h3>
+
+
+
+<div class="row">
+    <div class="col-sm-12 offset-lg-2 col-lg-8 offset-xl-3 col-xl-6">
+        <form method="post">
+            <div class="form-group">
+                <label asp-for="Name"></label>
+                <input asp-for="Name" class="form-control" placeholder="Model Name">
+                <span asp-validation-for="Name" class="small text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Price"></label>
+                <input asp-for="Price" class="form-control" placeholder="Price">
+                <span asp-validation-for="Price" class="small text-danger"></span>
+            </div>
+          
+            <hr />
+            <div class="form-group">
+                <label asp-for="RamCapacity"></label>
+                <input asp-for="RamCapacity" class="form-control" placeholder="Maximum Ram Capacity">
+                <span asp-validation-for="RamCapacity" class="small text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ImageUrl"></label>
+                <input asp-for="ImageUrl" class="form-control" placeholder="Link to image">
+                <span asp-validation-for="ImageUrl" class="small text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="SocketId"></label>
+                <select asp-for="SocketId" class="form-control">
+                    @foreach (var category in Model.SocketCategories)
+                    {
+                        <option value="@category.Id">@category.Name</option>
+                    }
+                </select>
+                <span asp-validation-for="SocketId" class="small text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="VendorId"></label>
+                <select asp-for="VendorId" class="form-control">
+                    @foreach (var vendor in Model.VendorCategories)
+                    {
+                        <option value="@vendor.Id">@vendor.Name</option>
+                    }
+                </select>
+                <span asp-validation-for="VendorId" class="small text-danger"></span>
+            </div>
+
+            <div class="text-center">
+                <input class="btn btn-primary mt-3" type="submit" value="Save" />
+            </div>
+        </form>
+    </div>
+</div>

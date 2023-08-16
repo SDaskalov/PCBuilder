@@ -1,0 +1,73 @@
+﻿@using PCBuilder.Services.Contracts;
+@model PCBuildDetailsViewModel
+@inject IGPUService gpuService
+@inject ICPUService cpuService
+@inject IComputerCaseService caseService
+@inject IMotherBoardService mbService
+@{
+    var gpu = await gpuService.GetGPUByIdAsync(Model.GpuId);
+    var cpu = await cpuService.GetCPUByIdAsync(Model.CpuId);
+    var cas = await caseService.GetCaseByIdAsync(Model.CaseId);
+    var mb = await mbService.GetMBByIdAsync(Model.MotherboardId);
+}
+
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Details</h1>
+
+</div>
+
+
+<div class="row">
+    <div class="card w-100">
+        <div class="card-body">
+            <h3 class="card-title text-center">@Model.Name</h3>
+            <hr>
+
+
+            <div>
+                <div class="row">
+                    <div class="col-sm-4">
+                        <div class="card">
+                            <div class="card-body">
+                                <img src="@Model.ImageUrl" style="width:400px" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="card">
+                            <div class="card-body">
+                                <p><span class="fw-bold">Current highest bid: </span>@Model.HighestBid</p>
+
+                                <p><span class="fw-bold">Maximum RAM capacity: </span>@Model.Ram</p>
+                                <hr />
+
+                                <a class="btn btn-primary" type="submit" asp-controller="PCBuild" asp-action="Bid">Bid Now!</a>
+                            </div>
+                        </div>
+                    </div>
+                    <hr />
+                    <div class="row">
+                        @if (gpu != null)
+                        {
+                            <partial name="_GPUDetailsPartial" model="gpu" />
+                        }
+                        <partial name="_CPUDetailsPartial" model="cpu" />
+                        <partial name="_ComputerCaseDetailsPartial" model="cas" />
+                        <partial name="_MBDetailsPartial" model="mb" />
+                    </div>
+                </div>
+            </div>
+
+            <a asp-controller="Home" asp-action="Index" class="btn btn-info mb-2 w-100 p-3 fw-bold">Back to All</a>
+
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    }

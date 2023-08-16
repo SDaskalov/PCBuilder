@@ -5,6 +5,7 @@
     using Microsoft.AspNetCore.Mvc;
     using PCBuilder.Services.Contracts;
     using PCBuilder.Web.ViewModels.Home;
+    using PCBuilder.Web.ViewModels.PCConfiguration;
 
     public class HomeController : Controller
     {

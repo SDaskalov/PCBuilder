@@ -1,6 +1,8 @@
 ﻿namespace PCBuilder.Services.Contracts
 {
     using PCBuilder.Web.ViewModels.CPU;
+ 
+
     public interface ICPUService
     {
         Task CreateAsync(CPUFormViewModel model,string id);
@@ -10,5 +12,7 @@
         Task<IEnumerable<CPUFormViewModel>> GetAllAsync();
 
         Task<CPUDetailsViewModel?> GetCPUDetailsAsync(int id);
+
+        Task<CPUDetailsViewModel?> GetCPUByIdAsync(int id);
     }
 }

@@ -29,8 +29,8 @@ namespace PCBuilder
             builder.Services.AddScoped<ICPUService,CPUService>();
             builder.Services.AddScoped<IGPUService,GPUService>();
             builder.Services.AddScoped<IMotherBoardService, MotherBoardService>();
-
-
+            builder.Services.AddScoped<IComputerCaseService, ComputerCaseService>();
+            builder.Services.AddScoped<IPCBuildService,PCBuildService>();
 
             builder.Services.AddDefaultIdentity<ApplicationUser>(options =>
             {

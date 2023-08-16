@@ -3,6 +3,7 @@ namespace PCBuilder.Services
 {
     using Microsoft.EntityFrameworkCore;
     using PCBuilder.Data;
+    using PCBuilder.Data.Models;
     using PCBuilder.Services.Contracts;
     using PCBuilder.Web.ViewModels.Motherboard;
     public class MotherBoardService : IMotherBoardService
@@ -22,9 +23,23 @@ namespace PCBuilder.Services
             return res;
         }
 
-        public Task CreateAsync(MBFormViewModel model, string id)
+        public async Task CreateAsync(MBFormViewModel model, string id)
         {
-            throw new NotImplementedException();
+            MotherBoard mb = new MotherBoard()
+            {
+                BuilderId=Guid.Parse(id),
+                ImageUrl=model.ImageUrl,
+                Name=model.Name,
+                Price=model.Price,
+                RamCapacity=model.RamCapacity,
+                SocketId=model.SocketId,
+                VendorId=model.VendorId,
+                
+            };
+
+            await _dbContext.MotherBoards.AddAsync(mb);
+            await _dbContext.SaveChangesAsync();
+
         }
 
         public async Task<IEnumerable<MBFormViewModel>> GetAllAsync()
@@ -66,6 +81,26 @@ namespace PCBuilder.Services
                 }).FirstOrDefaultAsync();
 
             return md;
+        }
+
+        public async Task<MBDetailsViewModel?> GetMBByIdAsync(int id)
+        {
+            MBDetailsViewModel? mb = await _dbContext
+                .MotherBoards
+                .Where (x => x.Id == id)
+                .Select(x => new MBDetailsViewModel()
+                { Name = x.Name,
+                Id = x.Id,
+                Price = x.Price,
+                RamCapacity = x.RamCapacity,
+                ImageUrl= x.ImageUrl,
+                SocketName=x.Socket.Name,
+                VendorName=x.Vendor.Name,
+                VendorId=x.Vendor.Id,
+                SocketId = x.Socket.Id,
+                }).FirstOrDefaultAsync ();
+
+            return mb;
         }
     }
 }

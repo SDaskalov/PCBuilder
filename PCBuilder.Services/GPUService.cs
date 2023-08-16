@@ -20,6 +20,24 @@ namespace PCBuilder.Services
             this.dbContext = dbContext;
         }
 
+        public async Task<GPUFormViewModel?> GetGPUByIdAsync(int id)
+        {
+            GPUFormViewModel? view = await dbContext
+                .GraphicsCards
+                .Where (x => x.Id == id)
+                .Select (x => new GPUFormViewModel
+                {
+                    Id = x.Id,
+                    BuilderId = x.BuilderId,
+                    ImageUrl=x.ImageURL,
+                    MaxWattage = x.MaxWattage,
+                    ModelName = x.ModelName,
+                    Price = x.Price,
+                }).FirstOrDefaultAsync();
+            return view;
+
+        }
+
         public async Task<bool> GPUExistsByModelName(string model)
         {
             bool res = await dbContext.GraphicsCards.AnyAsync(g=>g.ModelName == model);
