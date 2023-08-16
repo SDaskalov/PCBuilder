@@ -6,5 +6,7 @@
         Task CreateAsync(CPUFormViewModel model);
 
         Task<bool> CPUExistsByModelName(string model);
+
+        Task<IEnumerable<CPUFormViewModel>> GetAllAsync();
     }
 }

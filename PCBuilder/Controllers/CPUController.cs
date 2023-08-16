@@ -24,7 +24,7 @@ namespace PCBuilder.Controllers
             _cpuService = cpuService;
         }
 
-              
+
 
         [HttpGet]
 
@@ -71,11 +71,11 @@ namespace PCBuilder.Controllers
             bool vendorExists = await this._vendorCategoryService.VendorExistsById(model.VendorId);
             bool socketExists = await this._socketCategoryService.SocketExistsById(model.SocketId);
 
-            bool CPUExists= await this._cpuService.CPUExistsByModelName(model.ModelName);
+            bool CPUExists = await this._cpuService.CPUExistsByModelName(model.ModelName);
 
             if (!vendorExists || !socketExists)
             {
-               ModelState.AddModelError(nameof(model.VendorId), "CATEGORY DOES NOT EXIST!");
+                ModelState.AddModelError(nameof(model.VendorId), "CATEGORY DOES NOT EXIST!");
                 TempData[ErrorMessage] = "Please check the selected options!";
             }
 
@@ -104,12 +104,20 @@ namespace PCBuilder.Controllers
 
 
 
-            return Redirect("Home");
+            return RedirectToAction("All", "CPU");
 
 
         }
 
+        [HttpGet]
+        public async Task<IActionResult> All()
+        {
+            IEnumerable<CPUFormViewModel> cpus = await _cpuService.GetAllAsync();
 
+            return View(cpus);
+
+
+        }
 
     }
 }

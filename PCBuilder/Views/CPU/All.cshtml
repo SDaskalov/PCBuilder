@@ -1,0 +1,33 @@
+﻿@model IEnumerable<CPUFormViewModel>
+@{
+    ViewBag.Title = "List of all available CPUs";
+}
+
+<h2 class="text-center">@ViewBag.Title</h2>
+<hr />
+
+<div class="text-center row">
+    @foreach (var e in Model)
+    {
+        <div class="card col-4" style="width: 20rem; ">
+            <div class="card-body">
+                <h5 class="card-title mt-1">@e.ModelName</h5>
+                <hr>
+                @if (e.VendorId == 1)
+                {
+                    <img src="https://www.logo.wine/a/logo/Ryzen/Ryzen-AMD-White-Dark-Background-Logo.wine.svg" style="width:100px"   />
+                }
+                else
+                {
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7d/Intel_logo_%282006-2020%29.svg/1005px-Intel_logo_%282006-2020%29.svg.png" style="width:100px" />
+                }
+                <hr>
+                <p class="mb-0"><span class="fw-bold">Price: </span>$@e.Price </p>
+                
+            </div>
+
+            <a asp-controller="CPU" asp-action="Details" asp-route-id="@e.Id" class="btn btn-warning mb-2 w-100 p-3 fw-bold">View Details</a>
+            
+        </div>
+    }
+</div>

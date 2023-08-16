@@ -13,6 +13,8 @@
             this.VendorCategories = new HashSet<CPUVendorCategoryFormModel>();
             this.SocketCategories = new HashSet<SocketCategoryFormModel>();
         }
+
+        public int Id { get; set; }
         [Required]
         [MaxLength(MaxNameLength)]
         public string ModelName { get; set; } = null!;
