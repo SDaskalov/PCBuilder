@@ -18,7 +18,7 @@
         public string ModelName { get; set; } = null!;
 
         [Required]
-        [Range(MinPrice,MaxPrice)]
+        [Range(typeof(decimal), MinPrice,MaxPrice)]
         public decimal Price { get; set; }
         [Required]
         public int SocketId { get; set; }

@@ -24,11 +24,7 @@ namespace PCBuilder.Controllers
             _cpuService = cpuService;
         }
 
-
-        public IActionResult Index()
-        {
-            return View();
-        }
+              
 
         [HttpGet]
 

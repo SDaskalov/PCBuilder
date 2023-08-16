@@ -6,6 +6,7 @@ namespace PCBuilder
     using PCBuilder.Data.Models;
     using PCBuilder.Services;
     using PCBuilder.Services.Contracts;
+    using PCBuilder.Web.Infrastructure.ModelBinders;
 
     //using PCBuilder.Data;
     public class Program
@@ -31,7 +32,11 @@ namespace PCBuilder
                 options.SignIn.RequireConfirmedAccount = false;
             })
                 .AddEntityFrameworkStores<PCBuilderDbContext>();
-            builder.Services.AddControllersWithViews();
+            builder.Services.AddControllersWithViews()
+                .AddMvcOptions(options=>
+                {
+                    options.ModelBinderProviders.Insert(0, new DecimalModelBinderProvider());
+                });
 
             WebApplication app = builder.Build();
 
