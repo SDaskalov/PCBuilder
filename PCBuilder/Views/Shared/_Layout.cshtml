@@ -1,4 +1,15 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Identity
+@using PCBuilder.Data.Models;
+@using PCBuilder.Services.Contracts;
+@using PCBuilder.Web.Infrastructure.Extensions
+@inject IBuilderService BuilderService
+@{
+    bool isUserBuilder = await BuilderService.BuilderAlreadyExcistsByUserId(User.GetId()!);
+
+}
+
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -28,11 +39,13 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
-                       
+
                     </ul>
 
-                    
-                        @if (User.Identity!.IsAuthenticated)
+
+                    @if (User.Identity!.IsAuthenticated)
+                    {
+                        @if (isUserBuilder)
                         {
                             <div class="dropdown" style="padding-right:10px">
                                 <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
@@ -51,7 +64,7 @@
                                 </button>
                                 <ul class="dropdown-menu" aria-labelledby="GPUs">
                                     <li><a class="nav-link text-dark" asp-area="" asp-controller="GraphicsCard" asp-action="All">All GPUs</a></li>
-                                <li><a class="nav-link text-dark" asp-area="" asp-controller="GraphicsCard" asp-action="Add">Add new graphics card</a></li>
+                                    <li><a class="nav-link text-dark" asp-area="" asp-controller="GraphicsCard" asp-action="Add">Add new graphics card</a></li>
 
                                 </ul>
                             </div>
@@ -60,14 +73,14 @@
                                     Motherboards
                                 </button>
                                 <ul class="dropdown-menu" aria-labelledby="MB">
-                                    <li><a class="nav-link text-dark" asp-area="" asp-controller="Motherboard" asp-action="All">All Motherboards</a></li>
-                                    <li><a class="nav-link text-dark" asp-area="" asp-controller="Motherboard" asp-action="Add">Add new Motherboards</a></li>
+                                    <li><a class="nav-link text-dark" asp-area="" asp-controller="MotherBoard" asp-action="All">All Motherboards</a></li>
+                                    <li><a class="nav-link text-dark" asp-area="" asp-controller="MotherBoard" asp-action="Add">Add new Motherboards</a></li>
 
                                 </ul>
                             </div>
-
                         }
-                
+                    }
+
 
                     <partial name="_LoginPartial" />
                 </div>
@@ -82,11 +95,11 @@
 
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; 2023 - PCBuilder 
+            &copy; 2023 - PCBuilder
         </div>
     </footer>
-    
-     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>

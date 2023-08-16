@@ -33,12 +33,14 @@
 		}
 		public static class MotherBoardConstants
 		{
-			public const int MaxNameLength = 50;
+            public const int MinNameLength = 4;
+            public const int MaxNameLength = 50;
 			public const string MaxPrice = "10000";
 			public const string MinPrice = "1";
+			public const int MinRamCapacity = 2;
+            public const int MaxRamCapacity = 2048;
 
-			
-		}
+        }
 		public static class BuilderConstants
 		{
 			public const int MaxNameLength = 50;

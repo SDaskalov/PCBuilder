@@ -20,12 +20,17 @@ namespace PCBuilder
             builder.Services.AddDbContext<PCBuilderDbContext>(options =>
                 options.UseSqlServer(connectionString));
             builder.Services.AddDatabaseDeveloperPageExceptionFilter();
+
+
             builder.Services.AddScoped<IPCBuildService, PCBuildService>();
             builder.Services.AddScoped<IBuilderService, BuilderService>();
             builder.Services.AddScoped<ISocketCategoryService, SocketCategoryService>();
             builder.Services.AddScoped<IVendorCategoryService, VendorCategoriesService>();
             builder.Services.AddScoped<ICPUService,CPUService>();
             builder.Services.AddScoped<IGPUService,GPUService>();
+            builder.Services.AddScoped<IMotherBoardService, MotherBoardService>();
+
+
 
             builder.Services.AddDefaultIdentity<ApplicationUser>(options =>
             {

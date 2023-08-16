@@ -1,0 +1,46 @@
+﻿@model MBDetailsViewModel
+@{
+    ViewBag.Title = "Details";
+}
+
+
+<h2 class="text-center">@ViewBag.Title</h2>
+<hr />
+
+<div class="row">
+    <div class="card w-100">
+        <div class="card-body">
+            <h3 class="card-title text-center">@Model.Name</h3>
+            <hr>
+
+            @if (Model.VendorId == 1)
+            {
+                <center><img src="https://www.logo.wine/a/logo/Ryzen/Ryzen-AMD-White-Dark-Background-Logo.wine.svg" style="width:100px" /></center>
+            }
+            else
+            {
+                <center><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7d/Intel_logo_%282006-2020%29.svg/1005px-Intel_logo_%282006-2020%29.svg.png" style="width:100px" /></center>
+            }
+            <hr>
+            <div style="display:flex">
+            <img src="@Model.ImageUrl" style="width:150px"/>
+            <div style="padding:20px">
+            <p class="mb-0"><span class="fw-bold">Price: </span>@Model.Price</p>
+           
+            <p class="mb-0"><span class="fw-bold">Maximum RAM capacity: </span>@Model.RamCapacity</p>
+
+
+            <p class="mb-0"><span class="fw-bold">Socket: </span>@Model.SocketName</p>
+            <p class="mb-0"><span class="fw-bold">Manufacturer: </span>@Model.VendorName</p>
+                </div>
+            </div>
+        </div>
+
+        <a asp-controller="MotherBoard" asp-action="All" class="btn btn-info mb-2 w-100 p-3 fw-bold">Back to All</a>
+
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

@@ -23,6 +23,13 @@ namespace PCBuilder.Controllers
         [HttpGet]
         public async Task<IActionResult> All()
         {
+            bool isBuilder = await this._builderService.BuilderAlreadyExcistsByUserId(this.User.GetId()!);
+
+            if (!isBuilder)
+            {
+                this.TempData["ErrorMessage"] = "You must be a builder to add PC components.";
+                return this.RedirectToAction("Become", "Builder");
+            }
             IEnumerable<GPUFormViewModel> gpus = await _gpuService.GetAllAsync();
 
             return View(gpus);
@@ -32,6 +39,13 @@ namespace PCBuilder.Controllers
         [HttpGet]
         public async Task<IActionResult> Details(int id)
         {
+            bool isBuilder = await this._builderService.BuilderAlreadyExcistsByUserId(this.User.GetId()!);
+
+            if (!isBuilder)
+            {
+                this.TempData["ErrorMessage"] = "You must be a builder to add PC components.";
+                return this.RedirectToAction("Become", "Builder");
+            }
             GPUFormViewModel? gpu = await _gpuService.GetGPUDetailsAsync(id);
 
             return View(gpu);
