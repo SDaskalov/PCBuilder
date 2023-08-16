@@ -35,7 +35,7 @@ namespace PCBuilder.Controllers
 
             if (!isBuilder)
             {
-                this.TempData[ErrorMessage] = "You must be a builder to add PC components.";
+                this.TempData["ErrorMessage"] = "You must be a builder to add PC components.";
                 return this.RedirectToAction("Become", "Builder");
             }
 
@@ -76,14 +76,15 @@ namespace PCBuilder.Controllers
             if (!vendorExists || !socketExists)
             {
                 ModelState.AddModelError(nameof(model.VendorId), "CATEGORY DOES NOT EXIST!");
-                TempData[ErrorMessage] = "Please check the selected options!";
+                TempData["ErrorMessage"] = "Please check the selected options!";
             }
 
 
             if (CPUExists)
             {
                 ModelState.AddModelError(nameof(model.VendorId), "Model is alreay added.");
-                TempData[ErrorMessage] = "Model is already added!";
+                TempData["ErrorMessage"] = "Model is already added!";
+
             }
             if (!ModelState.IsValid)
             {
@@ -95,7 +96,7 @@ namespace PCBuilder.Controllers
             try
             {
 
-                await this._cpuService.CreateAsync(model);
+                await this._cpuService.CreateAsync(model,this.User.GetId()!);
             }
             catch (Exception)
             {
@@ -103,7 +104,7 @@ namespace PCBuilder.Controllers
             }
 
 
-
+            this.TempData["SuccessMessage"] = "Successfully added CPU!";
             return RedirectToAction("All", "CPU");
 
 
@@ -122,7 +123,7 @@ namespace PCBuilder.Controllers
         [HttpGet]
         public async Task<IActionResult> Details(int id)
         {
-            CPUFormViewModel? cpus = await _cpuService.GetCPUDetailsAsync(id);
+            CPUDetailsViewModel? cpus = await _cpuService.GetCPUDetailsAsync(id);
 
             return View(cpus);
 

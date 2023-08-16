@@ -25,7 +25,7 @@ namespace PCBuilder
             builder.Services.AddScoped<ISocketCategoryService, SocketCategoryService>();
             builder.Services.AddScoped<IVendorCategoryService, VendorCategoriesService>();
             builder.Services.AddScoped<ICPUService,CPUService>();
-
+            builder.Services.AddScoped<IGPUService,GPUService>();
 
             builder.Services.AddDefaultIdentity<ApplicationUser>(options =>
             {

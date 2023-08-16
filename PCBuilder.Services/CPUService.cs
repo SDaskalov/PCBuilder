@@ -7,6 +7,7 @@
     using PCBuilder.Web.ViewModels.CPU;
     using System.Collections.Generic;
 
+
     public class CPUService : ICPUService
     {
 
@@ -27,7 +28,7 @@
         }
 
 
-        public async Task CreateAsync(CPUFormViewModel model)
+        public async Task CreateAsync(CPUFormViewModel model,string id)
         {
             CPU cPU = new CPU()
             {
@@ -36,7 +37,10 @@
                 MaxWattage = model.MaxWattage,
                 IntegratedGraphics=model.IntegratedGraphics,
                 ModelName = model.ModelName,
-                VendorId = model.VendorId
+                VendorId = model.VendorId,
+                BuilderId=Guid.Parse(id)
+                
+               
             };
 
 
@@ -66,12 +70,12 @@
                 return res;
         }
 
-        public async Task<CPUFormViewModel?> GetCPUDetailsAsync(int id)
+        public async Task<CPUDetailsViewModel?> GetCPUDetailsAsync(int id)
         {
-            CPUFormViewModel? model = await this._dbContext
+            CPUDetailsViewModel? model = await this._dbContext
                 .CPUs
                 .Where (c => c.Id == id)
-                .Select(c => new CPUFormViewModel() 
+                .Select(c => new CPUDetailsViewModel() 
                 { 
                     Id = c.Id,
                     IntegratedGraphics =c.IntegratedGraphics,

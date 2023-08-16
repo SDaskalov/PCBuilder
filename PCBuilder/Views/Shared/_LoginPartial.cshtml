@@ -1,14 +1,26 @@
 ﻿@using Microsoft.AspNetCore.Identity
 @using PCBuilder.Data.Models;
+@using PCBuilder.Services.Contracts;
+@using PCBuilder.Web.Infrastructure.Extensions
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
+
+
+@inject IBuilderService BuilderService
+@{
+    bool isUserBuilder = await BuilderService.BuilderAlreadyExcistsByUserId(User.GetId()!);
+   
+}
 
 <ul class="navbar-nav">
 @if (SignInManager.IsSignedIn(User))
 {
-        <li class="nav-item">
-            <a class="nav-link text-dark" asp-area="" asp-controller="Builder" asp-action="Become" >Become a PC builder!</a>
+        @if (!isUserBuilder)
+        {
+            <li class="nav-item">
+                <a class="nav-link text-dark" asp-area="" asp-controller="Builder" asp-action="Become" >Become a PC builder!</a>
         </li>
+        }
     <li class="nav-item">
         <a  class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @User.Identity?.Name!</a>
     </li>

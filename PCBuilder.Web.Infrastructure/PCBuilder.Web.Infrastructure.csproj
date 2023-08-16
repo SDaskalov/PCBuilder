@@ -7,11 +7,14 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\PCBuilder.Services\PCBuilder.Services.csproj" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.2.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.2.0" />
+    <ProjectReference Include="..\PCBuilder.Common\PCBuilder.Common.csproj" />
+    <ProjectReference Include="..\PCBuilder.Data.Models\PCBuilder.Data.Models.csproj" />
+    <ProjectReference Include="..\PCBuilder.Data\PCBuilder.Data.csproj" />
+    <ProjectReference Include="..\PCBuilder.Services\PCBuilder.Services.csproj" />
   </ItemGroup>
 
 </Project>

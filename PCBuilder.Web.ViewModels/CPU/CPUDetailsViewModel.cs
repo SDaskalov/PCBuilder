@@ -5,10 +5,10 @@
     using System.ComponentModel.DataAnnotations;
     using static PCBuilder.Common.ValidationConstants.CpuConstants;
 
-    public class CPUFormViewModel
+    public class CPUDetailsViewModel
     {
 
-        public CPUFormViewModel()
+        public CPUDetailsViewModel()
         {
             this.VendorCategories = new HashSet<CPUVendorCategoryFormModel>();
             this.SocketCategories = new HashSet<SocketCategoryFormModel>();
@@ -32,6 +32,8 @@
         [Range(MinWatts, MaxWatts)]
         public int MaxWattage { get; set; }
 
+        public string VendorName { get; set; } = null!;
+        public string SocketName { get; set; } = null!;
 
         public IEnumerable<CPUVendorCategoryFormModel> VendorCategories { get; set; }
 

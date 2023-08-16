@@ -14,7 +14,17 @@
             public const int MinWatts = 1;
             public const int MaxWatts = 1000;
         }
-		public static class CaseConstants
+
+        public static class GPUConstants
+        {
+            public const int MaxNameLength = 50;
+            public const string MaxPrice = "10000";
+            public const string MinPrice = "1";
+            public const int MinWatts = 1;
+            public const int MaxWatts = 1000;
+            public const int MaxLinkLength = 2048;
+        }
+        public static class CaseConstants
 		{
 			public const int MaxNameLength = 50;
 			public const string MaxPrice = "10000";

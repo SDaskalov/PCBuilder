@@ -3,12 +3,12 @@
     using PCBuilder.Web.ViewModels.CPU;
     public interface ICPUService
     {
-        Task CreateAsync(CPUFormViewModel model);
+        Task CreateAsync(CPUFormViewModel model,string id);
 
         Task<bool> CPUExistsByModelName(string model);
 
         Task<IEnumerable<CPUFormViewModel>> GetAllAsync();
 
-        Task<CPUFormViewModel?> GetCPUDetailsAsync(int id);
+        Task<CPUDetailsViewModel?> GetCPUDetailsAsync(int id);
     }
 }
