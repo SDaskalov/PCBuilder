@@ -29,5 +29,9 @@ namespace PCBuilder.Web.ViewModels.PCConfiguration
 
         [Required]
         public string Ram { get; set; } = null!;
+
+        public Guid HighestBidderId { get; set; }
+
+        public DateTime CreatedOn { get; set; }
     }
 }

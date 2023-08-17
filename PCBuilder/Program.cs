@@ -1,6 +1,6 @@
 namespace PCBuilder
 {
-
+    using Microsoft.AspNetCore.Mvc;
     using Microsoft.EntityFrameworkCore;
     using PCBuilder.Data;
     using PCBuilder.Data.Models;
@@ -41,6 +41,7 @@ namespace PCBuilder
                 .AddMvcOptions(options=>
                 {
                     options.ModelBinderProviders.Insert(0, new DecimalModelBinderProvider());
+                    options.Filters.Add<AutoValidateAntiforgeryTokenAttribute>();
                 });
 
             WebApplication app = builder.Build();

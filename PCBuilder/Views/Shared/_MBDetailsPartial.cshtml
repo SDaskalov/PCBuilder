@@ -1,4 +1,12 @@
-﻿@model MBDetailsViewModel
+﻿@using PCBuilder.Services.Contracts;
+@using PCBuilder.Web.Infrastructure.Extensions
+@inject IBuilderService BuilderService
+@{
+    bool isUserBuilder = await BuilderService.BuilderAlreadyExcistsByUserId(User.GetId()!);
+
+}
+
+@model MBDetailsViewModel
 
 <div class="card col-4" style="width: 19rem; ">
     <div class="card-body">
@@ -25,8 +33,14 @@
 
             <p class="mb-0"><span class="fw-bold">Socket: </span>@Model.SocketName</p>
             <p class="mb-0"><span class="fw-bold">Manufacturer: </span>@Model.VendorName</p>
+               @if (isUserBuilder)
+                        {
             <p class="mb-0"><span class="fw-bold">Standalone Price: </span>$@Model.Price</p>
+                        }
         </div>
     </div>
+       @if (isUserBuilder)
+                        {
     <a asp-controller="MotherBoard" asp-action="Details" asp-route-id="@Model.Id" class="btn btn-warning mb-2 w-100 p-3 fw-bold">Details</a>
+                        }
 </div>

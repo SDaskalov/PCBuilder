@@ -36,10 +36,16 @@
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                      
+                        <li>
+                            @if (User.Identity!.IsAuthenticated)
+                            {
+                                @if (isUserBuilder)
+                                {
+                                    <a class="btn btn-primary btn-lg active" asp-area="" asp-controller="PCBuild" asp-action="Create">Create a new PC</a>
+                                }
+                            }
                         </li>
-
                     </ul>
 
 

@@ -6,5 +6,9 @@
     {
         Task<IEnumerable<PCBuildViewModel>> LastFourBuildsAsync();
         Task<PCBuildDetailsViewModel?> GetPCDetailsAsync(int id);
+
+        Task BidForPcAsync(int id, string bidderid);
+
+        Task CheckSaleDateForPCAsync();
     }
 }

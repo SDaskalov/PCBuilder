@@ -1,23 +1,37 @@
-﻿@model GPUFormViewModel
+﻿@using PCBuilder.Services.Contracts;
+@using PCBuilder.Web.Infrastructure.Extensions
+@inject IBuilderService BuilderService
+@{
+    bool isUserBuilder = await BuilderService.BuilderAlreadyExcistsByUserId(User.GetId()!);
+
+}
+
+@model GPUFormViewModel
 
 
 <div class="card col-4" style="width: 19rem; ">
-        <div class="card-body">
-            <h3 class="card-title text-center">@Model.ModelName</h3>
-            <hr>
-           
-                <img src="@Model.ImageUrl" style="width:200px" />
-                <hr />
-                <div>
-                   
+    <div class="card-body">
+        <h3 class="card-title text-center">@Model.ModelName</h3>
+        <hr>
 
-                    <p class="mb-0"><span class="fw-bold">Maximum wattage: </span>@Model.MaxWattage</p>
-            <p class="mb-0"><span class="fw-bold">Standalone price: </span>$@Model.Price </p>
-                </div>
-       
+        <img src="@Model.ImageUrl" style="width:200px" />
+        <hr />
+        <div>
+
+
+            <p class="mb-0"><span class="fw-bold">Maximum wattage: </span>@Model.MaxWattage</p>
+            @if (isUserBuilder)
+            {
+                <p class="mb-0"><span class="fw-bold">Standalone price: </span>$@Model.Price </p>
+            }
         </div>
-    <a asp-controller="GraphicsCard" asp-action="Details" asp-route-id="@Model.Id" class="btn btn-warning mb-2 w-100 p-3 fw-bold">Details</a>
+
     </div>
+    @if (isUserBuilder)
+    {
+        <a asp-controller="GraphicsCard" asp-action="Details" asp-route-id="@Model.Id" class="btn btn-warning mb-2 w-100 p-3 fw-bold">Details</a>
+    }
+</div>
 
 
 @section Scripts {

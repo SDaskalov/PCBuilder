@@ -1,25 +1,69 @@
-﻿@using PCBuilder.Services.Contracts;
+﻿@using Microsoft.AspNetCore.Identity
+@using PCBuilder.Data.Models;
+@using PCBuilder.Services.Contracts;
+@using PCBuilder.Web.Infrastructure.Extensions
 @model PCBuildDetailsViewModel
 @inject IGPUService gpuService
 @inject ICPUService cpuService
 @inject IComputerCaseService caseService
 @inject IMotherBoardService mbService
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
 @{
     var gpu = await gpuService.GetGPUByIdAsync(Model.GpuId);
     var cpu = await cpuService.GetCPUByIdAsync(Model.CpuId);
     var cas = await caseService.GetCaseByIdAsync(Model.CaseId);
     var mb = await mbService.GetMBByIdAsync(Model.MotherboardId);
+
+    var price = gpu.Price + cpu.Price + mb.Price + cas.Price;
+
+    TimeSpan timeSpan = Model.CreatedOn.AddDays(10) - DateTime.Now;
+
+    string testDate = Model.CreatedOn.AddDays(10).ToString("dd-MM-yyyy h:mm:ss tt");
+    string timeText = timeSpan.ToString(@"dd\.hh\:mm\:ss");
+
 }
-
-
 @{
-    ViewData["Title"] = "Home Page";
+    ViewBag.Title = testDate;
 }
+<script>
 
-<div class="text-center">
-    <h1 class="display-4">Details</h1>
+    var dt = '@ViewBag.Title';
+    var dateAr = dt.split('-')
 
-</div>
+    var newDate = dateAr[1] + '/' + dateAr[0] + '/' + dateAr[2]
+
+    var end = new Date(dateAr[1] + '/' + dateAr[0] + '/'+dateAr[2]);
+
+
+    var _sec = 1000;
+    var _min = _sec * 60;
+    var _hour = _min * 60;
+    var _day = _hour * 24;
+    var timer
+
+    function showRemaining() {
+
+        var now = new Date();
+        var distance = end - now;
+
+        var days = Math.floor(distance / _day);
+        var _hours = Math.floor((distance % _day) / _hour);
+        var _minutes = Math.floor((distance % _hour) / _min);
+        var _secss = Math.floor((distance % _min) / _sec);
+
+
+        document.getElementById('timercountdown1').innerHTML = 'Days: ' + days;
+        document.getElementById('timercountdown2').innerHTML = 'Hours: ' + _hours + ' : ' + _minutes + ' : ' + _secss;
+      
+
+
+    };
+
+    timer = setInterval(showRemaining, 1000);
+
+</script>
 
 
 <div class="row">
@@ -41,12 +85,38 @@
                     <div class="col-sm-4">
                         <div class="card">
                             <div class="card-body">
-                                <p><span class="fw-bold">Current highest bid: </span>@Model.HighestBid</p>
-
-                                <p><span class="fw-bold">Maximum RAM capacity: </span>@Model.Ram</p>
+                                <p>
+                                    <span class="fw-bold">Total standalone cost: </span>$
+                                    @price
+                                </p>
+                                <h3>Remainging time:</h3>
                                 <hr />
+                                <h4 id="timercountdown1">@timeText</h4>
+                                <h4 id="timercountdown2"></h4>
+                                
+                                <h3><span class="fw-bold">Current highest bid: </span> <br /><b>$@Model.HighestBid</b></h3>
+                                <hr />
+                                <h5>*Increment is $100.</h5>
 
-                                <a class="btn btn-primary" type="submit" asp-controller="PCBuild" asp-action="Bid">Bid Now!</a>
+                                <hr />
+                                @if (User.Identity!.IsAuthenticated)
+                                {
+                                    @if (Model.HighestBidderId == Guid.Parse(User.GetId()!))
+                                    {
+                                        <span>Congratulations! <br/>You currently hold the highest bid!</span><br/>
+                                        <a class="btn btn-primary disabled" type="submit" asp-controller="PCBuild" asp-action="Bid" asp-route-id="@Model.Id">Bid Now!</a>
+                                    }
+                                    else
+                                    {
+                                        <a class="btn btn-primary" type="submit" asp-controller="PCBuild" asp-action="Bid" asp-route-id="@Model.Id">Bid Now!</a>
+
+                                    }
+                                }
+                                else
+                                {
+                                    <span>Please login if you would like to paricipate in the auction:</span>
+                                    <a class="btn btn-primary text-dark" asp-area="Identity" asp-page="/Account/Login">Login</a>
+                                }
                             </div>
                         </div>
                     </div>
@@ -68,6 +138,7 @@
         </div>
     </div>
 </div>
+
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
     }

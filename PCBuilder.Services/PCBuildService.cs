@@ -3,6 +3,7 @@
     using Microsoft.EntityFrameworkCore;
 
     using PCBuilder.Data;
+    using PCBuilder.Data.Models;
     using PCBuilder.Services.Contracts;
     using PCBuilder.Web.ViewModels.PCConfiguration;
     using System.Collections.Generic;
@@ -16,6 +17,43 @@
         public PCBuildService(PCBuilderDbContext dbContext)
         {
             this.dbContext = dbContext;
+        }
+
+        public async Task BidForPcAsync(int id,string bidder)
+        {
+            PCConfiguration? pc = await this.dbContext
+                .PCConfigurations
+                .Where(c => c.Id == id)
+                .FirstOrDefaultAsync();
+             
+            if (pc != null)
+            {
+                pc.BidderId=Guid.Parse(bidder);
+                pc.HighestBid = pc.HighestBid + 100;
+            }
+
+            await this.dbContext.SaveChangesAsync();
+
+                
+        }
+
+        public async Task CheckSaleDateForPCAsync()
+        {
+
+
+           var activeBuilds= await this.dbContext.PCConfigurations.Where(x=>x.IsDeleted==false).ToListAsync();
+
+            
+            foreach (var build in activeBuilds)
+            {
+                if (build.CreatedOn.AddDays(10) > DateTime.Now)
+                {
+                    build.IsDeleted=true;
+                }
+            }
+             this.dbContext.PCConfigurations.UpdateRange(activeBuilds);
+            await this.dbContext.SaveChangesAsync();
+
         }
 
         public async Task<PCBuildDetailsViewModel?> GetPCDetailsAsync(int id)
@@ -33,7 +71,9 @@
                     ImageUrl = x.ComputerCase.ImageUrl,
                     MotherboardId = x.MotherBoardId,
                     Ram = x.MotherBoard.RamCapacity.ToString(),
-                    CaseId = x.CaseId
+                    CaseId = x.CaseId,
+                    CreatedOn = x.CreatedOn,
+                    HighestBidderId=x.BidderId?? new Guid()
 
                 }).FirstOrDefaultAsync();
 
