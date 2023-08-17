@@ -24,6 +24,19 @@
             return result;
         }
 
+        public async Task<string> BuilderIdByUserId(string userId)
+        {
+            var res = await this.dbContext
+                 .Builders
+                 .FirstOrDefaultAsync(b => b.UserId.ToString() == userId);
+
+            string result= res.Id.ToString();
+            return result;
+
+
+
+        }
+
         public async Task<bool> BuilderNameIsTaken(string name)
         {
             bool result = await this.dbContext

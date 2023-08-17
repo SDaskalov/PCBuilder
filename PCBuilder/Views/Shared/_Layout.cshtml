@@ -38,6 +38,7 @@
                     <ul class="navbar-nav flex-grow-1">
                       
                         <li>
+                            <a class="btn btn-primary btn-lg active" asp-area="" asp-controller="PCBuild" asp-action="All">Browse all pc Builds!</a>
                             @if (User.Identity!.IsAuthenticated)
                             {
                                 @if (isUserBuilder)

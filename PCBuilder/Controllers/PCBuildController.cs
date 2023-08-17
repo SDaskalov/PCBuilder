@@ -8,6 +8,10 @@ namespace PCBuilder.Controllers
     using PCBuilder.Data.Models;
     using PCBuilder.Services.Contracts;
     using PCBuilder.Web.Infrastructure.Extensions;
+    using PCBuilder.Web.ViewModels.ComputerCase;
+    using PCBuilder.Web.ViewModels.CPU;
+    using PCBuilder.Web.ViewModels.GPU;
+    using PCBuilder.Web.ViewModels.Motherboard;
     using PCBuilder.Web.ViewModels.PCConfiguration;
     using static PCBuilder.Web.Infrastructure.Extensions.ClaimsPrincipalExtensions;
 
@@ -17,12 +21,21 @@ namespace PCBuilder.Controllers
 
         private readonly IBuilderService _builderService;
         private readonly IPCBuildService _pcBuildService;
+        private readonly ICPUService  _cpusService;
+        private readonly IGPUService _gpusService;
+        private readonly IComputerCaseService _computerCaseService;
+        private readonly IMotherBoardService _motherBoardService;
 
-        public PCBuildController(IBuilderService builderService, IPCBuildService pcBuildService)
+        public PCBuildController(IBuilderService builderService, IPCBuildService pCBuildService, ICPUService cPUService,IGPUService gPUService, IComputerCaseService computerCaseService, IMotherBoardService motherBoardService)
         {
-            _builderService = builderService;
-            _pcBuildService = pcBuildService;
+            this._builderService = builderService;
+            this._pcBuildService = pCBuildService;
+            this._cpusService = cPUService;
+            this._gpusService = gPUService;
+            this._computerCaseService = computerCaseService;
+            this._motherBoardService = motherBoardService;
         }
+       
 
        
         public async Task<IActionResult> Bid(int id)
@@ -60,11 +73,124 @@ namespace PCBuilder.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> Details(int id)
         {
+            var check = await _pcBuildService.CheckifPCExistsByIdAsync(id);
+
+            if (!check)
+            {
+                return RedirectToAction("Index", "Home");
+            }
 
             PCBuildDetailsViewModel? gpu = await _pcBuildService.GetPCDetailsAsync(id);
 
 
             return View(gpu);
         }
+
+        [AllowAnonymous]
+        [HttpGet]
+
+        public async Task<IActionResult> All()
+        {
+                      
+
+            IEnumerable<PCBuildDetailsViewModel> pcs = await this._pcBuildService.AllBuildsAsync();
+
+            return View(pcs);
+
+        }
+
+        [HttpGet]
+
+        public async Task<IActionResult> Create()
+        {
+
+            bool isBuilder = await this._builderService.BuilderAlreadyExcistsByUserId(this.User.GetId()!);
+
+            if (!isBuilder)
+            {
+                this.TempData["ErrorMessage"] = "You must be a builder to add PC components.";
+                return this.RedirectToAction("Become", "Builder");
+            }
+
+            PCBuildCreateFormViewModel model = new PCBuildCreateFormViewModel()
+            {
+
+                CpuCategories = await this._cpusService.GetAllCPUCategoriesAsync(),
+                GPUCategories = await this._gpusService.GetAllAsync(),
+                MotherboardCategories = await this._motherBoardService.GetAllAsync(),
+                CaseCategories = await this._computerCaseService.GetAllAsync()
+                
+            };
+
+            return View(model);
+
+        }
+
+
+        [HttpPost]
+
+        public async Task<IActionResult> Create(PCBuildCreateFormViewModel model)
+        {
+
+            bool isBuilder = await this._builderService.BuilderAlreadyExcistsByUserId(this.User.GetId()!);
+
+            if (!isBuilder)
+            {
+                this.TempData["ErrorMessage"] = "You must be a builder to add PC components.";
+                return this.RedirectToAction("Become", "Builder");
+            }
+
+           
+            CPUDetailsViewModel? cpuExists = await this._cpusService.GetCPUByIdAsync(model.CPUId);
+            GPUFormViewModel? gpuExists = await this._gpusService.GetGPUByIdAsync(model.GPUId);
+            ComputerCaseFormViewModel? caseExists = await this._computerCaseService.GetCaseByIdAsync(model.ComputerCaseId);
+            MBDetailsViewModel? mbExists = await this._motherBoardService.GetMBByIdAsync(model.MotherboardId);
+
+
+            if (cpuExists == null || caseExists==null|| mbExists==null)
+            {
+                ModelState.AddModelError(nameof(model.Name), "CATEGORY DOES NOT EXIST!");
+                TempData["ErrorMessage"] = "Please check the selected options!";
+            }
+            model.CPUPower = cpuExists.MaxWattage;
+            if (gpuExists != null)
+            {
+                model.GpuPower = gpuExists.MaxWattage;
+            }
+
+            if (!ModelState.IsValid)
+            {
+                model.CaseCategories = await this._computerCaseService.GetAllAsync();
+                model.CpuCategories = await this._cpusService.GetAllCPUCategoriesAsync();
+                model.GPUCategories = await this._gpusService.GetAllAsync();
+                model.MotherboardCategories = await this._motherBoardService.GetAllAsync();
+
+               
+
+                    return View(model);
+            }
+
+            
+
+
+            try
+            {
+                string builderId = await this._builderService.BuilderIdByUserId(this.User.GetId()!);
+                await this._pcBuildService.CreateAsync(model, builderId, this.User.GetId()!);
+            }
+            catch (Exception e)
+            {
+                this.TempData["ErrorMessage"] = e.InnerException.Message;
+            }
+
+
+            this.TempData["SuccessMessage"] = "Successfully added New PC!";
+            return RedirectToAction("Index", "Home");
+
+
+        }
+
+
+
     }
 }

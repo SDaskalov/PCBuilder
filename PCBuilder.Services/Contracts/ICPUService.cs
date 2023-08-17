@@ -14,5 +14,7 @@
         Task<CPUDetailsViewModel?> GetCPUDetailsAsync(int id);
 
         Task<CPUDetailsViewModel?> GetCPUByIdAsync(int id);
+
+        Task<IEnumerable<CPUDetailsViewModel>> GetAllCPUCategoriesAsync();
     }
 }

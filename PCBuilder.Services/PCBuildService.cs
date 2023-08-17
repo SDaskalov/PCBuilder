@@ -19,40 +19,69 @@
             this.dbContext = dbContext;
         }
 
-        public async Task BidForPcAsync(int id,string bidder)
+        public async Task BidForPcAsync(int id, string bidder)
         {
             PCConfiguration? pc = await this.dbContext
                 .PCConfigurations
-                .Where(c => c.Id == id)
+                .Where(c => c.Id == id && c.IsDeleted==false)
                 .FirstOrDefaultAsync();
-             
+
             if (pc != null)
             {
-                pc.BidderId=Guid.Parse(bidder);
+                pc.BidderId = Guid.Parse(bidder);
                 pc.HighestBid = pc.HighestBid + 100;
             }
 
             await this.dbContext.SaveChangesAsync();
 
-                
+
         }
 
         public async Task CheckSaleDateForPCAsync()
         {
 
 
-           var activeBuilds= await this.dbContext.PCConfigurations.Where(x=>x.IsDeleted==false).ToListAsync();
+            var activeBuilds = await this.dbContext.PCConfigurations.Where(x => x.IsDeleted == false).ToListAsync();
 
-            
+
             foreach (var build in activeBuilds)
             {
                 if (build.CreatedOn.AddDays(10) > DateTime.Now)
                 {
-                    build.IsDeleted=true;
+                    build.IsDeleted = true;
                 }
             }
-             this.dbContext.PCConfigurations.UpdateRange(activeBuilds);
+            this.dbContext.PCConfigurations.UpdateRange(activeBuilds);
             await this.dbContext.SaveChangesAsync();
+
+        }
+
+        public async Task CreateAsync(PCBuildCreateFormViewModel model, string id, string userId)
+        {
+
+            PCConfiguration pc = new PCConfiguration()
+            {
+                CreatedOn = DateTime.Now,
+                BidderId = Guid.Parse(userId),
+                BuilderId = Guid.Parse(id),
+                CaseId = model.ComputerCaseId,
+                CPUId = model.CPUId,
+                GraphicsCardId = model.GPUId,
+                HighestBid = model.InitialRequestedBid,
+                MotherBoardId = model.MotherboardId,
+                Name = model.Name,
+
+            };
+
+
+            pc.TotalSystemWattage = model.CPUPower + model.GpuPower;
+
+
+            await this.dbContext.PCConfigurations.AddAsync(pc);
+            await this.dbContext.SaveChangesAsync();
+
+
+
 
         }
 
@@ -60,25 +89,37 @@
         {
             PCBuildDetailsViewModel? pc = await dbContext
                 .PCConfigurations
-                .Where(x => x.Id == id)
+                .Where(x => x.Id == id && x.IsDeleted==false)
                 .Select(x => new PCBuildDetailsViewModel()
                 {
                     Id = x.Id,
                     Name = x.Name,
                     CpuId = x.CPUId,
                     HighestBid = x.HighestBid.ToString(),
-                    GpuId = x.GraphicsCardId?? 0,
+                    GpuId = x.GraphicsCardId ?? 0,
                     ImageUrl = x.ComputerCase.ImageUrl,
                     MotherboardId = x.MotherBoardId,
                     Ram = x.MotherBoard.RamCapacity.ToString(),
                     CaseId = x.CaseId,
                     CreatedOn = x.CreatedOn,
-                    HighestBidderId=x.BidderId?? new Guid()
+                    HighestBidderId = x.BidderId ?? new Guid()
 
                 }).FirstOrDefaultAsync();
 
             return pc;
         }
+
+        public async Task<bool> CheckifPCExistsByIdAsync(int id)
+        {
+          bool res= await dbContext
+                .PCConfigurations
+                .Where(x => x.Id == id && x.IsDeleted == false)
+                .AnyAsync();
+
+            return res;
+        }
+
+
 
         public async Task<IEnumerable<PCBuildViewModel>> LastFourBuildsAsync()
         {
@@ -96,6 +137,29 @@
                     Gpu = s.GraphicsCard == null ? "NA" : s.GraphicsCard.ModelName,
                     HighestBid = s.HighestBid.ToString(),
                     Motherboard = s.MotherBoard.Name,
+                    Ram = s.MotherBoard.RamCapacity.ToString()
+
+                })
+           .ToArrayAsync();
+            return result;
+        }
+        public async Task<IEnumerable<PCBuildDetailsViewModel>> AllBuildsAsync()
+        {
+            IEnumerable<PCBuildDetailsViewModel> result = await this.dbContext
+                .PCConfigurations
+                .Where(c => c.IsDeleted == false)
+                .OrderBy(c => c.CreatedOn)
+                .Select(s => new PCBuildDetailsViewModel()
+                {
+                    Id = s.Id,
+                    Name = s.Name,
+                    ImageUrl = s.ComputerCase.ImageUrl,
+                    CreatedOn = s.CreatedOn,
+                    MotherboardId = s.MotherBoard.Id,
+                    CaseId = s.CaseId,
+                    CpuId = s.CPUId,
+                    HighestBid = s.HighestBid.ToString(),
+
                     Ram = s.MotherBoard.RamCapacity.ToString()
 
                 })

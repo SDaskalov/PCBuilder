@@ -13,5 +13,7 @@
         Task<GPUFormViewModel?> GetGPUDetailsAsync(int id);
 
         Task<GPUFormViewModel?> GetGPUByIdAsync(int id);
+
+
     }
 }
