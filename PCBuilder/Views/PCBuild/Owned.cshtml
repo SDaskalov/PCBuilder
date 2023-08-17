@@ -1,0 +1,89 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using PCBuilder.Data.Models;
+@using PCBuilder.Services.Contracts;
+@using PCBuilder.Web.Infrastructure.Extensions
+@model IEnumerable<PCBuildDetailsViewModel>
+@inject IGPUService gpuService
+@inject ICPUService cpuService
+@inject IComputerCaseService caseService
+@inject IMotherBoardService mbService
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+
+@foreach (var build in Model)
+{
+    TimeSpan timeSpan = build.CreatedOn.AddDays(10) - DateTime.Now;
+
+    string testDate = build.CreatedOn.AddDays(10).ToString("dd-MM-yyyy h:mm:ss tt");
+    string timeText = timeSpan.ToString(@"dd\.hh\:mm\:ss");
+
+
+    <div class="row">
+        <div class="card w-100">
+            <div class="card-body">
+                <h3 class="card-title text-center">@build.Name</h3>
+                <hr>
+
+
+                <div>
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <div class="card">
+                                <div class="card-body">
+                                    <img src="@build.ImageUrl" style="width:350px" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="card">
+                                <div class="card-body">
+
+                                    <h3>Remainging time:</h3>
+                                    <hr />
+                                    <h4 id="timercountdown1">@timeText</h4>
+                                    <h4 id="timercountdown2"></h4>
+
+                                    <h3><span class="fw-bold">Current highest bid: </span> <br /><b>$@build.HighestBid</b></h3>
+                                    <hr />
+
+                                    @if (User.Identity!.IsAuthenticated)
+                                    {
+
+                                        <br />
+                                        @if (build.HighestBidderId == Guid.Parse(User.GetId()!))
+                                        {
+
+                                            <a class="btn btn-primary" asp-controller="PCBuild" asp-action="Details"
+                                               asp-route-id="@build.Id"> @build.Name</a>
+                                        }
+                                        else
+                                        {
+                                            <a class="btn btn-primary" asp-controller="PCBuild" asp-action="Details"
+                                               asp-route-id="@build.Id"> @build.Name</a>
+
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <span>Please login if you would like to paricipate in the auction:</span>
+                                        <a class="btn btn-primary text-dark" asp-area="Identity" asp-page="/Account/Login">Login</a>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                        <hr />
+
+                    </div>
+                </div>
+
+
+
+            </div>
+        </div>
+    </div>
+}
+<a asp-controller="Home" asp-action="Index" class="btn btn-info mb-2 w-100 p-3 fw-bold">Back to Home</a>
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    }

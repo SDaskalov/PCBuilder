@@ -32,6 +32,7 @@
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
+            builder.Entity<PCConfiguration>().Property(p => p.IsSold).HasDefaultValue(false);
             builder.Entity<PCConfiguration>().Property(p=>p.IsDeleted).HasDefaultValue(false);
             builder.Entity<CPU>().Property(p => p.IsDeleted).HasDefaultValue(false);
             builder.Entity<GraphicsCard>().Property(p => p.IsDeleted).HasDefaultValue(false);

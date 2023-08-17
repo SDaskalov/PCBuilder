@@ -32,6 +32,11 @@ namespace PCBuilder.Web.ViewModels.PCConfiguration
 
         public Guid HighestBidderId { get; set; }
 
+
+        public Guid CreatorId { get; set; }
+
         public DateTime CreatedOn { get; set; }
+
+        public bool isSold { get; set; }
     }
 }

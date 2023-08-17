@@ -9,6 +9,17 @@
 @inject IMotherBoardService mbService
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
+@inject IBuilderService BuilderService
+@{
+    bool isUserBuilder = await BuilderService.BuilderAlreadyExcistsByUserId(User.GetId()!);
+
+    var creator = await BuilderService.BuilderIdByUserId(User.GetId()!);
+
+    if (creator == null)
+    {
+        creator = "not this one";
+    }
+}
 
 @{
     var gpu = await gpuService.GetGPUByIdAsync(Model.GpuId);
@@ -17,7 +28,7 @@
     var mb = await mbService.GetMBByIdAsync(Model.MotherboardId);
 
     var price = gpu.Price + cpu.Price + mb.Price + cas.Price;
-
+    var power = gpu.MaxWattage + cpu.MaxWattage + 50;
     TimeSpan timeSpan = Model.CreatedOn.AddDays(10) - DateTime.Now;
 
     string testDate = Model.CreatedOn.AddDays(10).ToString("dd-MM-yyyy h:mm:ss tt");
@@ -34,7 +45,7 @@
 
     var newDate = dateAr[1] + '/' + dateAr[0] + '/' + dateAr[2]
 
-    var end = new Date(dateAr[1] + '/' + dateAr[0] + '/'+dateAr[2]);
+    var end = new Date(dateAr[1] + '/' + dateAr[0] + '/' + dateAr[2]);
 
 
     var _sec = 1000;
@@ -56,13 +67,15 @@
 
         document.getElementById('timercountdown1').innerHTML = 'Days: ' + days;
         document.getElementById('timercountdown2').innerHTML = 'Hours: ' + _hours + ' : ' + _minutes + ' : ' + _secss;
-      
+
 
 
     };
 
     timer = setInterval(showRemaining, 100);
-
+    window.setTimeout(function () {
+        window.location.reload();
+    }, 30000);
 </script>
 
 
@@ -79,8 +92,12 @@
                         <div class="card">
                             <div class="card-body">
                                 <img src="@Model.ImageUrl" style="width:350px" />
+
                             </div>
+
                         </div>
+                        <hr />
+                        <h5>Total system power: @power Watts</h5>
                     </div>
                     <div class="col-sm-4">
                         <div class="card">
@@ -89,11 +106,17 @@
                                     <span class="fw-bold">Total standalone cost: </span>$
                                     @price
                                 </p>
-                                <h3>Remainging time:</h3>
-                                <hr />
-                                <h4 id="timercountdown1">@timeText</h4>
-                                <h4 id="timercountdown2"></h4>
-                                
+                                @if (Model.HighestBidderId == Guid.Parse(User.GetId()!) && Model.isSold == true)
+                                {
+                                    <h4>You own this PC!</h4>
+                                }
+                                else
+                                {
+                                    <h3>Remainging time:</h3>
+                                    <hr />
+                                    <h4 id="timercountdown1">@timeText</h4>
+                                    <h4 id="timercountdown2"></h4>
+                                }
                                 <h3><span class="fw-bold">Current highest bid: </span> <br /><b>$@Model.HighestBid</b></h3>
                                 <hr />
                                 <h5>*Increment is $100.</h5>
@@ -101,16 +124,33 @@
                                 <hr />
                                 @if (User.Identity!.IsAuthenticated)
                                 {
-                                    @if (Model.HighestBidderId == Guid.Parse(User.GetId()!))
-                                    {
-                                        <span>Congratulations! <br/>You currently hold the highest bid!</span><br/>
-                                        <a class="btn btn-primary disabled" type="submit" asp-controller="PCBuild" asp-action="Bid" asp-route-id="@Model.Id">Bid Now!</a>
-                                    }
-                                    else
-                                    {
-                                        <a class="btn btn-primary" type="submit" asp-controller="PCBuild" asp-action="Bid" asp-route-id="@Model.Id">Bid Now!</a>
 
+                                    @if (Model.isSold == false)
+                                    {
+
+
+                                        @if (Model.HighestBidderId == Guid.Parse(User.GetId()!))
+                                        {
+                                            <span>Congratulations! <br />You currently hold the highest bid!</span>
+
+                                            <br />
+                                            <a class="btn btn-primary disabled" type="submit" asp-controller="PCBuild" asp-action="Bid" asp-route-id="@Model.Id">Bid Now!</a>
+                                            @if (Model.CreatorId.ToString() == creator)
+                                            {
+                                                <a class="btn btn-danger disabled" type="submit" asp-controller="PCBuild" asp-action="Sell" asp-route-id="@Model.Id">SELL Now!</a>
+                                            }
+                                        }
+                                        else
+                                        {
+                                            <a class="btn btn-primary" type="submit" asp-controller="PCBuild" asp-action="Bid" asp-route-id="@Model.Id">Bid Now!</a>
+                                            @if (Model.CreatorId.ToString() == creator)
+                                            {
+                                                <a class="btn btn-danger" type="submit" asp-controller="PCBuild" asp-action="Sell" asp-route-id="@Model.Id">SELL Now!</a>
+                                            }
+
+                                        }
                                     }
+
                                 }
                                 else
                                 {
@@ -133,7 +173,7 @@
                 </div>
             </div>
 
-            <a asp-controller="Home" asp-action="Index" class="btn btn-info mb-2 w-100 p-3 fw-bold">Back to All</a>
+            <a asp-controller="PCBuild" asp-action="All" class="btn btn-info mb-2 w-100 p-3 fw-bold">Back to All</a>
 
         </div>
     </div>

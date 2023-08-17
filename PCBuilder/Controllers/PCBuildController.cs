@@ -21,12 +21,12 @@ namespace PCBuilder.Controllers
 
         private readonly IBuilderService _builderService;
         private readonly IPCBuildService _pcBuildService;
-        private readonly ICPUService  _cpusService;
+        private readonly ICPUService _cpusService;
         private readonly IGPUService _gpusService;
         private readonly IComputerCaseService _computerCaseService;
         private readonly IMotherBoardService _motherBoardService;
 
-        public PCBuildController(IBuilderService builderService, IPCBuildService pCBuildService, ICPUService cPUService,IGPUService gPUService, IComputerCaseService computerCaseService, IMotherBoardService motherBoardService)
+        public PCBuildController(IBuilderService builderService, IPCBuildService pCBuildService, ICPUService cPUService, IGPUService gPUService, IComputerCaseService computerCaseService, IMotherBoardService motherBoardService)
         {
             this._builderService = builderService;
             this._pcBuildService = pCBuildService;
@@ -35,9 +35,33 @@ namespace PCBuilder.Controllers
             this._computerCaseService = computerCaseService;
             this._motherBoardService = motherBoardService;
         }
-       
 
-       
+        public async Task<IActionResult> Sell(int id)
+        {
+
+
+            PCBuildDetailsViewModel? gpu = await _pcBuildService.GetPCDetailsAsync(id);
+
+            if (gpu != null)
+            {
+                if (gpu.HighestBidderId == Guid.Parse(this.User.GetId()!))
+                {
+                    this.TempData["ErrorMessage"] = "You already own this PC!";
+                }
+                else
+                {
+                    await this._pcBuildService.SellPcAsync(id, this.User.GetId()!);
+                    this.TempData["SuccessMessage"] = "Congratulations! You sold the PC!";
+
+                }
+            }
+
+            gpu = await _pcBuildService.GetPCDetailsAsync(id);
+            int helper = id;
+            // return View("Details", gpu);
+            return RedirectToAction("Details", "PCBuild", new { id = helper });
+        }
+
         public async Task<IActionResult> Bid(int id)
         {
 
@@ -91,9 +115,21 @@ namespace PCBuilder.Controllers
 
         public async Task<IActionResult> All()
         {
-                      
+
 
             IEnumerable<PCBuildDetailsViewModel> pcs = await this._pcBuildService.AllBuildsAsync();
+
+            return View(pcs);
+
+        }
+
+
+        [HttpGet]
+
+        public async Task<IActionResult> Owned()
+        {
+
+            IEnumerable<PCBuildDetailsViewModel> pcs = await this._pcBuildService.AllOwnedBuildsAsync(this.User.GetId()!);
 
             return View(pcs);
 
@@ -119,7 +155,7 @@ namespace PCBuilder.Controllers
                 GPUCategories = await this._gpusService.GetAllAsync(),
                 MotherboardCategories = await this._motherBoardService.GetAllAsync(),
                 CaseCategories = await this._computerCaseService.GetAllAsync()
-                
+
             };
 
             return View(model);
@@ -140,14 +176,28 @@ namespace PCBuilder.Controllers
                 return this.RedirectToAction("Become", "Builder");
             }
 
-           
+
             CPUDetailsViewModel? cpuExists = await this._cpusService.GetCPUByIdAsync(model.CPUId);
             GPUFormViewModel? gpuExists = await this._gpusService.GetGPUByIdAsync(model.GPUId);
             ComputerCaseFormViewModel? caseExists = await this._computerCaseService.GetCaseByIdAsync(model.ComputerCaseId);
             MBDetailsViewModel? mbExists = await this._motherBoardService.GetMBByIdAsync(model.MotherboardId);
 
 
-            if (cpuExists == null || caseExists==null|| mbExists==null)
+            if (cpuExists.VendorName != mbExists.VendorName)
+            {
+                ModelState.AddModelError(nameof(model.CpuCategories), "CPU and Motherboard types missmatch!");
+                TempData["ErrorMessage"] = "CPU and Motherboard types missmatch!";
+
+            }
+            if (cpuExists.SocketName != mbExists.SocketName)
+            {
+                ModelState.AddModelError(nameof(model.CpuCategories), "CPU and Motherboard types missmatch!");
+                TempData["ErrorMessage"] = "CPU and Motherboard types missmatch!";
+
+            }
+
+
+            if (cpuExists == null || caseExists == null || mbExists == null)
             {
                 ModelState.AddModelError(nameof(model.Name), "CATEGORY DOES NOT EXIST!");
                 TempData["ErrorMessage"] = "Please check the selected options!";
@@ -165,12 +215,12 @@ namespace PCBuilder.Controllers
                 model.GPUCategories = await this._gpusService.GetAllAsync();
                 model.MotherboardCategories = await this._motherBoardService.GetAllAsync();
 
-               
 
-                    return View(model);
+
+                return View(model);
             }
 
-            
+
 
 
             try

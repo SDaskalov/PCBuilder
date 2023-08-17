@@ -24,11 +24,16 @@
             return result;
         }
 
-        public async Task<string> BuilderIdByUserId(string userId)
+        public async Task<string?> BuilderIdByUserId(string userId)
         {
             var res = await this.dbContext
                  .Builders
                  .FirstOrDefaultAsync(b => b.UserId.ToString() == userId);
+
+            if (res == null)
+            {
+                return null;
+            }
 
             string result= res.Id.ToString();
             return result;

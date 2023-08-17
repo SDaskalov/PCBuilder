@@ -47,5 +47,7 @@ namespace PCBuilder.Data.Models
         public DateTime CreatedOn { get; set; }
 
         public bool IsDeleted { get; set; }
+        public bool IsSold { get; set; }
+
     }
 }

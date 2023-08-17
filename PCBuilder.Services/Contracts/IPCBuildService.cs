@@ -10,11 +10,15 @@
 
         Task BidForPcAsync(int id, string bidderid);
 
+        Task SellPcAsync(int id, string bidderid);
+
         Task CheckSaleDateForPCAsync();
 
         Task CreateAsync(PCBuildCreateFormViewModel model, string id, string userid);
 
         Task<IEnumerable<PCBuildDetailsViewModel>> AllBuildsAsync();
+
+        Task<IEnumerable<PCBuildDetailsViewModel>> AllOwnedBuildsAsync(string id);
 
         Task<bool> CheckifPCExistsByIdAsync(int id);
 
