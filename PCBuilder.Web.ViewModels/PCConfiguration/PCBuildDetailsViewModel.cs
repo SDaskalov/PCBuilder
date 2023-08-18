@@ -38,5 +38,7 @@ namespace PCBuilder.Web.ViewModels.PCConfiguration
         public DateTime CreatedOn { get; set; }
 
         public bool isSold { get; set; }
+
+        public bool isDeleted { get; set; }
     }
 }

@@ -22,11 +22,17 @@
 
         Task<IEnumerable<PCBuildDetailsViewModel>> AllBuildsAsync();
 
+        Task<IEnumerable<PCBuildDetailsViewModel>> AllBuildsForAdminAsync();
+
         Task<IEnumerable<PCBuildDetailsViewModel>> AllOwnedBuildsAsync(string id);
 
         Task<bool> CheckifPCExistsByIdAsync(int id);
 
         Task<PCBuildDetailsViewModel?> GetPCDetailsForAdminAsync(int id);
+
+        Task<bool> CheckifPCExistsByIdForAdminAsync(int id);
+
+        Task<bool> CheckifOwnedPCExistsByIdAsync(int id);
 
     }
 }

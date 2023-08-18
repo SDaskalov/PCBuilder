@@ -1,0 +1,17 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="mt-4 p-5 bg-light text-center">
+    <p class="lead mb-1 mt-3">
+        <h2> Administrator area</h2>
+    </p>
+ 
+    <hr class="my-4">
+    <a asp-area="Admin" asp-controller="PCBuild" asp-action="All"
+       class="btn btn-primary btn-lg">All PC Builds for Admin</a>
+    <a asp-area="" asp-controller="PCBuild" asp-action="All"
+       class="btn btn-primary btn-lg">All PC Builds for Users</a>
+    
+   
+</div>

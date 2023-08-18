@@ -38,14 +38,14 @@
                     <ul class="navbar-nav flex-grow-1">
                       
                         <li>
-                            <a class="btn btn-primary btn-lg active" asp-area="" asp-controller="PCBuild" asp-action="All">Browse all pc Builds!</a>
+                            <a class="btn btn-light btn-lg active" asp-area="" asp-controller="PCBuild" asp-action="All">Browse all pc Builds</a>
                             @if (User.Identity!.IsAuthenticated)
                             {
                                 @if (isUserBuilder)
                                 {
-                                    <a class="btn btn-primary btn-lg active" asp-area="" asp-controller="PCBuild" asp-action="Create">Create a new PC</a>
+                                    <a class="btn btn-light btn-lg active" asp-area="" asp-controller="PCBuild" asp-action="Create">Create a new PC</a>
                                 }
-                                <a class="btn btn-primary btn-lg active" asp-area="" asp-controller="PCBuild" asp-action="Owned">Owned PCs</a>
+                                <a class="btn btn-light btn-lg active" asp-area="" asp-controller="PCBuild" asp-action="Owned">Owned PCs</a>
                             }
                         </li>
                     </ul>

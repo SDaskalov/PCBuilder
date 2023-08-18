@@ -12,30 +12,30 @@
     <div class="col-sm-12 offset-lg-2 col-lg-8 offset-xl-3 col-xl-6">
         <form method="post">
             <div class="form-group">
-                <label asp-for="Name"></label>
+                <label asp-for="Name">Please type the full model name:</label>
                 <input asp-for="Name" class="form-control" placeholder="Model Name">
                 <span asp-validation-for="Name" class="small text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Price"></label>
+                <label asp-for="Price">Price $</label>
                 <input asp-for="Price" class="form-control" placeholder="Price">
                 <span asp-validation-for="Price" class="small text-danger"></span>
             </div>
           
             <hr />
             <div class="form-group">
-                <label asp-for="RamCapacity"></label>
+                <label asp-for="RamCapacity">Maximum RAM capacity</label>
                 <input asp-for="RamCapacity" class="form-control" placeholder="Maximum Ram Capacity">
                 <span asp-validation-for="RamCapacity" class="small text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="ImageUrl"></label>
+                <label asp-for="ImageUrl">Link to product image</label>
                 <input asp-for="ImageUrl" class="form-control" placeholder="Link to image">
                 <span asp-validation-for="ImageUrl" class="small text-danger"></span>
             </div>
 
             <div class="form-group">
-                <label asp-for="SocketId"></label>
+                <label asp-for="SocketId">Socket type:</label>
                 <select asp-for="SocketId" class="form-control">
                     @foreach (var category in Model.SocketCategories)
                     {
@@ -46,7 +46,7 @@
             </div>
 
             <div class="form-group">
-                <label asp-for="VendorId"></label>
+                <label asp-for="VendorId">Board supports CPU manufacturer</label>
                 <select asp-for="VendorId" class="form-control">
                     @foreach (var vendor in Model.VendorCategories)
                     {

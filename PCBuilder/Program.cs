@@ -87,7 +87,7 @@ namespace PCBuilder
             {
                 endpoints.MapControllerRoute(
                        name: "areas",
-                       pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}"
+                       pattern: "/{area:exists}/{controller=Home}/{action=Index}/{id?}"
                      );
 
 

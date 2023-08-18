@@ -105,7 +105,7 @@
                     HighestBidderId = x.BidderId ?? new Guid(),
                     CreatorId = x.BuilderId,
                     isSold = x.IsSold,
-
+                    isDeleted = x.IsDeleted,
                 }).FirstOrDefaultAsync();
 
             return pc;
@@ -137,18 +137,41 @@
 
             return pc;
         }
+      
+
 
         public async Task<bool> CheckifPCExistsByIdAsync(int id)
         {
             bool res = await dbContext
                   .PCConfigurations
-                  .Where(x => x.Id == id && x.IsDeleted == false)
+                  .Where(x => x.Id == id && x.IsDeleted == false && x.IsSold==false)
                   .AnyAsync();
 
             return res;
         }
 
 
+        public async Task<bool> CheckifOwnedPCExistsByIdAsync(int id)
+        {
+            bool res = await dbContext
+                  .PCConfigurations
+                  .Where(x => x.Id == id && x.IsDeleted == false && x.IsSold == true)
+                  .AnyAsync();
+
+            return res;
+        }
+
+
+
+        public async Task<bool> CheckifPCExistsByIdForAdminAsync(int id)
+        {
+            bool res = await dbContext
+                  .PCConfigurations
+                  .Where(x => x.Id == id )
+                  .AnyAsync();
+
+            return res;
+        }
 
         public async Task<IEnumerable<PCBuildViewModel>> LastFourBuildsAsync()
         {
@@ -268,6 +291,31 @@
             }
 
             await this.dbContext.SaveChangesAsync();
+        }
+
+        public async Task<IEnumerable<PCBuildDetailsViewModel>> AllBuildsForAdminAsync()
+        {
+            IEnumerable<PCBuildDetailsViewModel> result = await this.dbContext
+               .PCConfigurations               
+               .OrderByDescending(c => c.CreatedOn)
+               .Select(s => new PCBuildDetailsViewModel()
+               {
+                   Id = s.Id,
+                   Name = s.Name,
+                   ImageUrl = s.ComputerCase.ImageUrl,
+                   CreatedOn = s.CreatedOn,
+                   MotherboardId = s.MotherBoard.Id,
+                   CaseId = s.CaseId,
+                   CpuId = s.CPUId,
+                   HighestBid = s.HighestBid.ToString(),
+                   CreatorId = s.BuilderId,
+                   Ram = s.MotherBoard.RamCapacity.ToString(),
+                   isSold = s.IsSold,
+
+               })
+          .ToArrayAsync();
+
+            return result;
         }
     }
 }

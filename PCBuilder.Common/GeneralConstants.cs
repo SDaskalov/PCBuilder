@@ -4,5 +4,6 @@
     {
         public const string AdminRole = "Administrator";
         public const string AdminEmail = "Administrator@PCBuild.com";
+        public const string AdminAreaName = "Admin";
     }
 }
