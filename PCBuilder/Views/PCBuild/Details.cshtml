@@ -19,6 +19,10 @@
     {
         creator = "not this one";
     }
+    if (Model.HighestBidderId == null)
+    {
+        
+    }
 }
 
 @{
@@ -106,6 +110,7 @@
                                     <span class="fw-bold">Total standalone cost: </span>$
                                     @price
                                 </p>
+
                                 @if (Model.HighestBidderId == Guid.Parse(User.GetId()!) && Model.isSold == true)
                                 {
                                     <h4>You own this PC!</h4>
@@ -122,8 +127,7 @@
                                 <h5>*Increment is $100.</h5>
 
                                 <hr />
-                                @if (User.Identity!.IsAuthenticated)
-                                {
+                                @if (User.Identity!.IsAuthenticated)                                {
 
                                     @if (Model.isSold == false)
                                     {

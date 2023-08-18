@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace PCBuilder.Data.Migrations
 {
-    public partial class initiaal : Migration
+    public partial class buildsinitialBid : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -444,7 +444,7 @@ namespace PCBuilder.Data.Migrations
             migrationBuilder.InsertData(
                 table: "PCConfigurations",
                 columns: new[] { "Id", "BidderId", "BuilderId", "BuilderId1", "CPUId", "CaseId", "CreatedOn", "GraphicsCardId", "HighestBid", "MotherBoardId", "Name", "TotalSystemWattage" },
-                values: new object[] { 1, null, new Guid("7131367d-d5ad-4f72-b6f7-703bca071854"), null, 1, 1, new DateTime(2023, 8, 18, 17, 8, 22, 480, DateTimeKind.Local).AddTicks(5651), 1, 1200m, 3, "Gaming PC 1", 650 });
+                values: new object[] { 1, new Guid("7131367d-d5ad-4f72-b6f7-703bca071854"), new Guid("7131367d-d5ad-4f72-b6f7-703bca071854"), null, 1, 1, new DateTime(2023, 8, 18, 17, 36, 56, 550, DateTimeKind.Local).AddTicks(6259), 1, 1200m, 3, "Gaming PC 1", 650 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",

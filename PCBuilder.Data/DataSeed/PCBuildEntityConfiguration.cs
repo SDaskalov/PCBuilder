@@ -27,7 +27,8 @@
                 TotalSystemWattage=650,
                 HighestBid=1200,
                 Name="Gaming PC 1",
-                CreatedOn=DateTime.Now
+                CreatedOn=DateTime.Now,
+                BidderId= Guid.Parse("7131367D-D5AD-4F72-B6F7-703BCA071854")
             };
 
             pcConfigurations.Add(pcConfiguration);

@@ -110,6 +110,11 @@ namespace PCBuilder.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> Details(int id)
         {
+
+            if (this.User.GetId()==null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
             var check = await _pcBuildService.CheckifPCExistsByIdAsync(id);
 
             if (!check)
@@ -127,12 +132,7 @@ namespace PCBuilder.Controllers
 
         public async Task<IActionResult> OwnedPCDetails(int id)
         {
-            var check = await _pcBuildService.CheckifOwnedPCExistsByIdAsync(id);
-
-            if (!check)
-            {
-                return RedirectToAction("Index", "Home");
-            }
+           
 
             PCBuildDetailsViewModel? gpu = await _pcBuildService.GetPCDetailsAsync(id);
 

@@ -12,8 +12,8 @@ using PCBuilder.Data;
 namespace PCBuilder.Data.Migrations
 {
     [DbContext(typeof(PCBuilderDbContext))]
-    [Migration("20230818140823_initiaal")]
-    partial class initiaal
+    [Migration("20230818143658_buildsinitialBid")]
+    partial class buildsinitialBid
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -747,10 +747,11 @@ namespace PCBuilder.Data.Migrations
                         new
                         {
                             Id = 1,
+                            BidderId = new Guid("7131367d-d5ad-4f72-b6f7-703bca071854"),
                             BuilderId = new Guid("7131367d-d5ad-4f72-b6f7-703bca071854"),
                             CPUId = 1,
                             CaseId = 1,
-                            CreatedOn = new DateTime(2023, 8, 18, 17, 8, 22, 480, DateTimeKind.Local).AddTicks(5651),
+                            CreatedOn = new DateTime(2023, 8, 18, 17, 36, 56, 550, DateTimeKind.Local).AddTicks(6259),
                             GraphicsCardId = 1,
                             HighestBid = 1200m,
                             IsDeleted = false,
