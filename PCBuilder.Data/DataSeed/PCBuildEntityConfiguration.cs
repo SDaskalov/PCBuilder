@@ -25,6 +25,7 @@
                 BuilderId=Guid.Parse("7131367D-D5AD-4F72-B6F7-703BCA071854"),
                 MotherBoardId=3,
                 TotalSystemWattage=650,
+                HighestBid=1200,
                 Name="Gaming PC 1",
                 CreatedOn=DateTime.Now
             };

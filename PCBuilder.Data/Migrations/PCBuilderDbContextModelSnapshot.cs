@@ -3,7 +3,6 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PCBuilder.Data;
 
@@ -12,14 +11,13 @@ using PCBuilder.Data;
 namespace PCBuilder.Data.Migrations
 {
     [DbContext(typeof(PCBuilderDbContext))]
-    [Migration("20230814130231_initial")]
-    partial class initial
+    partial class PCBuilderDbContextModelSnapshot : ModelSnapshot
     {
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.16")
+                .HasAnnotation("ProductVersion", "6.0.21")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
@@ -223,6 +221,40 @@ namespace PCBuilder.Data.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("7131367d-d5ad-4f72-b6f7-703bca071854"),
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "881c98c0-da7d-4280-a96b-58a30ae3dda9",
+                            Email = "test@te.ss",
+                            EmailConfirmed = false,
+                            LockoutEnabled = true,
+                            NormalizedEmail = "test@te.ss",
+                            NormalizedUserName = "test@te.ss",
+                            PasswordHash = "AQAAAAEAACcQAAAAEIeL1ThpbFZgGCQy+W3bwMXEzGyQJJITuh2tjLMf748mycXZ4ksWgIeBYDSUUais/w==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "DTUQGIYIXDCNF6ENNSIM7RLNJCLXL4N7",
+                            TwoFactorEnabled = false,
+                            UserName = "test@te.ss"
+                        },
+                        new
+                        {
+                            Id = new Guid("064d17f8-f2be-4be9-8f55-c75e58470edc"),
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "aa4f4ee3-5afc-452a-9adb-ed9a042be311",
+                            Email = "Administrator@PCBuild.com",
+                            EmailConfirmed = false,
+                            LockoutEnabled = true,
+                            NormalizedEmail = "Administrator@PCBuild.com",
+                            NormalizedUserName = "Administrator@PCBuild.com",
+                            PasswordHash = "AQAAAAEAACcQAAAAEB4iohEn/AyAuxhV2+hEs++QvIdV6NMWD0K+kpAZMTiK42jug7QyJurVg4MFOEJxFg==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "I4C5JH3PX7ZFMSOY5OUZOENYUCQWEM7S",
+                            TwoFactorEnabled = false,
+                            UserName = "Administrator@PCBuild.com"
+                        });
                 });
 
             modelBuilder.Entity("PCBuilder.Data.Models.Builder", b =>
@@ -244,6 +276,14 @@ namespace PCBuilder.Data.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Builders");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("7131367d-d5ad-4f72-b6f7-703bca071854"),
+                            PublicBuilderName = "SEEEDBUILDER NAME",
+                            UserId = new Guid("7131367d-d5ad-4f72-b6f7-703bca071854")
+                        });
                 });
 
             modelBuilder.Entity("PCBuilder.Data.Models.ComputerCase", b =>
@@ -254,10 +294,18 @@ namespace PCBuilder.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
+                    b.Property<Guid>("BuilderId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<string>("ImageUrl")
                         .IsRequired()
                         .HasMaxLength(2048)
                         .HasColumnType("nvarchar(2048)");
+
+                    b.Property<bool>("IsDeleted")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false);
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -269,6 +317,35 @@ namespace PCBuilder.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("ComputerCases");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            BuilderId = new Guid("00000000-0000-0000-0000-000000000000"),
+                            ImageUrl = "https://www.altech.bg/files/products/118756.jpg",
+                            IsDeleted = false,
+                            Name = "Fractal Design North",
+                            Price = 180.00m
+                        },
+                        new
+                        {
+                            Id = 2,
+                            BuilderId = new Guid("00000000-0000-0000-0000-000000000000"),
+                            ImageUrl = "https://images10.newegg.com/BizIntell/item/Case/Cases%20(Computer%20Cases%20-%20ATX%20Form)/2AM-000Z-000A9/1.jpg",
+                            IsDeleted = false,
+                            Name = "Lian Li Lancool 216",
+                            Price = 119.99m
+                        },
+                        new
+                        {
+                            Id = 3,
+                            BuilderId = new Guid("00000000-0000-0000-0000-000000000000"),
+                            ImageUrl = "https://www.pro-bg.com/resize_image_max/800/600/FRACTAL%20DESIGN/Computer-Case-FractalDesign-TORRENT-BLACK-SOLID.jpeg",
+                            IsDeleted = false,
+                            Name = "Fractal Design Torrent",
+                            Price = 199.99m
+                        });
                 });
 
             modelBuilder.Entity("PCBuilder.Data.Models.CPU", b =>
@@ -279,20 +356,29 @@ namespace PCBuilder.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
+                    b.Property<Guid>("BuilderId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<bool>("IntegratedGraphics")
                         .HasColumnType("bit");
+
+                    b.Property<bool>("IsDeleted")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false);
 
                     b.Property<int>("MaxWattage")
                         .HasColumnType("int");
 
                     b.Property<string>("ModelName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<int?>("SocketId")
+                    b.Property<int>("SocketId")
                         .HasColumnType("int");
 
                     b.Property<int>("VendorId")
@@ -305,6 +391,56 @@ namespace PCBuilder.Data.Migrations
                     b.HasIndex("VendorId");
 
                     b.ToTable("CPUs");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            BuilderId = new Guid("00000000-0000-0000-0000-000000000000"),
+                            IntegratedGraphics = false,
+                            IsDeleted = false,
+                            MaxWattage = 95,
+                            ModelName = "Ryzen 9 5900x",
+                            Price = 450.00m,
+                            SocketId = 1,
+                            VendorId = 1
+                        },
+                        new
+                        {
+                            Id = 2,
+                            BuilderId = new Guid("00000000-0000-0000-0000-000000000000"),
+                            IntegratedGraphics = true,
+                            IsDeleted = false,
+                            MaxWattage = 105,
+                            ModelName = "Ryzen 7 7700x",
+                            Price = 550.00m,
+                            SocketId = 2,
+                            VendorId = 1
+                        },
+                        new
+                        {
+                            Id = 3,
+                            BuilderId = new Guid("00000000-0000-0000-0000-000000000000"),
+                            IntegratedGraphics = true,
+                            IsDeleted = false,
+                            MaxWattage = 105,
+                            ModelName = "Intel Core i7-13700",
+                            Price = 550.00m,
+                            SocketId = 4,
+                            VendorId = 2
+                        },
+                        new
+                        {
+                            Id = 4,
+                            BuilderId = new Guid("00000000-0000-0000-0000-000000000000"),
+                            IntegratedGraphics = false,
+                            IsDeleted = false,
+                            MaxWattage = 125,
+                            ModelName = "Intel Core i9-11900KF",
+                            Price = 990.00m,
+                            SocketId = 3,
+                            VendorId = 2
+                        });
                 });
 
             modelBuilder.Entity("PCBuilder.Data.Models.CpuVendor", b =>
@@ -323,6 +459,18 @@ namespace PCBuilder.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("CPUVendors");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "AMD"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "INTEL"
+                        });
                 });
 
             modelBuilder.Entity("PCBuilder.Data.Models.GraphicsCard", b =>
@@ -333,6 +481,19 @@ namespace PCBuilder.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
+                    b.Property<Guid>("BuilderId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("ImageURL")
+                        .IsRequired()
+                        .HasMaxLength(2048)
+                        .HasColumnType("nvarchar(2048)");
+
+                    b.Property<bool>("IsDeleted")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false);
+
                     b.Property<int>("MaxWattage")
                         .HasColumnType("int");
 
@@ -340,9 +501,54 @@ namespace PCBuilder.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<decimal>("Price")
+                        .HasColumnType("decimal(18,2)");
+
                     b.HasKey("Id");
 
                     b.ToTable("GraphicsCards");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            BuilderId = new Guid("00000000-0000-0000-0000-000000000000"),
+                            ImageURL = "https://p1.akcdn.net/full/744790884.gigabyte-geforce-rtx-3070-8gb-gddr6-256bit-gv-n3070gaming-oc-8gd.jpg",
+                            IsDeleted = false,
+                            MaxWattage = 220,
+                            ModelName = "GeForce RTX 3070",
+                            Price = 599.99m
+                        },
+                        new
+                        {
+                            Id = 2,
+                            BuilderId = new Guid("00000000-0000-0000-0000-000000000000"),
+                            ImageURL = "https://p1.akcdn.net/full/1122500418.asus-geforce-rtx-4090-oc-24gb-gddr6x-rog-strix-rtx4090-o24g-gaming.jpg",
+                            IsDeleted = false,
+                            MaxWattage = 400,
+                            ModelName = "GeForce RTX 4090",
+                            Price = 1599.00m
+                        },
+                        new
+                        {
+                            Id = 3,
+                            BuilderId = new Guid("00000000-0000-0000-0000-000000000000"),
+                            ImageURL = "https://pg.asrock.com/Graphics-Card/photo/Radeon%20RX%207900%20XTX%20Phantom%20Gaming%2024GB%20OC(L1).png",
+                            IsDeleted = false,
+                            MaxWattage = 355,
+                            ModelName = "AMD RX 7900XTX",
+                            Price = 999.99m
+                        },
+                        new
+                        {
+                            Id = 4,
+                            BuilderId = new Guid("00000000-0000-0000-0000-000000000000"),
+                            ImageURL = "https://cdna.pcpartpicker.com/static/forever/images/product/5199e776d5e1c9d319b4a275139bbcf4.1600.jpg",
+                            IsDeleted = false,
+                            MaxWattage = 335,
+                            ModelName = "AMD RX 6950XT",
+                            Price = 649.99m
+                        });
                 });
 
             modelBuilder.Entity("PCBuilder.Data.Models.MotherBoard", b =>
@@ -353,8 +559,17 @@ namespace PCBuilder.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int>("CpuId")
-                        .HasColumnType("int");
+                    b.Property<Guid>("BuilderId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("ImageUrl")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsDeleted")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false);
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -367,16 +582,93 @@ namespace PCBuilder.Data.Migrations
                     b.Property<int>("RamCapacity")
                         .HasColumnType("int");
 
+                    b.Property<int>("SocketId")
+                        .HasColumnType("int");
+
                     b.Property<int>("VendorId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CpuId");
+                    b.HasIndex("SocketId");
 
                     b.HasIndex("VendorId");
 
                     b.ToTable("MotherBoards");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            BuilderId = new Guid("00000000-0000-0000-0000-000000000000"),
+                            ImageUrl = "https://ardes.bg/uploads/original/msi-pro-b650m-a-wifi-am5-423853.jpg",
+                            IsDeleted = false,
+                            Name = "MSI PRO B650M-A WIFI",
+                            Price = 199.99m,
+                            RamCapacity = 128,
+                            SocketId = 2,
+                            VendorId = 1
+                        },
+                        new
+                        {
+                            Id = 2,
+                            BuilderId = new Guid("00000000-0000-0000-0000-000000000000"),
+                            ImageUrl = "https://ardes.bg/uploads/original/asus-tuf-gaming-b650-plus-417061.jpg",
+                            IsDeleted = false,
+                            Name = "ASUS TUF GAMING B650-PLUS",
+                            Price = 228.99m,
+                            RamCapacity = 128,
+                            SocketId = 2,
+                            VendorId = 1
+                        },
+                        new
+                        {
+                            Id = 3,
+                            BuilderId = new Guid("00000000-0000-0000-0000-000000000000"),
+                            ImageUrl = "https://p1.akcdn.net/full/748039353.gigabyte-b550-aorus-elite-v2.jpg",
+                            IsDeleted = false,
+                            Name = "GIGABYTE B550 AORUS ELITE V2",
+                            Price = 189.99m,
+                            RamCapacity = 128,
+                            SocketId = 1,
+                            VendorId = 1
+                        },
+                        new
+                        {
+                            Id = 4,
+                            BuilderId = new Guid("00000000-0000-0000-0000-000000000000"),
+                            ImageUrl = "https://storage-asset.msi.com/global/picture/image/feature/mb/B550/MAG/TOMAHAWK-MAX-WIFI/msi-mag-b550-tomahawk-max-wifi-hero-board01.png",
+                            IsDeleted = false,
+                            Name = "MSI MAG B550 Tomahawk",
+                            Price = 150.00m,
+                            RamCapacity = 256,
+                            SocketId = 1,
+                            VendorId = 1
+                        },
+                        new
+                        {
+                            Id = 5,
+                            BuilderId = new Guid("00000000-0000-0000-0000-000000000000"),
+                            ImageUrl = "https://www.vario.bg/images/product/37965/GIGABYTE%20Z790%20AORUS%20Elite%20AX.jpg",
+                            IsDeleted = false,
+                            Name = "Gigabyte Motherboard Z790 AORUS ELITE AX",
+                            Price = 299.99m,
+                            RamCapacity = 256,
+                            SocketId = 4,
+                            VendorId = 2
+                        },
+                        new
+                        {
+                            Id = 6,
+                            BuilderId = new Guid("00000000-0000-0000-0000-000000000000"),
+                            ImageUrl = "https://pcbuild.bg/assets/products/000/000/267/000000267208--danna-platka-asus-tuf-gaming-z790-plus-d4-lga1700-ddr4.jpg",
+                            IsDeleted = false,
+                            Name = "ASUS TUF GAMING Z790-PLUS WIFI D4 ",
+                            Price = 249.99m,
+                            RamCapacity = 256,
+                            SocketId = 4,
+                            VendorId = 2
+                        });
                 });
 
             modelBuilder.Entity("PCBuilder.Data.Models.PCConfiguration", b =>
@@ -393,7 +685,7 @@ namespace PCBuilder.Data.Migrations
                     b.Property<Guid>("BuilderId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("BuilderId1")
+                    b.Property<Guid?>("BuilderId1")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("CPUId")
@@ -402,11 +694,24 @@ namespace PCBuilder.Data.Migrations
                     b.Property<int>("CaseId")
                         .HasColumnType("int");
 
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
                     b.Property<int?>("GraphicsCardId")
                         .HasColumnType("int");
 
                     b.Property<decimal>("HighestBid")
                         .HasColumnType("decimal(18,2)");
+
+                    b.Property<bool>("IsDeleted")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false);
+
+                    b.Property<bool>("IsSold")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false);
 
                     b.Property<int>("MotherBoardId")
                         .HasColumnType("int");
@@ -435,6 +740,23 @@ namespace PCBuilder.Data.Migrations
                     b.HasIndex("MotherBoardId");
 
                     b.ToTable("PCConfigurations");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            BuilderId = new Guid("7131367d-d5ad-4f72-b6f7-703bca071854"),
+                            CPUId = 1,
+                            CaseId = 1,
+                            CreatedOn = new DateTime(2023, 8, 18, 17, 8, 22, 480, DateTimeKind.Local).AddTicks(5651),
+                            GraphicsCardId = 1,
+                            HighestBid = 1200m,
+                            IsDeleted = false,
+                            IsSold = false,
+                            MotherBoardId = 3,
+                            Name = "Gaming PC 1",
+                            TotalSystemWattage = 650
+                        });
                 });
 
             modelBuilder.Entity("PCBuilder.Data.Models.Socket", b =>
@@ -452,7 +774,29 @@ namespace PCBuilder.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Sockets");
+                    b.ToTable("Socket", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "AM4"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "AM5"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = "LGA1200"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Name = "LGA1700"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
@@ -519,9 +863,11 @@ namespace PCBuilder.Data.Migrations
 
             modelBuilder.Entity("PCBuilder.Data.Models.CPU", b =>
                 {
-                    b.HasOne("PCBuilder.Data.Models.Socket", null)
-                        .WithMany("CPUs")
-                        .HasForeignKey("SocketId");
+                    b.HasOne("PCBuilder.Data.Models.Socket", "Socket")
+                        .WithMany()
+                        .HasForeignKey("SocketId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("PCBuilder.Data.Models.CpuVendor", "Vendor")
                         .WithMany()
@@ -529,14 +875,16 @@ namespace PCBuilder.Data.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
+                    b.Navigation("Socket");
+
                     b.Navigation("Vendor");
                 });
 
             modelBuilder.Entity("PCBuilder.Data.Models.MotherBoard", b =>
                 {
-                    b.HasOne("PCBuilder.Data.Models.CPU", "CPU")
+                    b.HasOne("PCBuilder.Data.Models.Socket", "Socket")
                         .WithMany()
-                        .HasForeignKey("CpuId")
+                        .HasForeignKey("SocketId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -546,7 +894,7 @@ namespace PCBuilder.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("CPU");
+                    b.Navigation("Socket");
 
                     b.Navigation("Vendor");
                 });
@@ -557,17 +905,15 @@ namespace PCBuilder.Data.Migrations
                         .WithMany("Configurations")
                         .HasForeignKey("BidderId");
 
-                    b.HasOne("PCBuilder.Data.Models.Builder", null)
-                        .WithMany("Builds")
+                    b.HasOne("PCBuilder.Data.Models.Builder", "Builder")
+                        .WithMany()
                         .HasForeignKey("BuilderId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("PCBuilder.Data.Models.Builder", "Builder")
-                        .WithMany()
-                        .HasForeignKey("BuilderId1")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.HasOne("PCBuilder.Data.Models.Builder", null)
+                        .WithMany("Builds")
+                        .HasForeignKey("BuilderId1");
 
                     b.HasOne("PCBuilder.Data.Models.CPU", "CPU")
                         .WithMany()
@@ -612,11 +958,6 @@ namespace PCBuilder.Data.Migrations
             modelBuilder.Entity("PCBuilder.Data.Models.Builder", b =>
                 {
                     b.Navigation("Builds");
-                });
-
-            modelBuilder.Entity("PCBuilder.Data.Models.Socket", b =>
-                {
-                    b.Navigation("CPUs");
                 });
 #pragma warning restore 612, 618
         }
