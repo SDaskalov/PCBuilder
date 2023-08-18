@@ -21,7 +21,7 @@
     }
     if (Model.HighestBidderId == null)
     {
-        
+
     }
 }
 
@@ -110,12 +110,20 @@
                                     <span class="fw-bold">Total standalone cost: </span>$
                                     @price
                                 </p>
-
-                                @if (Model.HighestBidderId == Guid.Parse(User.GetId()!) && Model.isSold == true)
+                                @if (User.Identity!.IsAuthenticated)
                                 {
-                                    <h4>You own this PC!</h4>
-                                }
-                                else
+                                    @if (Model.HighestBidderId == Guid.Parse(User.GetId()!) && Model.isSold == true)
+                                    {
+                                        <h4>You own this PC!</h4>
+                                    }
+                                    else
+                                    {
+                                        <h3>Remainging time:</h3>
+                                        <hr />
+                                        <h4 id="timercountdown1">@timeText</h4>
+                                        <h4 id="timercountdown2"></h4>
+                                    }
+                                }else
                                 {
                                     <h3>Remainging time:</h3>
                                     <hr />
@@ -127,11 +135,12 @@
                                 <h5>*Increment is $100.</h5>
 
                                 <hr />
-                                @if (User.Identity!.IsAuthenticated)                                {
+                                @if (User.Identity!.IsAuthenticated)
+                                {
 
                                     @if (Model.isSold == false)
                                     {
-                                       
+
 
                                         @if (Model.HighestBidderId == Guid.Parse(User.GetId()!))
                                         {
@@ -154,9 +163,9 @@
 
 
                                         }
-                                       
+
                                     }
-                                   
+
 
                                 }
                                 else

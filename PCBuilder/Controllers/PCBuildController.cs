@@ -111,10 +111,7 @@ namespace PCBuilder.Controllers
         public async Task<IActionResult> Details(int id)
         {
 
-            if (this.User.GetId()==null)
-            {
-                return RedirectToAction("Index", "Home");
-            }
+           
             var check = await _pcBuildService.CheckifPCExistsByIdAsync(id);
 
             if (!check)

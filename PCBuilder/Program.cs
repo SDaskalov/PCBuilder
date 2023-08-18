@@ -81,7 +81,8 @@ namespace PCBuilder
 
 
             //ADMIN ROLE NEEDS CORRECT EMAIL
-            //PLEASE REGISTER as Administrator@PCBuild.com and become a builder
+            //PLEASE LOGIN as Administrator@PCBuild.com and become a builder 
+            //Password 123456789
             app.SeedAdministrator(AdminEmail);
 
             app.UseEndpoints(endpoints =>
