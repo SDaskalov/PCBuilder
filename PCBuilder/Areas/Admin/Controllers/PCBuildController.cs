@@ -61,9 +61,7 @@ namespace PCBuilder.Areas.Admin.Controllers
 
                 if (builderGuid == null || this.User.IsAdmin() == false)
                 {
-
                     this.TempData["ErrorMessage"] = "You do not have rights to delete!";
-
                 }
 
             }
@@ -92,14 +90,12 @@ namespace PCBuilder.Areas.Admin.Controllers
                     this.TempData["ErrorMessage"] = "You do not have rights to restore!";
 
                 }
-
             }
             if (this.User.IsAdmin())
             {
                 await this._pcBuildService.EnablePcAsync(id, this.User.GetId()!);
                 this.TempData["SuccessMessage"] = "You restored the PC!";
             }
-
 
             gpu = await _pcBuildService.GetPCDetailsAsync(id);
             int helper = id;

@@ -13,7 +13,7 @@
 
         private readonly IComputerCaseService _caseService;
         private readonly IBuilderService _builderService;
-      
+
         public ComputerCaseController(IBuilderService builderService, IComputerCaseService caseService)
         {
             _builderService = builderService;
@@ -33,7 +33,6 @@
             IEnumerable<ComputerCaseFormViewModel> gpus = await _caseService.GetAllAsync();
 
             return View(gpus);
-           
         }
 
 
@@ -50,14 +49,11 @@
             ComputerCaseFormViewModel? gpu = await _caseService.GetCaseDetailsAsync(id);
 
             return View(gpu);
-
-
         }
 
 
 
         [HttpGet]
-
         public async Task<IActionResult> Add()
         {
             bool isBuilder = await this._builderService.BuilderAlreadyExcistsByUserId(this.User.GetId()!);
@@ -68,11 +64,10 @@
                 return this.RedirectToAction("Become", "Builder");
             }
             return View();
-
         }
 
-        [HttpPost]
 
+        [HttpPost]
         public async Task<IActionResult> Add(ComputerCaseFormViewModel model)
         {
 
@@ -83,12 +78,7 @@
                 this.TempData["ErrorMessage"] = "You must be a builder to add PC components.";
                 return this.RedirectToAction("Become", "Builder");
             }
-
-
-
             bool CaseExists = await this._caseService.CaseExistsByModelName(model.ModelName);
-
-
 
             if (CaseExists)
             {
@@ -97,13 +87,11 @@
             }
             if (!ModelState.IsValid)
             {
-
                 return View(model);
             }
 
             try
             {
-
                 await this._caseService.CreateAsync(model, this.User.GetId()!);
             }
             catch (Exception)
@@ -111,23 +99,8 @@
                 this.TempData["ErrorMessage"] = "Error while saving. Please try again!";
             }
 
-
             this.TempData["SuccessMessage"] = "Successfully added new computer case!";
             return RedirectToAction("All", "ComputerCase");
-
-
         }
-
-
-
-
-
-
-
-
-
-
-
-
     }
 }

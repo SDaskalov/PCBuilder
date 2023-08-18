@@ -7,7 +7,7 @@ using PCBuilder.Web.ViewModels.Motherboard;
 
 namespace PCBuilder.Controllers
 {
-        [Authorize]
+    [Authorize]
     public class MotherBoardController : Controller
     {
 
@@ -26,7 +26,6 @@ namespace PCBuilder.Controllers
 
 
         [HttpGet]
-
         public async Task<IActionResult> Add()
         {
 
@@ -53,7 +52,6 @@ namespace PCBuilder.Controllers
 
 
         [HttpPost]
-
         public async Task<IActionResult> Add(MBFormViewModel model)
         {
 
@@ -107,23 +105,6 @@ namespace PCBuilder.Controllers
 
         }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         [HttpGet]
         public async Task<IActionResult> All()
         {
@@ -137,9 +118,8 @@ namespace PCBuilder.Controllers
             IEnumerable<MBFormViewModel> mbs = await _mbService.GetAllAsync();
 
             return View(mbs);
-
-
         }
+
 
         [HttpGet]
         public async Task<IActionResult> Details(int id)
@@ -155,10 +135,7 @@ namespace PCBuilder.Controllers
 
             return View(mb);
 
-
         }
-
-
 
     }
 }

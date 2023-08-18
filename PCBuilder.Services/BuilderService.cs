@@ -35,11 +35,8 @@
                 return null;
             }
 
-            string result= res.Id.ToString();
+            string result = res.Id.ToString();
             return result;
-
-
-
         }
 
         public async Task<bool> BuilderNameIsTaken(string name)
@@ -70,8 +67,7 @@
             {
                 return false;
             }
-            return builder.Builds.Any(b=>b.Id.ToString()==buildId);
-
+            return builder.Builds.Any(b => b.Id.ToString() == buildId);
         }
     }
 }

@@ -75,67 +75,9 @@ namespace PCBuilder.Controllers
 
             gpu = await _pcBuildService.GetPCDetailsAsync(id);
             int helper = id;
-      
+
             return RedirectToAction("Details", "PCBuild", new { id = helper });
         }
-
-        //public async Task<IActionResult> Delete(int id)
-        //{
-
-        //    PCBuildDetailsViewModel? gpu = await _pcBuildService.GetPCDetailsAsync(id);
-
-
-        //    if (gpu != null)
-        //    {
-        //        var builderGuid = await this._builderService.BuilderIdByUserId(User.GetId()!);
-
-        //        if (builderGuid == null || this.User.IsAdmin() == false)
-        //        {
-
-        //            this.TempData["ErrorMessage"] = "You do not have rights to delete!";
-
-        //        }
-
-        //    }
-        //    if (this.User.IsAdmin())
-        //    {
-        //        await this._pcBuildService.DisablePcAsync(id, this.User.GetId()!);
-        //        this.TempData["SuccessMessage"] = "You deleted the PC!";
-        //    }
-
-        //    return RedirectToAction("All", "PCBuild");
-        //}
-
-        //public async Task<IActionResult> Restore(int id)
-        //{
-
-        //    PCBuildDetailsViewModel? gpu = await _pcBuildService.GetPCDetailsForAdminAsync(id);
-
-
-        //    if (gpu != null)
-        //    {
-        //        var builderGuid = await this._builderService.BuilderIdByUserId(User.GetId()!);
-
-        //        if (builderGuid == null || this.User.IsAdmin() == false)
-        //        {
-
-        //            this.TempData["ErrorMessage"] = "You do not have rights to restore!";
-
-        //        }
-
-        //    }
-        //    if (this.User.IsAdmin())
-        //    {
-        //        await this._pcBuildService.EnablePcAsync(id, this.User.GetId()!);
-        //        this.TempData["SuccessMessage"] = "You restored the PC!";
-        //    }
-
-
-        //    gpu = await _pcBuildService.GetPCDetailsAsync(id);
-        //    int helper = id;
-
-        //    return RedirectToAction("Details", "PCBuild", new { id = helper });
-        //}
 
 
 
@@ -202,15 +144,11 @@ namespace PCBuilder.Controllers
 
         [AllowAnonymous]
         [HttpGet]
-
         public async Task<IActionResult> All()
         {
-
-
             IEnumerable<PCBuildDetailsViewModel> pcs = await this._pcBuildService.AllBuildsAsync();
 
             return View(pcs);
-
         }
 
 
@@ -218,29 +156,24 @@ namespace PCBuilder.Controllers
 
         public async Task<IActionResult> Owned()
         {
-
             IEnumerable<PCBuildDetailsViewModel> pcs = await this._pcBuildService.AllOwnedBuildsAsync(this.User.GetId()!);
 
             return View(pcs);
-
         }
 
         [HttpGet]
 
         public async Task<IActionResult> Create()
         {
-
             bool isBuilder = await this._builderService.BuilderAlreadyExcistsByUserId(this.User.GetId()!);
 
             if (!this.User.IsAdmin())
             {
-
                 if (!isBuilder)
                 {
                     this.TempData["ErrorMessage"] = "You must be a builder to add PC components.";
                     return this.RedirectToAction("Become", "Builder");
                 }
-
             }
             PCBuildCreateFormViewModel model = new PCBuildCreateFormViewModel()
             {
@@ -258,10 +191,8 @@ namespace PCBuilder.Controllers
 
 
         [HttpPost]
-
         public async Task<IActionResult> Create(PCBuildCreateFormViewModel model)
         {
-
             bool isBuilder = await this._builderService.BuilderAlreadyExcistsByUserId(this.User.GetId()!);
             if (!this.User.IsAdmin())
             {
@@ -277,17 +208,13 @@ namespace PCBuilder.Controllers
             ComputerCaseFormViewModel? caseExists = await this._computerCaseService.GetCaseByIdAsync(model.ComputerCaseId);
             MBDetailsViewModel? mbExists = await this._motherBoardService.GetMBByIdAsync(model.MotherboardId);
 
-
-          
-
-
-            if (cpuExists == null )
+            if (cpuExists == null)
             {
                 ModelState.AddModelError(nameof(model.Name), "CATEGORY DOES NOT EXIST!");
                 TempData["ErrorMessage"] = "Please check the selected options!";
             }
-         
-            if ( caseExists == null )
+
+            if (caseExists == null)
             {
                 ModelState.AddModelError(nameof(model.Name), "CATEGORY DOES NOT EXIST!");
                 TempData["ErrorMessage"] = "Please check the selected options!";
@@ -297,24 +224,24 @@ namespace PCBuilder.Controllers
                 ModelState.AddModelError(nameof(model.Name), "CATEGORY DOES NOT EXIST!");
                 TempData["ErrorMessage"] = "Please check the selected options!";
             }
-            if (cpuExists != null && mbExists != null) {
-
-            if (cpuExists.VendorName != mbExists.VendorName)
+            if (cpuExists != null && mbExists != null)
             {
-                ModelState.AddModelError(nameof(model.CpuCategories), "CPU and Motherboard types missmatch!");
-                TempData["ErrorMessage"] = "CPU and Motherboard types missmatch!";
 
-            }
-            if (cpuExists.SocketName != mbExists.SocketName)
-            {
-                ModelState.AddModelError(nameof(model.CpuCategories), "CPU and Motherboard types missmatch!");
-                TempData["ErrorMessage"] = "CPU and Motherboard types missmatch!";
+                if (cpuExists.VendorName != mbExists.VendorName)
+                {
+                    ModelState.AddModelError(nameof(model.CpuCategories), "CPU and Motherboard types missmatch!");
+                    TempData["ErrorMessage"] = "CPU and Motherboard types missmatch!";
 
-            }
+                }
+                if (cpuExists.SocketName != mbExists.SocketName)
+                {
+                    ModelState.AddModelError(nameof(model.CpuCategories), "CPU and Motherboard types missmatch!");
+                    TempData["ErrorMessage"] = "CPU and Motherboard types missmatch!";
+
+                }
             }
             if (cpuExists != null)
             {
-
                 model.CPUPower = cpuExists.MaxWattage;
             }
             if (gpuExists != null)
@@ -329,13 +256,8 @@ namespace PCBuilder.Controllers
                 model.GPUCategories = await this._gpusService.GetAllAsync();
                 model.MotherboardCategories = await this._motherBoardService.GetAllAsync();
 
-
-
                 return View(model);
             }
-
-
-
 
             try
             {
@@ -350,22 +272,17 @@ namespace PCBuilder.Controllers
             {
 
                 var messageText = "Error while saving!";
-                if (e.InnerException!=null)
+                if (e.InnerException != null)
                 {
                     messageText = e.InnerException.Message;
                 }
-              
+
                 this.TempData["ErrorMessage"] = messageText;
             }
 
-
             this.TempData["SuccessMessage"] = "Successfully added New PC!";
             return RedirectToAction("Index", "Home");
-
-
         }
-
-
 
     }
 }

@@ -17,8 +17,7 @@ namespace PCBuilder.Services
 
         public async Task<IEnumerable<SocketCategoryFormModel>> GetAllSocketCategoriesAsync()
         {
-
-            IEnumerable<SocketCategoryFormModel> sockets = await 
+            IEnumerable<SocketCategoryFormModel> sockets = await
                 this.dbContext
                 .Sockets
                 .Select(x => new SocketCategoryFormModel()
@@ -28,18 +27,12 @@ namespace PCBuilder.Services
                 }).ToArrayAsync();
 
             return sockets;
-
         }
 
         public async Task<bool> SocketExistsById(int id)
         {
-
             bool res = await dbContext.Sockets.AnyAsync(x => x.Id == id);
             return res;
         }
-
-
-
-
     }
 }

@@ -47,7 +47,6 @@ namespace PCBuilder.Services
                      Price = c.Price,
                  }).ToArrayAsync();
 
-
             return result;
         }
 
@@ -88,7 +87,6 @@ namespace PCBuilder.Services
                     ImageUrl = c.ImageUrl,
                     ModelName = c.Name,
                     Price = c.Price
-                    
                 }).FirstOrDefaultAsync();
 
             return cas;

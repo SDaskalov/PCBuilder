@@ -33,16 +33,11 @@
             }
 
             await this.dbContext.SaveChangesAsync();
-
-
         }
 
         public async Task CheckSaleDateForPCAsync()
         {
-
-
             var activeBuilds = await this.dbContext.PCConfigurations.Where(x => x.IsDeleted == false).ToListAsync();
-
 
             foreach (var build in activeBuilds)
             {
@@ -53,7 +48,6 @@
             }
             this.dbContext.PCConfigurations.UpdateRange(activeBuilds);
             await this.dbContext.SaveChangesAsync();
-
         }
 
         public async Task CreateAsync(PCBuildCreateFormViewModel model, string id, string userId)
@@ -73,16 +67,10 @@
 
             };
 
-
             pc.TotalSystemWattage = model.CPUPower + model.GpuPower;
-
 
             await this.dbContext.PCConfigurations.AddAsync(pc);
             await this.dbContext.SaveChangesAsync();
-
-
-
-
         }
 
         public async Task<PCBuildDetailsViewModel?> GetPCDetailsForAdminAsync(int id)
@@ -134,17 +122,16 @@
                     isSold = x.IsSold,
 
                 }).FirstOrDefaultAsync();
-
             return pc;
         }
-      
+
 
 
         public async Task<bool> CheckifPCExistsByIdAsync(int id)
         {
             bool res = await dbContext
                   .PCConfigurations
-                  .Where(x => x.Id == id && x.IsDeleted == false && x.IsSold==false)
+                  .Where(x => x.Id == id && x.IsDeleted == false && x.IsSold == false)
                   .AnyAsync();
 
             return res;
@@ -167,7 +154,7 @@
         {
             bool res = await dbContext
                   .PCConfigurations
-                  .Where(x => x.Id == id )
+                  .Where(x => x.Id == id)
                   .AnyAsync();
 
             return res;
@@ -196,6 +183,8 @@
            .ToArrayAsync();
             return result;
         }
+
+
         public async Task<IEnumerable<PCBuildDetailsViewModel>> AllBuildsAsync()
         {
             IEnumerable<PCBuildDetailsViewModel> result = await this.dbContext
@@ -296,7 +285,7 @@
         public async Task<IEnumerable<PCBuildDetailsViewModel>> AllBuildsForAdminAsync()
         {
             IEnumerable<PCBuildDetailsViewModel> result = await this.dbContext
-               .PCConfigurations               
+               .PCConfigurations
                .OrderByDescending(c => c.CreatedOn)
                .Select(s => new PCBuildDetailsViewModel()
                {

@@ -20,6 +20,7 @@ namespace PCBuilder.Controllers
             _builderService = builderService;
         }
 
+
         [HttpGet]
         public async Task<IActionResult> All()
         {
@@ -33,9 +34,9 @@ namespace PCBuilder.Controllers
             IEnumerable<GPUFormViewModel> gpus = await _gpuService.GetAllAsync();
 
             return View(gpus);
-
-
         }
+
+
         [HttpGet]
         public async Task<IActionResult> Details(int id)
         {
@@ -49,15 +50,10 @@ namespace PCBuilder.Controllers
             GPUFormViewModel? gpu = await _gpuService.GetGPUDetailsAsync(id);
 
             return View(gpu);
-
-
         }
 
 
-
-
         [HttpGet]
-
         public async Task<IActionResult> Add()
         {
             bool isBuilder = await this._builderService.BuilderAlreadyExcistsByUserId(this.User.GetId()!);
@@ -68,12 +64,10 @@ namespace PCBuilder.Controllers
                 return this.RedirectToAction("Become", "Builder");
             }
             return View();
-
         }
 
 
-            [HttpPost]
-
+        [HttpPost]
         public async Task<IActionResult> Add(GPUFormViewModel model)
         {
 
@@ -85,11 +79,7 @@ namespace PCBuilder.Controllers
                 return this.RedirectToAction("Become", "Builder");
             }
 
-          
-
             bool GPUExists = await this._gpuService.GPUExistsByModelName(model.ModelName);
-
-       
 
             if (GPUExists)
             {
@@ -98,7 +88,7 @@ namespace PCBuilder.Controllers
             }
             if (!ModelState.IsValid)
             {
-            
+
                 return View(model);
             }
 
@@ -116,10 +106,7 @@ namespace PCBuilder.Controllers
             this.TempData["SuccessMessage"] = "Successfully added GPU!";
             return RedirectToAction("All", "GraphicsCard");
 
-
         }
-
-
 
     }
 }

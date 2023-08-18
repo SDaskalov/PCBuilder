@@ -16,25 +16,25 @@
         public BuilderController(IBuilderService builderService)
         {
             this.builderService = builderService;
-        }   
+        }
 
         [HttpGet]
         public async Task<IActionResult> Become()
         {
 
             string? userId = this.User.GetId();
-           
-            bool isAlreadyBuilder= await this.builderService.BuilderAlreadyExcistsByUserId(userId!);
+
+            bool isAlreadyBuilder = await this.builderService.BuilderAlreadyExcistsByUserId(userId!);
             if (isAlreadyBuilder)
             {
                 TempData[ErrorMessage] = "You are already a builder!";
 
                 //return View();
-                 return RedirectToAction("Index", "Home");
+                return RedirectToAction("Index", "Home");
             }
-
             return View();
         }
+
 
         [HttpPost]
         public async Task<IActionResult> Become(BecomeBuilderFormModel model)
@@ -50,7 +50,7 @@
                 return RedirectToAction("Index", "Home");
             }
 
-            bool isNameTaken  = await this.builderService.BuilderNameIsTaken(model.PublicBuilderName);
+            bool isNameTaken = await this.builderService.BuilderNameIsTaken(model.PublicBuilderName);
             if (isNameTaken)
             {
                 TempData[ErrorMessage] = "The name is already taken!";
@@ -67,20 +67,17 @@
 
             try
             {
-               
+
                 await builderService.Create(userId!, model);
                 TempData[SuccessMessage] = "Congartualtions! You are now a builder.";
             }
             catch (Exception)
             {
                 TempData[ErrorMessage] = "Unexpected Error!";
-                     return RedirectToAction("Index", "Home");
+                return RedirectToAction("Index", "Home");
             }
             return RedirectToAction("Index", "Home");
 
-
         }
-
-
     }
 }

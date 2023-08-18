@@ -27,14 +27,13 @@ namespace PCBuilder.Services
         {
             MotherBoard mb = new MotherBoard()
             {
-                BuilderId=Guid.Parse(id),
-                ImageUrl=model.ImageUrl,
-                Name=model.Name,
-                Price=model.Price,
-                RamCapacity=model.RamCapacity,
-                SocketId=model.SocketId,
-                VendorId=model.VendorId,
-                
+                BuilderId = Guid.Parse(id),
+                ImageUrl = model.ImageUrl,
+                Name = model.Name,
+                Price = model.Price,
+                RamCapacity = model.RamCapacity,
+                SocketId = model.SocketId,
+                VendorId = model.VendorId,
             };
 
             await _dbContext.MotherBoards.AddAsync(mb);
@@ -73,11 +72,11 @@ namespace PCBuilder.Services
                     Id = x.Id,
                     Price = x.Price,
                     RamCapacity = x.RamCapacity,
-                    ImageUrl= x.ImageUrl,
-                    SocketId= x.SocketId,
+                    ImageUrl = x.ImageUrl,
+                    SocketId = x.SocketId,
                     VendorId = x.VendorId,
-                    SocketName=x.Socket.Name,
-                    VendorName=x.Vendor.Name
+                    SocketName = x.Socket.Name,
+                    VendorName = x.Vendor.Name
                 }).FirstOrDefaultAsync();
 
             return md;
@@ -87,18 +86,19 @@ namespace PCBuilder.Services
         {
             MBDetailsViewModel? mb = await _dbContext
                 .MotherBoards
-                .Where (x => x.Id == id)
+                .Where(x => x.Id == id)
                 .Select(x => new MBDetailsViewModel()
-                { Name = x.Name,
-                Id = x.Id,
-                Price = x.Price,
-                RamCapacity = x.RamCapacity,
-                ImageUrl= x.ImageUrl,
-                SocketName=x.Socket.Name,
-                VendorName=x.Vendor.Name,
-                VendorId=x.Vendor.Id,
-                SocketId = x.Socket.Id,
-                }).FirstOrDefaultAsync ();
+                {
+                    Name = x.Name,
+                    Id = x.Id,
+                    Price = x.Price,
+                    RamCapacity = x.RamCapacity,
+                    ImageUrl = x.ImageUrl,
+                    SocketName = x.Socket.Name,
+                    VendorName = x.Vendor.Name,
+                    VendorId = x.Vendor.Id,
+                    SocketId = x.Socket.Id,
+                }).FirstOrDefaultAsync();
 
             return mb;
         }

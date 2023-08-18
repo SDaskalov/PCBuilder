@@ -30,7 +30,6 @@ namespace PCBuilder.Controllers
 
         public async Task<IActionResult> Add()
         {
-
             bool isBuilder = await this._builderService.BuilderAlreadyExcistsByUserId(this.User.GetId()!);
 
             if (!isBuilder)
@@ -47,19 +46,12 @@ namespace PCBuilder.Controllers
             };
 
             return View(model);
-
-
-
-
-
-
         }
 
-        [HttpPost]
 
+        [HttpPost]
         public async Task<IActionResult> Add(CPUFormViewModel model)
         {
-
             bool isBuilder = await this._builderService.BuilderAlreadyExcistsByUserId(this.User.GetId()!);
 
             if (!isBuilder)
@@ -96,7 +88,7 @@ namespace PCBuilder.Controllers
             try
             {
 
-                await this._cpuService.CreateAsync(model,this.User.GetId()!);
+                await this._cpuService.CreateAsync(model, this.User.GetId()!);
             }
             catch (Exception)
             {
@@ -106,8 +98,6 @@ namespace PCBuilder.Controllers
 
             this.TempData["SuccessMessage"] = "Successfully added CPU!";
             return RedirectToAction("All", "CPU");
-
-
         }
 
         [HttpGet]
@@ -123,8 +113,6 @@ namespace PCBuilder.Controllers
             IEnumerable<CPUFormViewModel> cpus = await _cpuService.GetAllAsync();
 
             return View(cpus);
-
-
         }
 
         [HttpGet]
@@ -140,9 +128,6 @@ namespace PCBuilder.Controllers
             CPUDetailsViewModel? cpus = await _cpuService.GetCPUDetailsAsync(id);
 
             return View(cpus);
-
-
         }
-
     }
 }
