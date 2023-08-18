@@ -8,10 +8,12 @@
 
     public class PCBuilderDbContext : IdentityDbContext<ApplicationUser, IdentityRole<Guid>, Guid>
     {
-        public PCBuilderDbContext(DbContextOptions<PCBuilderDbContext> options)
+        private readonly bool seedDb;
+
+        public PCBuilderDbContext(DbContextOptions<PCBuilderDbContext> options, bool seedBd = true)
             : base(options)
         {
-
+            this.seedDb = seedBd;
         }
 
         public DbSet<Builder> Builders { get; set; } = null!;
@@ -33,7 +35,7 @@
         protected override void OnModelCreating(ModelBuilder builder)
         {
             builder.Entity<PCConfiguration>().Property(p => p.IsSold).HasDefaultValue(false);
-            builder.Entity<PCConfiguration>().Property(p=>p.IsDeleted).HasDefaultValue(false);
+            builder.Entity<PCConfiguration>().Property(p => p.IsDeleted).HasDefaultValue(false);
             builder.Entity<CPU>().Property(p => p.IsDeleted).HasDefaultValue(false);
             builder.Entity<GraphicsCard>().Property(p => p.IsDeleted).HasDefaultValue(false);
             builder.Entity<MotherBoard>().Property(p => p.IsDeleted).HasDefaultValue(false);
@@ -42,9 +44,9 @@
             builder.Entity<Socket>().ToTable(nameof(Socket));
 
             builder.Entity<PCConfiguration>()
-                .HasOne(x=>x.Builder).WithMany()
+                .HasOne(x => x.Builder).WithMany()
                 .HasForeignKey(x => x.BuilderId)
-                .OnDelete(DeleteBehavior.Restrict);                
+                .OnDelete(DeleteBehavior.Restrict);
 
             builder.Entity<CPU>()
                 .HasOne(w => w.Vendor)
@@ -75,6 +77,8 @@
             builder.ApplyConfiguration(new MotherBoardEntityConfiguration());
             builder.ApplyConfiguration(new CaseEntityConfiguration());
             builder.ApplyConfiguration(new PCBuildEntityConfiguration());
+
+
             base.OnModelCreating(builder);
 
 

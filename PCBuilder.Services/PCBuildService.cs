@@ -252,7 +252,7 @@
             return result;
         }
 
-        public async Task DisablePcAsync(int id, string bidderid)
+        public async Task DisablePcAsync(int id)
         {
             PCConfiguration? pc = await this.dbContext
               .PCConfigurations
@@ -267,7 +267,7 @@
             await this.dbContext.SaveChangesAsync();
         }
 
-        public async Task EnablePcAsync(int id, string bidderid)
+        public async Task EnablePcAsync(int id)
         {
             PCConfiguration? pc = await this.dbContext
              .PCConfigurations

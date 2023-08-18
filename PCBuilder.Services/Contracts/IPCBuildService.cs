@@ -12,9 +12,9 @@
 
         Task SellPcAsync(int id, string bidderid);
 
-        Task DisablePcAsync(int id, string bidderid);
+        Task DisablePcAsync(int id);
 
-        Task EnablePcAsync(int id, string bidderid);
+        Task EnablePcAsync(int id);
 
         Task CheckSaleDateForPCAsync();
 

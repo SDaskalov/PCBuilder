@@ -13,7 +13,7 @@ namespace PCBuilder.Data.DataSeed
             builder.HasData(SeedUser());
         }
 
-        private ApplicationUser[] SeedUser()
+        public ApplicationUser[] SeedUser()
         {
 
             ICollection<ApplicationUser> result = new HashSet<ApplicationUser>();

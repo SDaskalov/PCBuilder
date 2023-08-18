@@ -67,7 +67,7 @@ namespace PCBuilder.Areas.Admin.Controllers
             }
             if (this.User.IsAdmin())
             {
-                await this._pcBuildService.DisablePcAsync(id, this.User.GetId()!);
+                await this._pcBuildService.DisablePcAsync(id);
                 this.TempData["SuccessMessage"] = "You deleted the PC!";
             }
 
@@ -93,7 +93,7 @@ namespace PCBuilder.Areas.Admin.Controllers
             }
             if (this.User.IsAdmin())
             {
-                await this._pcBuildService.EnablePcAsync(id, this.User.GetId()!);
+                await this._pcBuildService.EnablePcAsync(id);
                 this.TempData["SuccessMessage"] = "You restored the PC!";
             }
 
