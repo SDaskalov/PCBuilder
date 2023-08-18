@@ -85,11 +85,38 @@
 
         }
 
+        public async Task<PCBuildDetailsViewModel?> GetPCDetailsForAdminAsync(int id)
+        {
+            PCBuildDetailsViewModel? pc = await dbContext
+                .PCConfigurations
+                .Where(x => x.Id == id)
+                .Select(x => new PCBuildDetailsViewModel()
+                {
+                    Id = x.Id,
+                    Name = x.Name,
+                    CpuId = x.CPUId,
+                    HighestBid = x.HighestBid.ToString(),
+                    GpuId = x.GraphicsCardId ?? 0,
+                    ImageUrl = x.ComputerCase.ImageUrl,
+                    MotherboardId = x.MotherBoardId,
+                    Ram = x.MotherBoard.RamCapacity.ToString(),
+                    CaseId = x.CaseId,
+                    CreatedOn = x.CreatedOn,
+                    HighestBidderId = x.BidderId ?? new Guid(),
+                    CreatorId = x.BuilderId,
+                    isSold = x.IsSold,
+
+                }).FirstOrDefaultAsync();
+
+            return pc;
+        }
+
+
         public async Task<PCBuildDetailsViewModel?> GetPCDetailsAsync(int id)
         {
             PCBuildDetailsViewModel? pc = await dbContext
                 .PCConfigurations
-                .Where(x => x.Id == id && x.IsDeleted == false )
+                .Where(x => x.Id == id && x.IsDeleted == false)
                 .Select(x => new PCBuildDetailsViewModel()
                 {
                     Id = x.Id,
@@ -115,7 +142,7 @@
         {
             bool res = await dbContext
                   .PCConfigurations
-                  .Where(x => x.Id == id && x.IsDeleted == false )
+                  .Where(x => x.Id == id && x.IsDeleted == false)
                   .AnyAsync();
 
             return res;
@@ -140,7 +167,7 @@
                     HighestBid = s.HighestBid.ToString(),
                     Motherboard = s.MotherBoard.Name,
                     Ram = s.MotherBoard.RamCapacity.ToString(),
-                    
+
 
                 })
            .ToArrayAsync();
@@ -165,7 +192,7 @@
                     CreatorId = s.BuilderId,
                     Ram = s.MotherBoard.RamCapacity.ToString(),
                     isSold = s.IsSold,
-                    
+
                 })
            .ToArrayAsync();
 
@@ -180,7 +207,7 @@
              .FirstOrDefaultAsync();
 
             if (pc != null)
-            {               
+            {
                 pc.IsSold = true;
             }
 
@@ -191,7 +218,7 @@
         {
             IEnumerable<PCBuildDetailsViewModel> result = await this.dbContext
                 .PCConfigurations
-                .Where(c => c.IsDeleted == false && c.IsSold == true && c.BidderId == Guid.Parse(id) )
+                .Where(c => c.IsDeleted == false && c.IsSold == true && c.BidderId == Guid.Parse(id))
                 .OrderBy(c => c.CreatedOn)
                 .Select(s => new PCBuildDetailsViewModel()
                 {
@@ -211,6 +238,36 @@
            .ToArrayAsync();
 
             return result;
+        }
+
+        public async Task DisablePcAsync(int id, string bidderid)
+        {
+            PCConfiguration? pc = await this.dbContext
+              .PCConfigurations
+              .Where(c => c.Id == id && c.IsDeleted == false)
+              .FirstOrDefaultAsync();
+
+            if (pc != null)
+            {
+                pc.IsDeleted = true;
+            }
+
+            await this.dbContext.SaveChangesAsync();
+        }
+
+        public async Task EnablePcAsync(int id, string bidderid)
+        {
+            PCConfiguration? pc = await this.dbContext
+             .PCConfigurations
+             .Where(c => c.Id == id && c.IsDeleted == true)
+             .FirstOrDefaultAsync();
+
+            if (pc != null)
+            {
+                pc.IsDeleted = false;
+            }
+
+            await this.dbContext.SaveChangesAsync();
         }
     }
 }

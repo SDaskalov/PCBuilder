@@ -39,39 +39,110 @@ namespace PCBuilder.Controllers
         public async Task<IActionResult> Sell(int id)
         {
 
-
             PCBuildDetailsViewModel? gpu = await _pcBuildService.GetPCDetailsAsync(id);
+
 
             if (gpu != null)
             {
-                if (gpu.HighestBidderId == Guid.Parse(this.User.GetId()!))
-                {
-                    this.TempData["ErrorMessage"] = "You already own this PC!";
-                }
-                else
-                {
-                    await this._pcBuildService.SellPcAsync(id, this.User.GetId()!);
-                    this.TempData["SuccessMessage"] = "Congratulations! You sold the PC!";
+                var builderGuid = await this._builderService.BuilderIdByUserId(User.GetId()!);
 
+                if (builderGuid != null)
+                {
+                    if (gpu.CreatorId == Guid.Parse(builderGuid!))
+                    {
+
+                        if (gpu.HighestBidderId == Guid.Parse(this.User.GetId()!))
+                        {
+                            this.TempData["ErrorMessage"] = "You cannot sell this PC! There are no other bids yet!";
+                        }
+                        else
+                        {
+
+                            await this._pcBuildService.SellPcAsync(id, this.User.GetId()!);
+                            this.TempData["SuccessMessage"] = "Congratulations! You sold the PC!";
+                        }
+
+                    }
+                    if (this.User.IsAdmin())
+                    {
+                        await this._pcBuildService.SellPcAsync(id, this.User.GetId()!);
+                        this.TempData["SuccessMessage"] = "Congratulations! You sold the PC!";
+                    }
                 }
+
+
             }
 
             gpu = await _pcBuildService.GetPCDetailsAsync(id);
             int helper = id;
-            // return View("Details", gpu);
+      
             return RedirectToAction("Details", "PCBuild", new { id = helper });
         }
+
+        public async Task<IActionResult> Delete(int id)
+        {
+
+            PCBuildDetailsViewModel? gpu = await _pcBuildService.GetPCDetailsAsync(id);
+
+
+            if (gpu != null)
+            {
+                var builderGuid = await this._builderService.BuilderIdByUserId(User.GetId()!);
+
+                if (builderGuid == null || this.User.IsAdmin() == false)
+                {
+
+                    this.TempData["ErrorMessage"] = "You do not have rights to delete!";
+
+                }
+
+            }
+            if (this.User.IsAdmin())
+            {
+                await this._pcBuildService.DisablePcAsync(id, this.User.GetId()!);
+                this.TempData["SuccessMessage"] = "You deleted the PC!";
+            }
+
+            return RedirectToAction("All", "PCBuild");
+        }
+
+        public async Task<IActionResult> Restore(int id)
+        {
+
+            PCBuildDetailsViewModel? gpu = await _pcBuildService.GetPCDetailsForAdminAsync(id);
+
+
+            if (gpu != null)
+            {
+                var builderGuid = await this._builderService.BuilderIdByUserId(User.GetId()!);
+
+                if (builderGuid == null || this.User.IsAdmin() == false)
+                {
+
+                    this.TempData["ErrorMessage"] = "You do not have rights to restore!";
+
+                }
+
+            }
+            if (this.User.IsAdmin())
+            {
+                await this._pcBuildService.EnablePcAsync(id, this.User.GetId()!);
+                this.TempData["SuccessMessage"] = "You restored the PC!";
+            }
+
+
+            gpu = await _pcBuildService.GetPCDetailsAsync(id);
+            int helper = id;
+
+            return RedirectToAction("Details", "PCBuild", new { id = helper });
+        }
+
+
 
         public async Task<IActionResult> Bid(int id)
         {
 
-            //bool isBuilder = await this._builderService.BuilderAlreadyExcistsByUserId(this.User.GetId()!);
 
-            //if (!isBuilder)
-            //{
-            //    this.TempData["ErrorMessage"] = "You must be a builder to add PC components.";
-            //    return this.RedirectToAction("Become", "Builder");
-            //}
             PCBuildDetailsViewModel? gpu = await _pcBuildService.GetPCDetailsAsync(id);
 
             if (gpu != null)
@@ -142,12 +213,16 @@ namespace PCBuilder.Controllers
 
             bool isBuilder = await this._builderService.BuilderAlreadyExcistsByUserId(this.User.GetId()!);
 
-            if (!isBuilder)
+            if (!this.User.IsAdmin())
             {
-                this.TempData["ErrorMessage"] = "You must be a builder to add PC components.";
-                return this.RedirectToAction("Become", "Builder");
-            }
 
+                if (!isBuilder)
+                {
+                    this.TempData["ErrorMessage"] = "You must be a builder to add PC components.";
+                    return this.RedirectToAction("Become", "Builder");
+                }
+
+            }
             PCBuildCreateFormViewModel model = new PCBuildCreateFormViewModel()
             {
 
@@ -169,13 +244,14 @@ namespace PCBuilder.Controllers
         {
 
             bool isBuilder = await this._builderService.BuilderAlreadyExcistsByUserId(this.User.GetId()!);
-
-            if (!isBuilder)
+            if (!this.User.IsAdmin())
             {
-                this.TempData["ErrorMessage"] = "You must be a builder to add PC components.";
-                return this.RedirectToAction("Become", "Builder");
+                if (!isBuilder)
+                {
+                    this.TempData["ErrorMessage"] = "You must be a builder to add PC components.";
+                    return this.RedirectToAction("Become", "Builder");
+                }
             }
-
 
             CPUDetailsViewModel? cpuExists = await this._cpusService.GetCPUByIdAsync(model.CPUId);
             GPUFormViewModel? gpuExists = await this._gpusService.GetGPUByIdAsync(model.GPUId);

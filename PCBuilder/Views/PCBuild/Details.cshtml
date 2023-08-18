@@ -127,7 +127,7 @@
 
                                     @if (Model.isSold == false)
                                     {
-
+                                       
 
                                         @if (Model.HighestBidderId == Guid.Parse(User.GetId()!))
                                         {
@@ -148,6 +148,21 @@
                                                 <a class="btn btn-danger" type="submit" asp-controller="PCBuild" asp-action="Sell" asp-route-id="@Model.Id">SELL Now!</a>
                                             }
 
+
+                                        }
+                                        @if (User.IsAdmin())
+                                        {
+
+                                            <a class="btn btn-danger" type="submit" asp-controller="PCBuild" asp-action="Sell" asp-route-id="@Model.Id">SELL Now!</a>
+
+                                            <a class="btn btn-danger" type="submit" asp-controller="PCBuild" asp-action="Delete" asp-route-id="@Model.Id">Disable add</a>
+                                        }
+                                    }
+                                    @if (Model.isSold == true)
+                                    {
+                                        @if (User.IsAdmin())
+                                        {                                                                                     
+                                            <a class="btn btn-danger" type="submit" asp-controller="PCBuild" asp-action="Restore" asp-route-id="@Model.Id">Re-Activate</a>
                                         }
                                     }
 
