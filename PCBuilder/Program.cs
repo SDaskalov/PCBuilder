@@ -80,7 +80,8 @@ namespace PCBuilder
             app.UseAuthorization();
 
 
-            //ADMIN ROLE NEEDS CORRECT EMAIL!!!
+            //ADMIN ROLE NEEDS CORRECT EMAIL
+            //PLEASE REGISTER as Administrator@PCBuild.com and become a builder
             app.SeedAdministrator(AdminEmail);
 
             app.UseEndpoints(endpoints =>

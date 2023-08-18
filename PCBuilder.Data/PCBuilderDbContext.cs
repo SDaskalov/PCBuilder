@@ -66,7 +66,8 @@
                 .HasForeignKey(x => x.MotherBoardId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-
+            builder.ApplyConfiguration(new UserEntityConfiguration());
+            builder.ApplyConfiguration(new BuilderEntityConfiguration());
             builder.ApplyConfiguration(new VendorEntityConfiguration());
             builder.ApplyConfiguration(new SocketEntityConfiguration());
             builder.ApplyConfiguration(new CPUEntityConfiguration());
