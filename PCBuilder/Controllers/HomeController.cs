@@ -6,6 +6,7 @@
     using PCBuilder.Services.Contracts;
     using PCBuilder.Web.ViewModels.Home;
     using PCBuilder.Web.ViewModels.PCConfiguration;
+    using static PCBuilder.Common.GeneralConstants;
 
     [Authorize]
     public class HomeController : Controller
@@ -20,8 +21,12 @@
         [AllowAnonymous]
         public async Task<IActionResult> Index()
         {
+            if (this.User.IsInRole(AdminRole))
+            {
+                return this.RedirectToAction("Index", "Home", new { Area = AdminAreaName });
+            }
 
-            
+
             IEnumerable<PCBuildViewModel> viewModel = await this.pcBuildService.LastFourBuildsAsync();
 
 
